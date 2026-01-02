@@ -319,21 +319,28 @@
     glow.style.top = e.clientY + 'px';
   });
 
-  /* FAST counter animation */
+  /* 🌊 SLOW + SMOOTH COUNTER */
   const counters = document.querySelectorAll('.counter');
+
   counters.forEach(counter => {
-    const update = () => {
-      const target = +counter.getAttribute('data-target');
-      const count = +counter.innerText.replace(/,/g,'');
-      const inc = target / 35; // 🔥 faster speed
-      if (count < target) {
-        counter.innerText = Math.ceil(count + inc).toLocaleString();
-        requestAnimationFrame(update);
-      } else {
-        counter.innerText = target.toLocaleString();
-      }
-    };
-    update();
+    const target = +counter.getAttribute('data-target');
+    const duration = 2400; // ms
+    const start = performance.now();
+
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = easeOutCubic(progress);
+      const value = Math.floor(eased * target);
+      counter.textContent = value.toLocaleString();
+      if (progress < 1) requestAnimationFrame(update);
+      else counter.textContent = target.toLocaleString();
+    }
+
+    requestAnimationFrame(update);
   });
 </script>
 
