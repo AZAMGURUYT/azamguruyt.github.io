@@ -16,7 +16,13 @@
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1b3c4a);
+      background: linear-gradient(
+        -45deg,
+        #0f2027,
+        #203a43,
+        #2c5364,
+        #1b3c4a
+      );
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite, fadeIn 1s ease;
       color: #ffffff;
@@ -35,41 +41,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== STICKY NAVBAR ===== */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 14px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      backdrop-filter: blur(12px);
-      background: rgba(15, 32, 39, 0.65);
-      z-index: 100;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
-    }
-
-    .nav-logo {
-      font-weight: bold;
-      font-size: 20px;
-      letter-spacing: 1px;
-    }
-
-    .nav-links a {
-      margin-left: 25px;
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      opacity: 0.85;
-      transition: 0.3s;
-    }
-
-    .nav-links a:hover {
-      opacity: 1;
-      color: #00f2ff;
-    }
-
     /* 🌟 BACKGROUND GLOWS */
     .glow {
       position: fixed;
@@ -80,57 +51,53 @@
       z-index: -1;
       animation: float 12s infinite alternate ease-in-out;
     }
-
-    .glow.one {
-      top: 10%;
-      left: 10%;
-      background: rgba(0,255,255,0.25);
-    }
-
-    .glow.two {
-      bottom: 10%;
-      right: 10%;
-      background: rgba(255,0,150,0.25);
-    }
+    .glow.one { top: 10%; left: 10%; background: rgba(0,255,255,0.25); }
+    .glow.two { bottom: 10%; right: 10%; background: rgba(255,0,150,0.25); }
 
     @keyframes float {
       from { transform: translateY(0); }
       to { transform: translateY(-80px); }
     }
 
-    /* 🔥 MOUSE GLOW */
+    /* 🔥 MOUSE NEON GLOW */
     .mouse-glow {
       position: fixed;
       width: 220px;
       height: 220px;
+      background: radial-gradient(circle,
+        rgba(0,255,255,0.45),
+        rgba(0,255,255,0.25),
+        transparent 70%);
       filter: blur(40px);
       pointer-events: none;
       transform: translate(-50%, -50%);
       z-index: 0;
     }
 
-    .blue { background: radial-gradient(circle, rgba(0,255,255,0.45), transparent 70%); }
-
-    header { padding: 140px 20px 40px; }
+    header { padding: 80px 20px 40px; }
 
     h1 { font-size: 46px; margin-bottom: 10px; }
 
-    /* ✨ TYPING TEXT */
-    .typing {
-      font-size: 20px;
+    /* ✅ FIXED HERO TEXT */
+    .hero-text {
+      font-size: 18px;
       opacity: 0.9;
-      min-height: 28px;
+      margin-top: 5px;
+      white-space: normal;
     }
 
-    .cursor {
-      display: inline-block;
-      margin-left: 4px;
+    #typing {
+      color: #00f2ff;
+      font-weight: 600;
+    }
+
+    #typing::after {
+      content: "|";
       animation: blink 1s infinite;
     }
 
     @keyframes blink {
-      0%,50% { opacity: 1; }
-      51%,100% { opacity: 0; }
+      50% { opacity: 0; }
     }
 
     h2 { margin-top: 60px; font-size: 32px; }
@@ -215,38 +182,9 @@
       transition: 0.8s ease;
     }
 
-    .animate.show { opacity: 1; transform: translateY(0); }
-
-    /* ===== SOCIAL PROOF ===== */
-    .stats {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-
-    .stat {
-      min-width: 200px;
-      padding: 25px 20px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.08);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.35);
-      transition: 0.4s ease;
-    }
-
-    .stat:hover { transform: translateY(-8px) scale(1.03); }
-
-    .stat h3 {
-      font-size: 36px;
-      margin: 0;
-      color: #00f2ff;
-    }
-
-    .stat p {
-      margin-top: 8px;
-      font-size: 16px;
-      opacity: 0.9;
+    .animate.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     @media (pointer: coarse) {
@@ -257,49 +195,37 @@
 
 <body>
 
-<!-- 🔝 STICKY NAVBAR -->
-<nav>
-  <div class="nav-logo">AzamGuruYT</div>
-  <div class="nav-links">
-    <a href="#home">Home</a>
-    <a href="#community">Community</a>
-    <a href="#about">About</a>
-    <a href="#video">Video</a>
-  </div>
-</nav>
-
 <div class="glow one"></div>
 <div class="glow two"></div>
-<div class="mouse-glow blue" id="mouseGlow"></div>
+<div class="mouse-glow" id="mouseGlow"></div>
 
-<header id="home" class="card animate">
+<header class="card animate">
   <h1>Welcome to AzamGuruYT 🚀</h1>
-
-  <div class="typing">
-    I create content about <span id="typed"></span><span class="cursor">▌</span>
-  </div>
+  <p class="hero-text">
+    I create content about <span id="typing"></span>
+  </p>
 
   <div class="buttons">
-    <a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">▶ Subscribe on YouTube</a>
-    <a class="btn btn-instagram" href="https://www.instagram.com/azamguruyt" target="_blank">📸 Follow on Instagram</a>
+    <a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">
+      ▶ Subscribe on YouTube
+    </a>
+    <a class="btn btn-instagram" href="https://www.instagram.com/azamguruyt" target="_blank">
+      📸 Follow on Instagram
+    </a>
   </div>
 </header>
 
-<section id="community" class="card animate">
-  <h2>Community & Growth</h2>
-  <div class="stats">
-    <div class="stat"><h3 data-count="1017">0</h3><p>YouTube Subscribers</p></div>
-    <div class="stat"><h3 data-count="19556">0</h3><p>Instagram Followers</p></div>
-    <div class="stat"><h3 data-count="100">0</h3><p>Growing Community</p></div>
-  </div>
-</section>
-
-<section id="about" class="card animate">
+<section class="card animate">
   <h2>About Me</h2>
-  <p>Hi, I’m Azam 👋<br>I create content related to technology, learning, experiments and growth.</p>
+  <p>
+    Hi, I’m Azam 👋<br>
+    I create content related to technology, learning, experiments and growth.
+    This website is my personal space where I share my journey, projects and videos.
+    Stay connected and grow with me 🚀
+  </p>
 </section>
 
-<section id="video" class="card animate">
+<section class="card animate">
   <h2>Latest YouTube Video</h2>
   <iframe src="https://www.youtube.com/embed/se7baNEI55U" allowfullscreen></iframe>
 </section>
@@ -308,44 +234,47 @@
   © 2026 AzamGuruYT | Powered by AZURA
 </footer>
 
-<a class="whatsapp" href="https://wa.me/9560635855" target="_blank">💬 Chat on WhatsApp</a>
+<a class="whatsapp" href="https://wa.me/9560635855" target="_blank">
+  💬 Chat on WhatsApp
+</a>
 
 <script>
   /* Scroll animation */
-  const elements=document.querySelectorAll('.animate');
-  const observer=new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('show')),{threshold:0.2});
-  elements.forEach(el=>observer.observe(el));
+  const elements = document.querySelectorAll('.animate');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('show');
+    });
+  }, { threshold: 0.2 });
+  elements.forEach(el => observer.observe(el));
 
-  /* Mouse glow follow */
-  const glow=document.getElementById('mouseGlow');
-  document.addEventListener('mousemove',e=>{
-    glow.style.left=e.clientX+'px';
-    glow.style.top=e.clientY+'px';
+  /* Mouse glow */
+  const glow = document.getElementById('mouseGlow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
   });
 
-  /* Typing effect */
-  const words=["Tech","AI Tools","Web Experiments","Growth"];
-  let i=0,j=0,del=false;
-  const el=document.getElementById("typed");
-  function type(){
-    el.textContent=words[i].slice(0,j);
-    if(!del && j++===words[i].length){ setTimeout(()=>del=true,1000); }
-    else if(del && j--===0){ del=false; i=(i+1)%words.length; }
-    setTimeout(type, del?60:90);
+  /* ✅ TYPING HERO TEXT */
+  const words = ["Tech", "Learning", "Growth", "Content Creation"];
+  let i = 0, j = 0, isDeleting = false;
+  const typing = document.getElementById("typing");
+
+  function typeEffect() {
+    const current = words[i];
+    typing.textContent = isDeleting
+      ? current.substring(0, j--)
+      : current.substring(0, j++);
+
+    if (!isDeleting && j > current.length + 5) isDeleting = true;
+    if (isDeleting && j < 0) {
+      isDeleting = false;
+      i = (i + 1) % words.length;
+      j = 0;
+    }
+    setTimeout(typeEffect, isDeleting ? 60 : 120);
   }
-  type();
-
-  /* Social proof counter */
-  document.querySelectorAll('[data-count]').forEach(counter=>{
-    const update=()=>{
-      const target=+counter.dataset.count;
-      const c=+counter.innerText;
-      const inc=Math.ceil(target/120);
-      if(c<target){ counter.innerText=c+inc; setTimeout(update,30); }
-      else{ counter.innerText=target.toLocaleString(); }
-    };
-    update();
-  });
+  typeEffect();
 </script>
 
 </body>
