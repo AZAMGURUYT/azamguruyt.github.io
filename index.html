@@ -16,15 +16,9 @@
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(
-        -45deg,
-        #0f2027,
-        #203a43,
-        #2c5364,
-        #1b3c4a
-      );
+      background: linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1b3c4a);
       background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite, fadeIn 1s ease;
+      animation: gradientBG 15s ease infinite;
       color: #ffffff;
       text-align: center;
       overflow-x: hidden;
@@ -36,12 +30,61 @@
       100% { background-position: 0% 50%; }
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* ===== STICKY NAVBAR ===== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 30px;
+      background: rgba(15,32,39,0.75);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
     }
 
-    /* 🌟 BACKGROUND GLOWS */
+    .nav-logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #00f2ff;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 22px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 15px;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0%;
+      height: 2px;
+      background: #00f2ff;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* ===== GLOW ===== */
     .glow {
       position: fixed;
       width: 300px;
@@ -51,6 +94,7 @@
       z-index: -1;
       animation: float 12s infinite alternate ease-in-out;
     }
+
     .glow.one { top: 10%; left: 10%; background: rgba(0,255,255,0.25); }
     .glow.two { bottom: 10%; right: 10%; background: rgba(255,0,150,0.25); }
 
@@ -59,15 +103,12 @@
       to { transform: translateY(-80px); }
     }
 
-    /* 🔥 MOUSE NEON GLOW */
+    /* ===== MOUSE GLOW ===== */
     .mouse-glow {
       position: fixed;
       width: 220px;
       height: 220px;
-      background: radial-gradient(circle,
-        rgba(0,255,255,0.45),
-        rgba(0,255,255,0.25),
-        transparent 70%);
+      background: radial-gradient(circle,rgba(0,255,255,0.45),rgba(0,255,255,0.25),transparent 70%);
       filter: blur(40px);
       pointer-events: none;
       transform: translate(-50%, -50%);
@@ -76,30 +117,7 @@
 
     header { padding: 80px 20px 40px; }
 
-    h1 { font-size: 46px; margin-bottom: 10px; }
-
-    /* ✅ FIXED HERO TEXT */
-    .hero-text {
-      font-size: 18px;
-      opacity: 0.9;
-      margin-top: 5px;
-      white-space: normal;
-    }
-
-    #typing {
-      color: #00f2ff;
-      font-weight: 600;
-    }
-
-    #typing::after {
-      content: "|";
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-
+    h1 { font-size: 46px; }
     h2 { margin-top: 60px; font-size: 32px; }
 
     p {
@@ -117,14 +135,12 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.35);
       margin: 40px auto;
       max-width: 900px;
-      transition: 0.4s;
       position: relative;
       z-index: 1;
+      transition: 0.4s;
     }
 
     .card:hover { transform: translateY(-8px); }
-
-    .buttons { margin-top: 30px; }
 
     .btn {
       display: inline-block;
@@ -138,10 +154,7 @@
     }
 
     .btn-youtube { background: #ff0000; }
-    .btn-youtube:hover { background: #cc0000; transform: scale(1.08); }
-
     .btn-instagram { background: #e1306c; }
-    .btn-instagram:hover { background: #c13584; transform: scale(1.08); }
 
     iframe {
       width: 100%;
@@ -153,8 +166,7 @@
     }
 
     footer {
-      margin-top: 80px;
-      padding: 20px;
+      margin: 80px 0 30px;
       font-size: 14px;
       opacity: 0.7;
     }
@@ -170,21 +182,7 @@
       font-weight: bold;
       text-decoration: none;
       box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-      transition: 0.3s;
       z-index: 2;
-    }
-
-    .whatsapp:hover { background: #1ebc59; transform: scale(1.1); }
-
-    .animate {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: 0.8s ease;
-    }
-
-    .animate.show {
-      opacity: 1;
-      transform: translateY(0);
     }
 
     @media (pointer: coarse) {
@@ -195,86 +193,54 @@
 
 <body>
 
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo">AzamGuruYT</div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#video">Video</a></li>
+  </ul>
+</nav>
+
+<!-- GLOWS -->
 <div class="glow one"></div>
 <div class="glow two"></div>
 <div class="mouse-glow" id="mouseGlow"></div>
 
-<header class="card animate">
+<header id="home" class="card">
   <h1>Welcome to AzamGuruYT 🚀</h1>
-  <p class="hero-text">
-    I create content about <span id="typing"></span>
-  </p>
+  <p>Content Creator • Learning • Tech • Growth</p>
 
-  <div class="buttons">
-    <a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">
-      ▶ Subscribe on YouTube
-    </a>
-    <a class="btn btn-instagram" href="https://www.instagram.com/azamguruyt" target="_blank">
-      📸 Follow on Instagram
-    </a>
-  </div>
+  <a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">▶ YouTube</a>
+  <a class="btn btn-instagram" href="https://www.instagram.com/azamguruyt" target="_blank">📸 Instagram</a>
 </header>
 
-<section class="card animate">
+<section id="about" class="card">
   <h2>About Me</h2>
   <p>
     Hi, I’m Azam 👋<br>
     I create content related to technology, learning, experiments and growth.
-    This website is my personal space where I share my journey, projects and videos.
-    Stay connected and grow with me 🚀
   </p>
 </section>
 
-<section class="card animate">
+<section id="video" class="card">
   <h2>Latest YouTube Video</h2>
   <iframe src="https://www.youtube.com/embed/se7baNEI55U" allowfullscreen></iframe>
 </section>
 
-<footer class="animate">
+<footer>
   © 2026 AzamGuruYT | Powered by AZURA
 </footer>
 
-<a class="whatsapp" href="https://wa.me/9560635855" target="_blank">
-  💬 Chat on WhatsApp
-</a>
+<a class="whatsapp" href="https://wa.me/9560635855" target="_blank">💬 Chat on WhatsApp</a>
 
 <script>
-  /* Scroll animation */
-  const elements = document.querySelectorAll('.animate');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('show');
-    });
-  }, { threshold: 0.2 });
-  elements.forEach(el => observer.observe(el));
-
-  /* Mouse glow */
   const glow = document.getElementById('mouseGlow');
   document.addEventListener('mousemove', e => {
     glow.style.left = e.clientX + 'px';
     glow.style.top = e.clientY + 'px';
   });
-
-  /* ✅ TYPING HERO TEXT */
-  const words = ["Tech", "Learning", "Growth", "Content Creation"];
-  let i = 0, j = 0, isDeleting = false;
-  const typing = document.getElementById("typing");
-
-  function typeEffect() {
-    const current = words[i];
-    typing.textContent = isDeleting
-      ? current.substring(0, j--)
-      : current.substring(0, j++);
-
-    if (!isDeleting && j > current.length + 5) isDeleting = true;
-    if (isDeleting && j < 0) {
-      isDeleting = false;
-      i = (i + 1) % words.length;
-      j = 0;
-    }
-    setTimeout(typeEffect, isDeleting ? 60 : 120);
-  }
-  typeEffect();
 </script>
 
 </body>
