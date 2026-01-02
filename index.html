@@ -15,6 +15,13 @@
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: #ffffff;
       text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    /* ===== PAGE LOAD ANIMATION ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     header {
@@ -49,6 +56,11 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.35);
       margin: 40px auto;
       max-width: 900px;
+      transition: all 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
     }
 
     .buttons {
@@ -62,7 +74,7 @@
       text-decoration: none;
       border-radius: 30px;
       font-weight: bold;
-      transition: 0.3s;
+      transition: all 0.3s ease;
       color: #fff;
     }
 
@@ -72,7 +84,7 @@
 
     .btn-youtube:hover {
       background: #cc0000;
-      transform: scale(1.05);
+      transform: scale(1.08);
     }
 
     .btn-instagram {
@@ -81,7 +93,7 @@
 
     .btn-instagram:hover {
       background: #c13584;
-      transform: scale(1.05);
+      transform: scale(1.08);
     }
 
     iframe {
@@ -112,18 +124,31 @@
       font-weight: bold;
       text-decoration: none;
       box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
     }
 
     .whatsapp:hover {
       background: #1ebc59;
-      transform: scale(1.05);
+      transform: scale(1.1);
+    }
+
+    /* ===== SCROLL ANIMATION ===== */
+    .animate {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .animate.show {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
 
 <body>
 
-<header class="card">
+<header class="card animate">
   <h1>Welcome to AzamGuruYT 🚀</h1>
   <p>Content Creator • Learning • Tech • Growth</p>
 
@@ -138,7 +163,7 @@
 </header>
 
 <!-- ABOUT SECTION -->
-<section class="card">
+<section class="card animate">
   <h2>About Me</h2>
   <p>
     Hi, I’m Azam 👋 <br>
@@ -149,7 +174,7 @@
 </section>
 
 <!-- YOUTUBE VIDEO -->
-<section class="card">
+<section class="card animate">
   <h2>Latest YouTube Video</h2>
   <iframe 
     src="https://www.youtube.com/embed/YL8JGPZ5Fj89gTs-"
@@ -157,7 +182,7 @@
   </iframe>
 </section>
 
-<footer>
+<footer class="animate">
   © 2026 AzamGuruYT | Powered by AZURA
 </footer>
 
@@ -167,6 +192,21 @@
    target="_blank">
    💬 Chat on WhatsApp
 </a>
+
+<!-- ===== SCROLL JS ===== -->
+<script>
+  const animatedElements = document.querySelectorAll('.animate');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  animatedElements.forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
