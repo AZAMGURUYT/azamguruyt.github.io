@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>AzamGuruYT</title>
+
+  <!-- ✅ FAVICON -->
   <link rel="icon" type="image/png" href="favicon.png">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,10 +16,25 @@
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background: linear-gradient(
+        -45deg,
+        #0f2027,
+        #203a43,
+        #2c5364,
+        #1b3c4a
+      );
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite, fadeIn 1s ease;
       color: #ffffff;
       text-align: center;
-      animation: fadeIn 1s ease;
+      overflow-x: hidden;
+    }
+
+    /* 🌊 BACKGROUND ANIMATION */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     @keyframes fadeIn {
@@ -25,19 +42,36 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* 🌟 GLOW ORBS */
+    .glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      filter: blur(120px);
+      border-radius: 50%;
+      z-index: -1;
+      animation: float 12s infinite alternate ease-in-out;
+    }
+
+    .glow.one {
+      top: 10%;
+      left: 10%;
+      background: rgba(0, 255, 255, 0.25);
+    }
+
+    .glow.two {
+      bottom: 10%;
+      right: 10%;
+      background: rgba(255, 0, 150, 0.25);
+    }
+
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-80px); }
+    }
+
     header {
       padding: 70px 20px 40px;
-    }
-
-    /* ===== LOGO ===== */
-    .logo {
-      width: 140px;
-      margin-bottom: 20px;
-      transition: transform 0.4s ease;
-    }
-
-    .logo:hover {
-      transform: scale(1.08) rotate(-1deg);
     }
 
     h1 {
@@ -155,10 +189,11 @@
 
 <body>
 
-<header class="card animate">
-  <!-- 🔥 LOGO -->
-  <img src="logo.png" alt="AzamGuruYT Logo" class="logo">
+<!-- 🌟 GLOW BACKGROUND -->
+<div class="glow one"></div>
+<div class="glow two"></div>
 
+<header class="card animate">
   <h1>Welcome to AzamGuruYT 🚀</h1>
   <p>Content Creator • Learning • Tech • Growth</p>
 
@@ -184,8 +219,8 @@
 
 <section class="card animate">
   <h2>Latest YouTube Video</h2>
-  <iframe 
-    src="https://www.youtube.com/embed/YL8JGPZ5Fj89gTs-"
+  <iframe
+    src="https://www.youtube.com/embed/se7baNEI55U"
     allowfullscreen>
   </iframe>
 </section>
@@ -202,7 +237,9 @@
   const elements = document.querySelectorAll('.animate');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('show');
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+      }
     });
   }, { threshold: 0.2 });
 
