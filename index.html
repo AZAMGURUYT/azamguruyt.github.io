@@ -16,13 +16,7 @@
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(
-        -45deg,
-        #0f2027,
-        #203a43,
-        #2c5364,
-        #1b3c4a
-      );
+      background: linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1b3c4a);
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite, fadeIn 1s ease;
       color: #ffffff;
@@ -41,7 +35,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 🌟 STATIC GLOW ORBS */
+    /* 🌟 BACKGROUND GLOWS */
     .glow {
       position: fixed;
       width: 300px;
@@ -55,13 +49,13 @@
     .glow.one {
       top: 10%;
       left: 10%;
-      background: rgba(0, 255, 255, 0.25);
+      background: rgba(0,255,255,0.25);
     }
 
     .glow.two {
       bottom: 10%;
       right: 10%;
-      background: rgba(255, 0, 150, 0.25);
+      background: rgba(255,0,150,0.25);
     }
 
     @keyframes float {
@@ -69,7 +63,7 @@
       to { transform: translateY(-80px); }
     }
 
-    /* 🔥 MOUSE GLOW BASE */
+    /* 🔥 MOUSE GLOW */
     .mouse-glow {
       position: fixed;
       width: 220px;
@@ -81,28 +75,34 @@
       transition: background 0.3s ease;
     }
 
-    /* 🎨 GLOW COLORS */
-    .blue {
-      background: radial-gradient(circle, rgba(0,255,255,0.45), transparent 70%);
-    }
-    .red {
-      background: radial-gradient(circle, rgba(255,0,0,0.45), transparent 70%);
-    }
-    .pink {
-      background: radial-gradient(circle, rgba(255,0,150,0.45), transparent 70%);
-    }
-    .green {
-      background: radial-gradient(circle, rgba(0,255,120,0.45), transparent 70%);
-    }
-    .gold {
-      background: radial-gradient(circle, rgba(255,200,0,0.45), transparent 70%);
-    }
+    .blue { background: radial-gradient(circle, rgba(0,255,255,0.45), transparent 70%); }
+    .red { background: radial-gradient(circle, rgba(255,0,0,0.45), transparent 70%); }
+    .pink { background: radial-gradient(circle, rgba(255,0,150,0.45), transparent 70%); }
+    .green { background: radial-gradient(circle, rgba(0,255,120,0.45), transparent 70%); }
+    .gold { background: radial-gradient(circle, rgba(255,200,0,0.45), transparent 70%); }
 
-    header {
-      padding: 70px 20px 40px;
-    }
+    header { padding: 80px 20px 40px; }
 
     h1 { font-size: 46px; margin-bottom: 10px; }
+
+    /* ✨ TYPING TEXT */
+    .typing {
+      font-size: 20px;
+      opacity: 0.9;
+      min-height: 28px;
+    }
+
+    .cursor {
+      display: inline-block;
+      margin-left: 4px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%,50% { opacity: 1; }
+      51%,100% { opacity: 0; }
+    }
+
     h2 { margin-top: 60px; font-size: 32px; }
 
     p {
@@ -185,28 +185,7 @@
       transition: 0.8s ease;
     }
 
-    .animate.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* 📱 MOBILE TAP GLOW */
-    .tap-glow {
-      position: fixed;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      filter: blur(50px);
-      pointer-events: none;
-      background: radial-gradient(circle, rgba(0,255,255,0.35), transparent 70%);
-      animation: tapFade 0.8s ease forwards;
-      z-index: 0;
-    }
-
-    @keyframes tapFade {
-      from { opacity: 1; transform: scale(0.6); }
-      to { opacity: 0; transform: scale(1.2); }
-    }
+    .animate.show { opacity: 1; transform: translateY(0); }
 
     @media (pointer: coarse) {
       .mouse-glow { display: none; }
@@ -216,16 +195,17 @@
 
 <body>
 
-<!-- 🌟 BACKGROUND GLOWS -->
 <div class="glow one"></div>
 <div class="glow two"></div>
-
-<!-- 🔥 MOUSE GLOW -->
 <div class="mouse-glow blue" id="mouseGlow"></div>
 
 <header class="card animate">
   <h1>Welcome to AzamGuruYT 🚀</h1>
-  <p>Content Creator • Learning • Tech • Growth</p>
+
+  <!-- ✨ TYPING HERO TEXT -->
+  <div class="typing">
+    I create content about <span id="typed"></span><span class="cursor">▌</span>
+  </div>
 
   <div class="buttons">
     <a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">▶ Subscribe on YouTube</a>
@@ -252,47 +232,28 @@
 <script>
   /* Scroll animation */
   const elements = document.querySelectorAll('.animate');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => e.isIntersecting && e.target.classList.add('show'));
-  }, { threshold: 0.2 });
-  elements.forEach(el => observer.observe(el));
+  const observer = new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('show')),{threshold:0.2});
+  elements.forEach(el=>observer.observe(el));
 
-  /* Mouse follow */
-  const glow = document.getElementById('mouseGlow');
-  document.addEventListener('mousemove', e => {
-    glow.style.left = e.clientX + 'px';
-    glow.style.top = e.clientY + 'px';
+  /* Mouse glow follow */
+  const glow=document.getElementById('mouseGlow');
+  document.addEventListener('mousemove',e=>{
+    glow.style.left=e.clientX+'px';
+    glow.style.top=e.clientY+'px';
   });
 
-  /* Hover color change */
-  const setGlow = c => glow.className = 'mouse-glow ' + c;
+  /* Typing effect */
+  const words=["Tech","AI Tools","Web Experiments","Growth"];
+  let i=0,j=0,del=false;
+  const el=document.getElementById("typed");
 
-  document.querySelectorAll('.btn-youtube').forEach(el => {
-    el.onmouseenter = () => setGlow('red');
-    el.onmouseleave = () => setGlow('blue');
-  });
-  document.querySelectorAll('.btn-instagram').forEach(el => {
-    el.onmouseenter = () => setGlow('pink');
-    el.onmouseleave = () => setGlow('blue');
-  });
-  document.querySelectorAll('.card').forEach(el => {
-    el.onmouseenter = () => setGlow('gold');
-    el.onmouseleave = () => setGlow('blue');
-  });
-  document.querySelectorAll('.whatsapp').forEach(el => {
-    el.onmouseenter = () => setGlow('green');
-    el.onmouseleave = () => setGlow('blue');
-  });
-
-  /* 📱 Mobile tap glow */
-  document.addEventListener('touchstart', e => {
-    const t = document.createElement('div');
-    t.className = 'tap-glow';
-    t.style.left = e.touches[0].clientX + 'px';
-    t.style.top = e.touches[0].clientY + 'px';
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 800);
-  });
+  function type(){
+    el.textContent=words[i].slice(0,j);
+    if(!del && j++===words[i].length){ setTimeout(()=>del=true,1000); }
+    else if(del && j--===0){ del=false; i=(i+1)%words.length; }
+    setTimeout(type, del?60:90);
+  }
+  type();
 </script>
 
 </body>
