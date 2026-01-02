@@ -13,15 +13,22 @@
       text-align: center;
     }
     header {
-      padding: 80px 20px;
+      padding: 80px 20px 40px;
     }
     h1 {
-      font-size: 48px;
+      font-size: 46px;
       margin-bottom: 10px;
+    }
+    h2 {
+      margin-top: 60px;
+      font-size: 32px;
     }
     p {
       font-size: 18px;
       opacity: 0.9;
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.6;
     }
     .buttons {
       margin-top: 30px;
@@ -48,11 +55,36 @@
     .btn-instagram:hover {
       background: #c13584;
     }
+    .video {
+      margin-top: 30px;
+    }
+    iframe {
+      width: 90%;
+      max-width: 720px;
+      height: 405px;
+      border-radius: 12px;
+      border: none;
+    }
     footer {
       margin-top: 80px;
       padding: 20px;
       font-size: 14px;
       opacity: 0.7;
+    }
+    .whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      color: white;
+      padding: 14px 20px;
+      border-radius: 50px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .whatsapp:hover {
+      background: #1ebc59;
     }
   </style>
 </head>
@@ -60,7 +92,7 @@
 
 <header>
   <h1>Welcome to AzamGuruYT</h1>
-  <p>Content Creator • Learning • Growing 🚀</p>
+  <p>Content Creator • Learning • Tech • Growth 🚀</p>
 
   <div class="buttons">
     <a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">
@@ -72,9 +104,35 @@
   </div>
 </header>
 
+<!-- ABOUT SECTION -->
+<h2>About Me</h2>
+<p>
+  Hi, I’m Azam 👋  
+  I create content related to technology, learning, experiments and growth.
+  This website is my personal space where I share my journey, projects and videos.
+  Stay connected and grow with me 🚀
+</p>
+
+<!-- YOUTUBE VIDEO -->
+<h2>Latest YouTube Video</h2>
+<div class="video">
+  <!-- 🔴 Replace VIDEO_ID with your latest YouTube video ID -->
+  <iframe 
+    src="https://youtu.be/se7baNEI55U?si=YL8JGPZ5Fj89gTs-" 
+    allowfullscreen>
+  </iframe>
+</div>
+
 <footer>
   © 2026 AzamGuruYT | Powered by GitHub Pages
 </footer>
+
+<!-- WHATSAPP BUTTON -->
+<a class="whatsapp" 
+   href="https://wa.me/9560635855" 
+   target="_blank">
+   💬 Chat on WhatsApp
+</a>
 
 </body>
 </html>
