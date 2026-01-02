@@ -30,7 +30,6 @@
       overflow-x: hidden;
     }
 
-    /* 🌊 BACKGROUND ANIMATION */
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -70,37 +69,41 @@
       to { transform: translateY(-80px); }
     }
 
-    /* 🔥 STRONG NEON MOUSE GLOW */
+    /* 🔥 MOUSE GLOW BASE */
     .mouse-glow {
       position: fixed;
       width: 220px;
       height: 220px;
-      background: radial-gradient(
-        circle,
-        rgba(0, 255, 255, 0.45),
-        rgba(0, 255, 255, 0.25),
-        transparent 70%
-      );
       filter: blur(40px);
       pointer-events: none;
       transform: translate(-50%, -50%);
       z-index: 0;
-      transition: opacity 0.3s ease;
+      transition: background 0.3s ease;
+    }
+
+    /* 🎨 GLOW COLORS */
+    .blue {
+      background: radial-gradient(circle, rgba(0,255,255,0.45), transparent 70%);
+    }
+    .red {
+      background: radial-gradient(circle, rgba(255,0,0,0.45), transparent 70%);
+    }
+    .pink {
+      background: radial-gradient(circle, rgba(255,0,150,0.45), transparent 70%);
+    }
+    .green {
+      background: radial-gradient(circle, rgba(0,255,120,0.45), transparent 70%);
+    }
+    .gold {
+      background: radial-gradient(circle, rgba(255,200,0,0.45), transparent 70%);
     }
 
     header {
       padding: 70px 20px 40px;
     }
 
-    h1 {
-      font-size: 46px;
-      margin-bottom: 10px;
-    }
-
-    h2 {
-      margin-top: 60px;
-      font-size: 32px;
-    }
+    h1 { font-size: 46px; margin-bottom: 10px; }
+    h2 { margin-top: 60px; font-size: 32px; }
 
     p {
       font-size: 18px;
@@ -122,13 +125,9 @@
       z-index: 1;
     }
 
-    .card:hover {
-      transform: translateY(-8px);
-    }
+    .card:hover { transform: translateY(-8px); }
 
-    .buttons {
-      margin-top: 30px;
-    }
+    .buttons { margin-top: 30px; }
 
     .btn {
       display: inline-block;
@@ -141,23 +140,11 @@
       transition: 0.3s;
     }
 
-    .btn-youtube {
-      background: #ff0000;
-    }
+    .btn-youtube { background: #ff0000; }
+    .btn-youtube:hover { background: #cc0000; transform: scale(1.08); }
 
-    .btn-youtube:hover {
-      background: #cc0000;
-      transform: scale(1.08);
-    }
-
-    .btn-instagram {
-      background: #e1306c;
-    }
-
-    .btn-instagram:hover {
-      background: #c13584;
-      transform: scale(1.08);
-    }
+    .btn-instagram { background: #e1306c; }
+    .btn-instagram:hover { background: #c13584; transform: scale(1.08); }
 
     iframe {
       width: 100%;
@@ -190,10 +177,7 @@
       z-index: 2;
     }
 
-    .whatsapp:hover {
-      background: #1ebc59;
-      transform: scale(1.1);
-    }
+    .whatsapp:hover { background: #1ebc59; transform: scale(1.1); }
 
     .animate {
       opacity: 0;
@@ -206,7 +190,24 @@
       transform: translateY(0);
     }
 
-    /* ❌ Disable mouse glow on touch devices */
+    /* 📱 MOBILE TAP GLOW */
+    .tap-glow {
+      position: fixed;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      filter: blur(50px);
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(0,255,255,0.35), transparent 70%);
+      animation: tapFade 0.8s ease forwards;
+      z-index: 0;
+    }
+
+    @keyframes tapFade {
+      from { opacity: 1; transform: scale(0.6); }
+      to { opacity: 0; transform: scale(1.2); }
+    }
+
     @media (pointer: coarse) {
       .mouse-glow { display: none; }
     }
@@ -215,68 +216,82 @@
 
 <body>
 
-<!-- 🌟 STATIC GLOW -->
+<!-- 🌟 BACKGROUND GLOWS -->
 <div class="glow one"></div>
 <div class="glow two"></div>
 
-<!-- 🔥 MOUSE NEON GLOW -->
-<div class="mouse-glow" id="mouseGlow"></div>
+<!-- 🔥 MOUSE GLOW -->
+<div class="mouse-glow blue" id="mouseGlow"></div>
 
 <header class="card animate">
   <h1>Welcome to AzamGuruYT 🚀</h1>
   <p>Content Creator • Learning • Tech • Growth</p>
 
   <div class="buttons">
-    <a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">
-      ▶ Subscribe on YouTube
-    </a>
-    <a class="btn btn-instagram" href="https://www.instagram.com/azamguruyt" target="_blank">
-      📸 Follow on Instagram
-    </a>
+    <a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">▶ Subscribe on YouTube</a>
+    <a class="btn btn-instagram" href="https://www.instagram.com/azamguruyt" target="_blank">📸 Follow on Instagram</a>
   </div>
 </header>
 
 <section class="card animate">
   <h2>About Me</h2>
-  <p>
-    Hi, I’m Azam 👋<br>
-    I create content related to technology, learning, experiments and growth.
-    This website is my personal space where I share my journey, projects and videos.
-    Stay connected and grow with me 🚀
-  </p>
+  <p>Hi, I’m Azam 👋<br>I create content related to technology, learning, experiments and growth.</p>
 </section>
 
 <section class="card animate">
   <h2>Latest YouTube Video</h2>
-  <iframe
-    src="https://www.youtube.com/embed/se7baNEI55U"
-    allowfullscreen>
-  </iframe>
+  <iframe src="https://www.youtube.com/embed/se7baNEI55U" allowfullscreen></iframe>
 </section>
 
 <footer class="animate">
   © 2026 AzamGuruYT | Powered by AZURA
 </footer>
 
-<a class="whatsapp" href="https://wa.me/9560635855" target="_blank">
-  💬 Chat on WhatsApp
-</a>
+<a class="whatsapp" href="https://wa.me/9560635855" target="_blank">💬 Chat on WhatsApp</a>
 
 <script>
   /* Scroll animation */
   const elements = document.querySelectorAll('.animate');
   const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('show');
-    });
+    entries.forEach(e => e.isIntersecting && e.target.classList.add('show'));
   }, { threshold: 0.2 });
   elements.forEach(el => observer.observe(el));
 
-  /* 🔥 Mouse neon glow follow */
+  /* Mouse follow */
   const glow = document.getElementById('mouseGlow');
   document.addEventListener('mousemove', e => {
     glow.style.left = e.clientX + 'px';
     glow.style.top = e.clientY + 'px';
+  });
+
+  /* Hover color change */
+  const setGlow = c => glow.className = 'mouse-glow ' + c;
+
+  document.querySelectorAll('.btn-youtube').forEach(el => {
+    el.onmouseenter = () => setGlow('red');
+    el.onmouseleave = () => setGlow('blue');
+  });
+  document.querySelectorAll('.btn-instagram').forEach(el => {
+    el.onmouseenter = () => setGlow('pink');
+    el.onmouseleave = () => setGlow('blue');
+  });
+  document.querySelectorAll('.card').forEach(el => {
+    el.onmouseenter = () => setGlow('gold');
+    el.onmouseleave = () => setGlow('blue');
+  });
+  document.querySelectorAll('.whatsapp').forEach(el => {
+    el.onmouseenter = () => setGlow('green');
+    el.onmouseleave = () => setGlow('blue');
+  });
+
+  /* 📱 Mobile tap glow */
+  document.addEventListener('touchstart', e => {
+    const t = document.createElement('div');
+    t.className = 'tap-glow';
+    t.style.left = e.touches[0].clientX + 'px';
+    t.style.top = e.touches[0].clientY + 'px';
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 800);
   });
 </script>
 
