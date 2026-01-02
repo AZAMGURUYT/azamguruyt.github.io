@@ -165,6 +165,36 @@
       margin-top: 20px;
     }
 
+    /* ===== SOCIAL PROOF ===== */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      padding: 30px;
+      width: 220px;
+      border-radius: 16px;
+      box-shadow: 0 0 35px rgba(0,255,255,0.2);
+      transition: 0.4s;
+    }
+
+    .stat-box:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 0 50px rgba(0,255,255,0.45);
+    }
+
+    .stat-box h3 {
+      font-size: 38px;
+      color: #00f2ff;
+      margin-bottom: 8px;
+    }
+
     footer {
       margin: 80px 0 30px;
       font-size: 14px;
@@ -193,7 +223,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar">
   <div class="nav-logo">AzamGuruYT</div>
   <ul class="nav-links">
@@ -203,7 +232,6 @@
   </ul>
 </nav>
 
-<!-- GLOWS -->
 <div class="glow one"></div>
 <div class="glow two"></div>
 <div class="mouse-glow" id="mouseGlow"></div>
@@ -222,6 +250,18 @@
     Hi, I’m Azam 👋<br>
     I create content related to technology, learning, experiments and growth.
   </p>
+
+  <!-- SOCIAL PROOF -->
+  <div class="stats">
+    <div class="stat-box">
+      <h3 class="counter" data-target="1017">0</h3>
+      <p>YouTube Subscribers</p>
+    </div>
+    <div class="stat-box">
+      <h3 class="counter" data-target="19556">0</h3>
+      <p>Instagram Followers</p>
+    </div>
+  </div>
 </section>
 
 <section id="video" class="card">
@@ -236,10 +276,28 @@
 <a class="whatsapp" href="https://wa.me/9560635855" target="_blank">💬 Chat on WhatsApp</a>
 
 <script>
+  /* Mouse glow */
   const glow = document.getElementById('mouseGlow');
   document.addEventListener('mousemove', e => {
     glow.style.left = e.clientX + 'px';
     glow.style.top = e.clientY + 'px';
+  });
+
+  /* Counter animation */
+  const counters = document.querySelectorAll('.counter');
+  counters.forEach(counter => {
+    const update = () => {
+      const target = +counter.getAttribute('data-target');
+      const count = +counter.innerText.replace(/,/g,'');
+      const inc = target / 80;
+      if (count < target) {
+        counter.innerText = Math.ceil(count + inc).toLocaleString();
+        requestAnimationFrame(update);
+      } else {
+        counter.innerText = target.toLocaleString();
+      }
+    };
+    update();
   });
 </script>
 
