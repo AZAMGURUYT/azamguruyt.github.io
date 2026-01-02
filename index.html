@@ -187,6 +187,38 @@
 
     .animate.show { opacity: 1; transform: translateY(0); }
 
+    /* ===== SOCIAL PROOF ===== */
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .stat {
+      min-width: 200px;
+      padding: 25px 20px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+      transition: 0.4s ease;
+    }
+
+    .stat:hover { transform: translateY(-8px) scale(1.03); }
+
+    .stat h3 {
+      font-size: 36px;
+      margin: 0;
+      color: #00f2ff;
+    }
+
+    .stat p {
+      margin-top: 8px;
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
     @media (pointer: coarse) {
       .mouse-glow { display: none; }
     }
@@ -202,7 +234,6 @@
 <header class="card animate">
   <h1>Welcome to AzamGuruYT 🚀</h1>
 
-  <!-- ✨ TYPING HERO TEXT -->
   <div class="typing">
     I create content about <span id="typed"></span><span class="cursor">▌</span>
   </div>
@@ -212,6 +243,25 @@
     <a class="btn btn-instagram" href="https://www.instagram.com/azamguruyt" target="_blank">📸 Follow on Instagram</a>
   </div>
 </header>
+
+<section class="card animate">
+  <h2>Community & Growth</h2>
+
+  <div class="stats">
+    <div class="stat">
+      <h3 data-count="12000">0</h3>
+      <p>Subscribers</p>
+    </div>
+    <div class="stat">
+      <h3 data-count="150">0</h3>
+      <p>Videos</p>
+    </div>
+    <div class="stat">
+      <h3 data-count="100">0</h3>
+      <p>Growing Community</p>
+    </div>
+  </div>
+</section>
 
 <section class="card animate">
   <h2>About Me</h2>
@@ -231,11 +281,11 @@
 
 <script>
   /* Scroll animation */
-  const elements = document.querySelectorAll('.animate');
-  const observer = new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('show')),{threshold:0.2});
+  const elements=document.querySelectorAll('.animate');
+  const observer=new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('show')),{threshold:0.2});
   elements.forEach(el=>observer.observe(el));
 
-  /* Mouse glow follow */
+  /* Mouse glow */
   const glow=document.getElementById('mouseGlow');
   document.addEventListener('mousemove',e=>{
     glow.style.left=e.clientX+'px';
@@ -246,7 +296,6 @@
   const words=["Tech","AI Tools","Web Experiments","Growth"];
   let i=0,j=0,del=false;
   const el=document.getElementById("typed");
-
   function type(){
     el.textContent=words[i].slice(0,j);
     if(!del && j++===words[i].length){ setTimeout(()=>del=true,1000); }
@@ -254,6 +303,19 @@
     setTimeout(type, del?60:90);
   }
   type();
+
+  /* Social proof counter */
+  const counters=document.querySelectorAll('[data-count]');
+  counters.forEach(counter=>{
+    const update=()=>{
+      const target=+counter.dataset.count;
+      const c=+counter.innerText;
+      const inc=Math.ceil(target/120);
+      if(c<target){ counter.innerText=c+inc; setTimeout(update,30); }
+      else{ counter.innerText=target.toLocaleString(); }
+    };
+    update();
+  });
 </script>
 
 </body>
