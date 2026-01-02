@@ -18,26 +18,34 @@
       animation: fadeIn 1s ease;
     }
 
-    /* ===== PAGE LOAD ANIMATION ===== */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     header {
-      padding: 80px 20px 40px;
+      padding: 70px 20px 40px;
+    }
+
+    /* ===== LOGO ===== */
+    .logo {
+      width: 140px;
+      margin-bottom: 20px;
+      transition: transform 0.4s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.08) rotate(-1deg);
     }
 
     h1 {
       font-size: 46px;
       margin-bottom: 10px;
-      letter-spacing: 1px;
     }
 
     h2 {
       margin-top: 60px;
       font-size: 32px;
-      letter-spacing: 1px;
     }
 
     p {
@@ -48,15 +56,14 @@
       line-height: 1.6;
     }
 
-    /* ⭐ PREMIUM CARD */
     .card {
       background: rgba(255,255,255,0.08);
-      padding: 30px;
+      padding: 35px;
       border-radius: 18px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.35);
       margin: 40px auto;
       max-width: 900px;
-      transition: all 0.4s ease;
+      transition: 0.4s;
     }
 
     .card:hover {
@@ -70,12 +77,12 @@
     .btn {
       display: inline-block;
       margin: 10px;
-      padding: 14px 28px;
-      text-decoration: none;
+      padding: 14px 30px;
       border-radius: 30px;
       font-weight: bold;
-      transition: all 0.3s ease;
-      color: #fff;
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
     }
 
     .btn-youtube {
@@ -112,19 +119,18 @@
       opacity: 0.7;
     }
 
-    /* ⭐ WHATSAPP FLOAT BUTTON */
     .whatsapp {
       position: fixed;
       bottom: 20px;
       right: 20px;
       background: #25D366;
-      color: white;
       padding: 14px 22px;
       border-radius: 50px;
+      color: white;
       font-weight: bold;
       text-decoration: none;
       box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-      transition: all 0.3s ease;
+      transition: 0.3s;
     }
 
     .whatsapp:hover {
@@ -132,11 +138,10 @@
       transform: scale(1.1);
     }
 
-    /* ===== SCROLL ANIMATION ===== */
     .animate {
       opacity: 0;
       transform: translateY(30px);
-      transition: all 0.8s ease;
+      transition: 0.8s ease;
     }
 
     .animate.show {
@@ -149,6 +154,9 @@
 <body>
 
 <header class="card animate">
+  <!-- 🔥 LOGO -->
+  <img src="logo.png" alt="AzamGuruYT Logo" class="logo">
+
   <h1>Welcome to AzamGuruYT 🚀</h1>
   <p>Content Creator • Learning • Tech • Growth</p>
 
@@ -162,18 +170,16 @@
   </div>
 </header>
 
-<!-- ABOUT SECTION -->
 <section class="card animate">
   <h2>About Me</h2>
   <p>
-    Hi, I’m Azam 👋 <br>
+    Hi, I’m Azam 👋<br>
     I create content related to technology, learning, experiments and growth.
     This website is my personal space where I share my journey, projects and videos.
     Stay connected and grow with me 🚀
   </p>
 </section>
 
-<!-- YOUTUBE VIDEO -->
 <section class="card animate">
   <h2>Latest YouTube Video</h2>
   <iframe 
@@ -186,26 +192,19 @@
   © 2026 AzamGuruYT | Powered by AZURA
 </footer>
 
-<!-- WHATSAPP BUTTON -->
-<a class="whatsapp" 
-   href="https://wa.me/9560635855" 
-   target="_blank">
-   💬 Chat on WhatsApp
+<a class="whatsapp" href="https://wa.me/9560635855" target="_blank">
+  💬 Chat on WhatsApp
 </a>
 
-<!-- ===== SCROLL JS ===== -->
 <script>
-  const animatedElements = document.querySelectorAll('.animate');
-
+  const elements = document.querySelectorAll('.animate');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('show');
     });
   }, { threshold: 0.2 });
 
-  animatedElements.forEach(el => observer.observe(el));
+  elements.forEach(el => observer.observe(el));
 </script>
 
 </body>
