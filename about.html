@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About • AzamGuruYT</title>
+
+  <!-- ✅ FAVICON -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ⭐ PREMIUM FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1b3c4a);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite, fadeIn 1s ease;
+      color: #ffffff;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== STICKY NAVBAR ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 14px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(12px);
+      background: rgba(15, 32, 39, 0.65);
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    }
+
+    .nav-logo {
+      font-weight: bold;
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+
+    .nav-links a {
+      margin-left: 25px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      opacity: 0.85;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+      color: #00f2ff;
+    }
+
+    /* 🌟 BACKGROUND GLOWS */
+    .glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      filter: blur(120px);
+      border-radius: 50%;
+      z-index: -1;
+      animation: float 12s infinite alternate ease-in-out;
+    }
+
+    .glow.one {
+      top: 10%;
+      left: 10%;
+      background: rgba(0,255,255,0.25);
+    }
+
+    .glow.two {
+      bottom: 10%;
+      right: 10%;
+      background: rgba(255,0,150,0.25);
+    }
+
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-80px); }
+    }
+
+    header {
+      padding: 140px 20px 40px;
+    }
+
+    h1 {
+      font-size: 46px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: auto;
+      line-height: 1.7;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      padding: 40px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      margin: 40px auto;
+      max-width: 900px;
+      transition: 0.4s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+    }
+
+    footer {
+      margin-top: 80px;
+      padding: 20px;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- 🔝 NAVBAR -->
+<nav>
+  <div class="nav-logo">AzamGuruYT</div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+  </div>
+</nav>
+
+<!-- 🌟 GLOWS -->
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+<header>
+  <h1>About Me</h1>
+</header>
+
+<section class="card">
+  <h2>Who I Am</h2>
+  <p>
+    Hi, I’m <strong>Azam</strong> 👋<br><br>
+    I’m a content creator focused on technology, learning, experiments, and personal growth.
+    I enjoy exploring new tools, sharing knowledge, and building things that help people understand tech in a simple way.
+  </p>
+</section>
+
+<section class="card">
+  <h2>What I Do</h2>
+  <p>
+    On my platforms, I create content related to:
+    <br><br>
+    🔹 Tech & AI Tools<br>
+    🔹 Web Experiments<br>
+    🔹 Creator Growth<br>
+    🔹 Learning & Productivity
+    <br><br>
+    This website is my personal hub where everything connects — videos, ideas, and future projects.
+  </p>
+</section>
+
+<section class="card">
+  <h2>My Goal</h2>
+  <p>
+    My goal is simple: to keep learning, keep building, and share everything honestly.
+    I believe consistency and curiosity can create long-term growth.
+    <br><br>
+    Thanks for being part of the journey 🚀
+  </p>
+</section>
+
+<footer>
+  © 2026 AzamGuruYT | Powered by AZURA
+</footer>
+
+</body>
+</html>
