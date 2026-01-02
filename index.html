@@ -84,6 +84,37 @@
       .nav-links { display: none; }
     }
 
+    /* ===== VERIFIED BADGE ===== */
+    .verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 8px 0 6px;
+      font-weight: 600;
+      color: #00f2ff;
+    }
+
+    .verified-badge {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #00f2ff;
+      color: #0f2027;
+      font-size: 12px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 14px rgba(0,242,255,0.9);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 10px rgba(0,242,255,0.6); }
+      50% { box-shadow: 0 0 18px rgba(0,242,255,1); }
+      100% { box-shadow: 0 0 10px rgba(0,242,255,0.6); }
+    }
+
     /* ===== GLOW ===== */
     .glow {
       position: fixed;
@@ -238,6 +269,12 @@
 
 <header id="home" class="card">
   <h1>Welcome to AzamGuruYT 🚀</h1>
+
+  <div class="verified">
+    Verified Creator
+    <span class="verified-badge">✔</span>
+  </div>
+
   <p>Content Creator • Learning • Tech • Growth</p>
 
   <a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">▶ YouTube</a>
@@ -251,7 +288,6 @@
     I create content related to technology, learning, experiments and growth.
   </p>
 
-  <!-- SOCIAL PROOF -->
   <div class="stats">
     <div class="stat-box">
       <h3 class="counter" data-target="1017">0</h3>
@@ -283,13 +319,13 @@
     glow.style.top = e.clientY + 'px';
   });
 
-  /* Counter animation */
+  /* FAST counter animation */
   const counters = document.querySelectorAll('.counter');
   counters.forEach(counter => {
     const update = () => {
       const target = +counter.getAttribute('data-target');
       const count = +counter.innerText.replace(/,/g,'');
-      const inc = target / 80;
+      const inc = target / 35; // 🔥 faster speed
       if (count < target) {
         counter.innerText = Math.ceil(count + inc).toLocaleString();
         requestAnimationFrame(update);
