@@ -42,7 +42,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 🌟 GLOW ORBS */
+    /* 🌟 STATIC GLOW ORBS */
     .glow {
       position: fixed;
       width: 300px;
@@ -68,6 +68,24 @@
     @keyframes float {
       from { transform: translateY(0); }
       to { transform: translateY(-80px); }
+    }
+
+    /* 🔥 STRONG NEON MOUSE GLOW */
+    .mouse-glow {
+      position: fixed;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(
+        circle,
+        rgba(0, 255, 255, 0.45),
+        rgba(0, 255, 255, 0.25),
+        transparent 70%
+      );
+      filter: blur(40px);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      transition: opacity 0.3s ease;
     }
 
     header {
@@ -100,6 +118,8 @@
       margin: 40px auto;
       max-width: 900px;
       transition: 0.4s;
+      position: relative;
+      z-index: 1;
     }
 
     .card:hover {
@@ -167,6 +187,7 @@
       text-decoration: none;
       box-shadow: 0 5px 20px rgba(0,0,0,0.4);
       transition: 0.3s;
+      z-index: 2;
     }
 
     .whatsapp:hover {
@@ -184,14 +205,22 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* ❌ Disable mouse glow on touch devices */
+    @media (pointer: coarse) {
+      .mouse-glow { display: none; }
+    }
   </style>
 </head>
 
 <body>
 
-<!-- 🌟 GLOW BACKGROUND -->
+<!-- 🌟 STATIC GLOW -->
 <div class="glow one"></div>
 <div class="glow two"></div>
+
+<!-- 🔥 MOUSE NEON GLOW -->
+<div class="mouse-glow" id="mouseGlow"></div>
 
 <header class="card animate">
   <h1>Welcome to AzamGuruYT 🚀</h1>
@@ -234,16 +263,21 @@
 </a>
 
 <script>
+  /* Scroll animation */
   const elements = document.querySelectorAll('.animate');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('show');
     });
   }, { threshold: 0.2 });
-
   elements.forEach(el => observer.observe(el));
+
+  /* 🔥 Mouse neon glow follow */
+  const glow = document.getElementById('mouseGlow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  });
 </script>
 
 </body>
