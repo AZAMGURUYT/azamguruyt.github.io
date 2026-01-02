@@ -4,25 +4,35 @@
   <meta charset="UTF-8">
   <title>AzamGuruYT</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ⭐ PREMIUM FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: #ffffff;
       text-align: center;
     }
+
     header {
       padding: 80px 20px 40px;
     }
+
     h1 {
       font-size: 46px;
       margin-bottom: 10px;
+      letter-spacing: 1px;
     }
+
     h2 {
       margin-top: 60px;
       font-size: 32px;
+      letter-spacing: 1px;
     }
+
     p {
       font-size: 18px;
       opacity: 0.9;
@@ -30,9 +40,21 @@
       margin: auto;
       line-height: 1.6;
     }
+
+    /* ⭐ PREMIUM CARD */
+    .card {
+      background: rgba(255,255,255,0.08);
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      margin: 40px auto;
+      max-width: 900px;
+    }
+
     .buttons {
       margin-top: 30px;
     }
+
     .btn {
       display: inline-block;
       margin: 10px;
@@ -43,56 +65,67 @@
       transition: 0.3s;
       color: #fff;
     }
+
     .btn-youtube {
       background: #ff0000;
     }
+
     .btn-youtube:hover {
       background: #cc0000;
+      transform: scale(1.05);
     }
+
     .btn-instagram {
       background: #e1306c;
     }
+
     .btn-instagram:hover {
       background: #c13584;
+      transform: scale(1.05);
     }
-    .video {
-      margin-top: 30px;
-    }
+
     iframe {
-      width: 90%;
+      width: 100%;
       max-width: 720px;
       height: 405px;
-      border-radius: 12px;
+      border-radius: 14px;
       border: none;
+      margin-top: 20px;
     }
+
     footer {
       margin-top: 80px;
       padding: 20px;
       font-size: 14px;
       opacity: 0.7;
     }
+
+    /* ⭐ WHATSAPP FLOAT BUTTON */
     .whatsapp {
       position: fixed;
       bottom: 20px;
       right: 20px;
       background: #25D366;
       color: white;
-      padding: 14px 20px;
+      padding: 14px 22px;
       border-radius: 50px;
       font-weight: bold;
       text-decoration: none;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
     }
+
     .whatsapp:hover {
       background: #1ebc59;
+      transform: scale(1.05);
     }
   </style>
 </head>
+
 <body>
 
-<header>
-  <h1>Welcome to AzamGuruYT</h1>
-  <p>Content Creator • Learning • Tech • Growth 🚀</p>
+<header class="card">
+  <h1>Welcome to AzamGuruYT 🚀</h1>
+  <p>Content Creator • Learning • Tech • Growth</p>
 
   <div class="buttons">
     <a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">
@@ -105,26 +138,27 @@
 </header>
 
 <!-- ABOUT SECTION -->
-<h2>About Me</h2>
-<p>
-  Hi, I’m Azam 👋  
-  I create content related to technology, learning, experiments and growth.
-  This website is my personal space where I share my journey, projects and videos.
-  Stay connected and grow with me 🚀
-</p>
+<section class="card">
+  <h2>About Me</h2>
+  <p>
+    Hi, I’m Azam 👋 <br>
+    I create content related to technology, learning, experiments and growth.
+    This website is my personal space where I share my journey, projects and videos.
+    Stay connected and grow with me 🚀
+  </p>
+</section>
 
 <!-- YOUTUBE VIDEO -->
-<h2>Latest YouTube Video</h2>
-<div class="video">
-  <!-- 🔴 Replace VIDEO_ID with your latest YouTube video ID -->
+<section class="card">
+  <h2>Latest YouTube Video</h2>
   <iframe 
-    src="https://www.youtube.com/embed/YAHAN_APNI_VIDEO_ID"
+    src="https://www.youtube.com/embed/YL8JGPZ5Fj89gTs-"
     allowfullscreen>
   </iframe>
-</div>
+</section>
 
 <footer>
-  © 2026 AzamGuruYT | Powered by GitHub Pages
+  © 2026 AzamGuruYT | Powered by AZURA
 </footer>
 
 <!-- WHATSAPP BUTTON -->
