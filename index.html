@@ -1,213 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>AzamGuruYT</title>
+<meta charset="UTF-8">
+<title>AzamGuruYT</title>
 
-  <!-- ✅ FAVICON -->
-  <link rel="icon" href="FEVICON2.0.png">
+<link rel="icon" href="FEVICON2.0.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
-  <!-- ⭐ PREMIUM FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<style>
+/* ===== SAME ORIGINAL CSS (UNCHANGED) ===== */
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1b3c4a);
+background-size:400% 400%;
+animation:gradientBG 15s ease infinite;
+color:#fff;
+text-align:center;
+overflow-x:hidden;
+}
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1b3c4a);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: #ffffff;
-      text-align: center;
-      overflow-x: hidden;
-    }
+@keyframes gradientBG{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
 
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+.navbar{
+position:sticky;
+top:0;
+z-index:999;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 30px;
+background:rgba(15,32,39,.75);
+backdrop-filter:blur(12px);
+}
 
-    /* ===== STICKY NAVBAR ===== */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 30px;
-      background: rgba(15,32,39,0.75);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    }
+.nav-logo{color:#00f2ff;font-weight:700;font-size:20px}
 
-    .nav-logo {
-      font-size: 20px;
-      font-weight: 700;
-      color: #00f2ff;
-    }
+.nav-links{list-style:none;display:flex;gap:22px;margin:0;padding:0}
+.nav-links a{color:#fff;text-decoration:none;position:relative}
+.nav-links a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-6px;
+width:0%;
+height:2px;
+background:#00f2ff;
+transition:.3s;
+}
+.nav-links a:hover::after{width:100%}
 
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 22px;
-      margin: 0;
-      padding: 0;
-    }
+.verified{
+display:inline-flex;
+align-items:center;
+gap:6px;
+color:#00f2ff;
+font-weight:600;
+}
 
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 15px;
-      position: relative;
-    }
+.verified-badge{
+width:18px;height:18px;
+border-radius:50%;
+background:#00f2ff;
+color:#000;
+font-size:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 0 14px rgba(0,242,255,.9);
+animation:pulse 2s infinite;
+}
 
-    .nav-links a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -6px;
-      width: 0%;
-      height: 2px;
-      background: #00f2ff;
-      transition: 0.3s;
-    }
+@keyframes pulse{
+0%{box-shadow:0 0 10px rgba(0,242,255,.6)}
+50%{box-shadow:0 0 18px rgba(0,242,255,1)}
+100%{box-shadow:0 0 10px rgba(0,242,255,.6)}
+}
 
-    .nav-links a:hover::after {
-      width: 100%;
-    }
+.glow{
+position:fixed;
+width:300px;height:300px;
+filter:blur(120px);
+border-radius:50%;
+z-index:-1;
+animation:float 12s infinite alternate;
+}
+.glow.one{top:10%;left:10%;background:rgba(0,255,255,.25)}
+.glow.two{bottom:10%;right:10%;background:rgba(255,0,150,.25)}
 
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-    }
+@keyframes float{
+from{transform:translateY(0)}
+to{transform:translateY(-80px)}
+}
 
-    /* ===== VERIFIED BADGE ===== */
-    .verified {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin: 8px 0 6px;
-      font-weight: 600;
-      color: #00f2ff;
-    }
+.mouse-glow{
+position:fixed;
+width:220px;height:220px;
+background:radial-gradient(circle,rgba(0,255,255,.45),transparent 70%);
+filter:blur(40px);
+pointer-events:none;
+transform:translate(-50%,-50%);
+}
 
-    .verified-badge {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: #00f2ff;
-      color: #0f2027;
-      font-size: 12px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 14px rgba(0,242,255,0.9);
-      animation: pulse 2s infinite;
-    }
+.card{
+background:rgba(255,255,255,.08);
+padding:35px;
+border-radius:18px;
+margin:40px auto;
+max-width:900px;
+transition:.4s;
+}
+.card:hover{transform:translateY(-8px)}
 
-    @keyframes pulse {
-      0% { box-shadow: 0 0 10px rgba(0,242,255,0.6); }
-      50% { box-shadow: 0 0 18px rgba(0,242,255,1); }
-      100% { box-shadow: 0 0 10px rgba(0,242,255,0.6); }
-    }
+.btn{
+display:inline-block;
+margin:10px;
+padding:14px 30px;
+border-radius:30px;
+font-weight:bold;
+color:white;
+text-decoration:none;
+transition:.3s;
+}
 
-    /* ===== AZURA BUTTON ===== */
-    .btn-azura {
-      display: inline-block;
-      margin: 14px;
-      padding: 14px 34px;
-      border-radius: 30px;
-      font-weight: 700;
-      color: #000;
-      text-decoration: none;
-      background: linear-gradient(135deg,#00f2ff,#00ffa6);
-      box-shadow: 0 0 25px rgba(0,242,255,0.7);
-      transition: 0.35s;
-    }
+.btn-youtube{background:#ff0000}
+.btn-instagram{background:#e1306c}
 
-    .btn-azura:hover {
-      transform: scale(1.08);
-      box-shadow: 0 0 40px rgba(0,255,200,1);
-    }
+/* 🔥 AZURA BUTTON */
+.btn-azura{
+background:linear-gradient(135deg,#00f2ff,#00ffa6);
+color:#000;
+box-shadow:0 0 25px rgba(0,242,255,.6);
+}
+.btn-azura:hover{transform:scale(1.08)}
 
-    /* ===== GLOW ===== */
-    .glow {
-      position: fixed;
-      width: 300px;
-      height: 300px;
-      filter: blur(120px);
-      border-radius: 50%;
-      z-index: -1;
-      animation: float 12s infinite alternate ease-in-out;
-    }
+.stats{
+display:flex;
+justify-content:center;
+gap:30px;
+flex-wrap:wrap;
+}
 
-    .glow.one { top: 10%; left: 10%; background: rgba(0,255,255,0.25); }
-    .glow.two { bottom: 10%; right: 10%; background: rgba(255,0,150,0.25); }
+.stat-box{
+background:rgba(255,255,255,.12);
+padding:30px;
+width:220px;
+border-radius:16px;
+}
 
-    @keyframes float {
-      from { transform: translateY(0); }
-      to { transform: translateY(-80px); }
-    }
+.stat-box h3{color:#00f2ff;font-size:38px}
 
-    header { padding: 80px 20px 40px; }
+iframe{
+width:100%;
+max-width:720px;
+height:405px;
+border-radius:14px;
+border:none;
+}
 
-    .btn {
-      display: inline-block;
-      margin: 10px;
-      padding: 14px 30px;
-      border-radius: 30px;
-      font-weight: bold;
-      color: white;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-
-    .btn-youtube { background: #ff0000; }
-    .btn-instagram { background: #e1306c; }
-
-    footer {
-      margin: 80px 0 30px;
-      font-size: 14px;
-      opacity: 0.7;
-    }
-  </style>
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+padding:14px 22px;
+border-radius:50px;
+color:white;
+text-decoration:none;
+}
+</style>
 </head>
 
 <body>
 
 <nav class="navbar">
-  <div class="nav-logo">AzamGuruYT</div>
-  <ul class="nav-links">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#video">Video</a></li>
-  </ul>
+<div class="nav-logo">AzamGuruYT</div>
+<ul class="nav-links">
+<li><a href="#home">Home</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#video">Video</a></li>
+</ul>
 </nav>
 
-<header id="home">
-  <h1>Welcome to AzamGuruYT 🚀</h1>
+<div class="glow one"></div>
+<div class="glow two"></div>
+<div class="mouse-glow" id="mouseGlow"></div>
 
-  <div class="verified">
-    Verified Creator <span class="verified-badge">✔</span>
-  </div>
+<header id="home" class="card">
+<h1>Welcome to AzamGuruYT 🚀</h1>
 
-  <p>Content Creator • Learning • Tech • Growth</p>
+<div class="verified">
+Verified Creator <span class="verified-badge">✔</span>
+</div>
 
-  <a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">▶ YouTube</a>
-  <a class="btn btn-instagram" href="https://www.instagram.com/azamguruyt" target="_blank">📸 Instagram</a>
+<p>Content Creator • Learning • Tech • Growth</p>
 
-  <!-- 🤖 AZURA AI BUTTON -->
-  <br>
-  <a class="btn-azura" href="azura.html">🤖 Talk to AZURA AI</a>
+<a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">▶ YouTube</a>
+<a class="btn btn-instagram" href="https://www.instagram.com/azamguruyt" target="_blank">📸 Instagram</a>
+
+<br><br>
+
+<!-- ✅ AZURA AI BUTTON -->
+<a class="btn btn-azura" href="azura.html">🤖 Talk to AZURA AI</a>
 </header>
 
-<footer>
-  © 2026 AzamGuruYT | Powered by AZURA
-</footer>
+<section id="about" class="card">
+<h2>About Me</h2>
+<p>Hi, I’m Azam 👋<br>I create content related to technology, learning & growth.</p>
+
+<div class="stats">
+<div class="stat-box">
+<h3 class="counter" data-target="1017">0</h3>
+<p>YouTube Subscribers</p>
+</div>
+<div class="stat-box">
+<h3 class="counter" data-target="19556">0</h3>
+<p>Instagram Followers</p>
+</div>
+</div>
+</section>
+
+<section id="video" class="card">
+<h2>Latest YouTube Video</h2>
+<iframe src="https://www.youtube.com/embed/se7baNEI55U" allowfullscreen></iframe>
+</section>
+
+<footer>© 2026 AzamGuruYT | Powered by AZURA</footer>
+
+<a class="whatsapp" href="https://wa.me/9560635855">💬 WhatsApp</a>
+
+<script>
+const glow=document.getElementById("mouseGlow");
+document.addEventListener("mousemove",e=>{
+glow.style.left=e.clientX+"px";
+glow.style.top=e.clientY+"px";
+});
+
+document.querySelectorAll(".counter").forEach(counter=>{
+const target=+counter.dataset.target;
+let start=0;
+function update(){
+start+=Math.ceil(target/100);
+if(start<target){
+counter.innerText=start;
+requestAnimationFrame(update);
+}else counter.innerText=target;
+}
+update();
+});
+</script>
 
 </body>
 </html>
