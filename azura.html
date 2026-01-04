@@ -5,28 +5,66 @@
 <title>AZURA AI 🤖</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="AZURA AI – Advanced Personal AI Assistant by AzamGuruYT">
-<meta name="author" content="AzamGuruYT">
+<meta name="description" content="AZURA AI – Smart Assistant by AzamGuruYT">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box}
+
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background:radial-gradient(circle at top,#0f2027,#000);
+background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#000);
+background-size:400% 400%;
+animation:bgMove 18s ease infinite;
 color:#fff;
 height:100vh;
+overflow:hidden;
 display:flex;
 flex-direction:column;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+/* GLOW ORBS */
+.glow{
+position:fixed;
+width:320px;
+height:320px;
+border-radius:50%;
+filter:blur(120px);
+z-index:-1;
+animation:float 10s infinite alternate;
+}
+.glow.one{top:10%;left:10%;background:rgba(0,255,255,.25)}
+.glow.two{bottom:10%;right:10%;background:rgba(255,0,150,.25)}
+
+@keyframes float{
+from{transform:translateY(0)}
+to{transform:translateY(-80px)}
+}
+
+/* MOUSE GLOW */
+.mouse-glow{
+position:fixed;
+width:220px;
+height:220px;
+background:radial-gradient(circle,rgba(0,255,255,.5),transparent 70%);
+filter:blur(40px);
+pointer-events:none;
+transform:translate(-50%,-50%);
 }
 
 /* HEADER */
 header{
 padding:14px;
 text-align:center;
-background:rgba(0,0,0,.7);
+background:rgba(0,0,0,.6);
 backdrop-filter:blur(12px);
 border-bottom:1px solid rgba(0,242,255,.3);
 }
@@ -34,7 +72,6 @@ header h1{
 margin:0;
 color:#00f2ff;
 font-size:22px;
-letter-spacing:1px;
 }
 header span{
 font-size:12px;
@@ -86,19 +123,19 @@ margin-top:4px;
 display:flex;
 gap:10px;
 padding:14px;
-background:rgba(0,0,0,.8);
+background:rgba(0,0,0,.7);
 backdrop-filter:blur(10px);
 }
 .input input{
 flex:1;
-padding:12px 14px;
+padding:12px 16px;
 border-radius:25px;
 border:none;
 outline:none;
 font-size:14px;
 }
 .input button{
-padding:12px 18px;
+padding:12px 20px;
 border-radius:25px;
 border:none;
 cursor:pointer;
@@ -108,11 +145,10 @@ font-weight:600;
 transition:.3s;
 }
 .input button:hover{
-box-shadow:0 0 20px rgba(0,242,255,.7);
+box-shadow:0 0 20px rgba(0,242,255,.8);
 transform:scale(1.05);
 }
 
-/* CLEAR */
 .clear{
 position:absolute;
 top:16px;
@@ -122,7 +158,6 @@ color:#00f2ff;
 cursor:pointer;
 opacity:.8;
 }
-.clear:hover{opacity:1}
 
 .typing{
 font-size:12px;
@@ -139,6 +174,10 @@ to{opacity:1;transform:translateY(0)}
 
 <body>
 
+<div class="glow one"></div>
+<div class="glow two"></div>
+<div class="mouse-glow" id="mouseGlow"></div>
+
 <header>
 <h1>🤖 AZURA AI</h1>
 <span>Advanced AI Assistant • by AzamGuruYT</span>
@@ -148,34 +187,29 @@ to{opacity:1;transform:translateY(0)}
 <div class="chat" id="chat"></div>
 
 <div class="input">
-<input id="input" placeholder="Ask AZURA anything..." />
+<input id="input" placeholder="Ask GK, Maths or About Azam..." />
 <button onclick="send()">Send</button>
 </div>
 
 <script>
 const chat=document.getElementById("chat");
 const input=document.getElementById("input");
-const memory=[];
+const glow=document.getElementById("mouseGlow");
 
-/* 🔹 KNOWLEDGE BASE (GK + ABOUT) */
-const knowledge = [
-  { keys:["who made you","kisne banaya","creator"], ans:"I was created by <b>Azam (AzamGuruYT)</b> 🚀" },
-  { keys:["who are you","tum kaun ho"], ans:"I am <b>AZURA AI</b> 🤖, a smart assistant project." },
-  { keys:["when created","kab banaya"], ans:"AZURA AI was started in <b>2026</b>." },
-  { keys:["website"], ans:"This website is built using <b>HTML, CSS & JavaScript</b> and hosted on GitHub Pages ⚡" },
-  { keys:["future","plans"], ans:"Future plans: Real AI, memory, voice & automation 🌌" }
-];
+document.addEventListener("mousemove",e=>{
+glow.style.left=e.clientX+"px";
+glow.style.top=e.clientY+"px";
+});
 
 function timeNow(){
-const d=new Date();
-return d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+return new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
 }
 
 function addMessage(text,type){
-const box=document.createElement("div");
-box.className="msg "+type;
-box.innerHTML=text+`<div class="time">${timeNow()}</div>`;
-chat.appendChild(box);
+const div=document.createElement("div");
+div.className="msg "+type;
+div.innerHTML=text+`<div class="time">${timeNow()}</div>`;
+chat.appendChild(div);
 chat.scrollTop=chat.scrollHeight;
 }
 
@@ -183,67 +217,49 @@ function send(){
 const text=input.value.trim();
 if(!text)return;
 addMessage(text,"user");
-memory.push({role:"user",text});
 input.value="";
 
 const typing=document.createElement("div");
 typing.className="msg bot typing";
 typing.innerText="AZURA is thinking...";
 chat.appendChild(typing);
-chat.scrollTop=chat.scrollHeight;
 
 setTimeout(()=>{
 typing.remove();
-const reply=aiResponse(text);
-addMessage(reply,"bot");
-memory.push({role:"bot",text:reply});
+addMessage(aiResponse(text),"bot");
 },1000);
 }
 
-/* 🧠 AI RESPONSE (GK + MATHS) */
-function aiResponse(text){
-text=text.toLowerCase();
+function aiResponse(t){
+t=t.toLowerCase();
 
-/* 1️⃣ Knowledge base */
-for(let item of knowledge){
-  for(let k of item.keys){
-    if(text.includes(k)) return item.ans;
-  }
+/* ABOUT */
+if(t.includes("who are you"))
+return "I am <b>AZURA AI</b> 🤖 — a smart assistant created by AzamGuruYT.";
+
+if(t.includes("who created"))
+return "I was created by <b>AzamGuruYT</b> 🚀";
+
+/* GK */
+if(t.includes("capital of india"))
+return "The capital of India is <b>New Delhi</b> 🇮🇳";
+
+/* MATH */
+if(/^[0-9+\-*/(). ]+$/.test(t)){
+try{return "Answer: <b>"+eval(t)+"</b>";}
+catch{return "Invalid math expression ❌";}
 }
 
-/* 2️⃣ Maths calculation (SAFE) */
-try{
-  if(/^[0-9+\-*/().\s]+$/.test(text)){
-    const result = Function(`"use strict";return (${text})`)();
-    return `🧮 The answer is <b>${result}</b>`;
-  }
-}catch(e){}
-
-/* 3️⃣ Normal replies */
-if(text.includes("hello")||text.includes("hi"))
-return "Hello 👋 I’m AZURA AI. Ready to assist you.";
-
-if(text.includes("azam"))
-return "Azam is a creator, builder & visionary 🚀 This AI belongs to him.";
-
-return "🤔 I don’t know this yet, but I’m learning every day!";
+return "🤔 I’m learning… Try GK, Maths or questions about Azam!";
 }
 
 function clearChat(){
 chat.innerHTML="";
-memory.length=0;
-addMessage("Chat cleared 🧹<br>I’m ready again!", "bot");
+addMessage("Chat cleared 🧹 I’m ready again!", "bot");
 }
 
-input.addEventListener("keydown",e=>{
-if(e.key==="Enter")send();
-});
-
 /* INTRO */
-addMessage(
-"Welcome 👋<br>I’m <b>AZURA AI v2</b> 🚀<br>You can ask me <b>GK, About me or Maths</b> 🔢",
-"bot"
-);
+addMessage("Welcome 👋<br>I’m <b>AZURA AI</b><br>Ask me GK, Maths or About Azam 🚀","bot");
 </script>
 
 </body>
