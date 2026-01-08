@@ -7,43 +7,28 @@
 
 <style>
 body{
-margin:0;
-background:#000;
-font-family:monospace;
-color:#00ffcc;
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
+margin:0;background:#000;font-family:monospace;color:#00ffcc;
+height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;
 }
-
-/* MATRIX */
 #matrix{position:fixed;inset:0;z-index:-1}
 
 /* START */
 #startScreen{
-position:fixed;inset:0;
-display:flex;align-items:center;justify-content:center;
+position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
 background:#000;z-index:9999;
 }
 #startScreen button{
-padding:18px 32px;
-font-size:18px;
-background:#00ffcc;
-border:none;border-radius:40px;
-cursor:pointer;
+padding:18px 32px;font-size:18px;background:#00ffcc;
+border:none;border-radius:40px;cursor:pointer;
 box-shadow:0 0 30px rgba(0,255,200,.9);
 }
 
 /* TERMINAL */
 .terminal{
-width:90%;max-width:900px;height:85vh;
-background:#020202;border-radius:14px;
-box-shadow:0 0 40px rgba(0,255,200,.6);
+width:90%;max-width:900px;height:85vh;background:#020202;
+border-radius:14px;box-shadow:0 0 40px rgba(0,255,200,.6);
 display:flex;flex-direction:column;overflow:hidden;
 }
-
 .glitch{animation:glitch .25s linear 3}
 @keyframes glitch{
 0%{transform:translate(0)}
@@ -52,24 +37,14 @@ display:flex;flex-direction:column;overflow:hidden;
 75%{transform:translate(-2px,-2px)}
 100%{transform:translate(0)}
 }
-
-.header{
-padding:12px;background:#001b18;
-display:flex;justify-content:space-between;
-}
-
+.header{padding:12px;background:#001b18;display:flex;justify-content:space-between}
 .screen{flex:1;padding:16px;overflow-y:auto}
 .line{margin:6px 0}
 .success{color:#00ff88}
 .fail{color:#ff3366}
-
 .input{display:flex;padding:12px;background:#001b18}
 .prompt{margin-right:8px}
-input{
-flex:1;background:transparent;border:none;
-color:#00ffcc;font-family:monospace;
-}
-
+input{flex:1;background:transparent;border:none;color:#00ffcc;font-family:monospace}
 </style>
 </head>
 
@@ -99,12 +74,10 @@ color:#00ffcc;font-family:monospace;
 
 <script>
 /* MATRIX */
-const c=document.getElementById("matrix"),ctx=c.getContext("2d");
+const c=matrix,ctx=c.getContext("2d");
 function resize(){c.width=innerWidth;c.height=innerHeight}
 resize();addEventListener("resize",resize);
-const chars="01AZURA";
-const cols=Math.floor(c.width/16);
-const drops=Array(cols).fill(1);
+const chars="01AZURA",cols=Math.floor(c.width/16),drops=Array(cols).fill(1);
 setInterval(()=>{
 ctx.fillStyle="rgba(0,0,0,.05)";
 ctx.fillRect(0,0,c.width,c.height);
@@ -116,17 +89,21 @@ drops[i]=y*16>c.height&&Math.random()>0.975?0:y+1;
 },50);
 
 /* GAME */
-const screen=document.getElementById("screen");
-const input=document.getElementById("cmd");
-const timerEl=document.getElementById("timer");
-const terminal=document.getElementById("terminal");
+const screen=document.getElementById("screen"),
+input=document.getElementById("cmd"),
+timerEl=document.getElementById("timer"),
+terminal=document.getElementById("terminal");
 
 let level=1,time=10,interval;
+let cracking=false,secret="";
+
 const levels=[
 "azura.unlock",
 "init access",
 "decrypt core",
-"grant admin"
+"grant admin",
+"trace ip",
+"crack password"
 ];
 
 function speak(t){
@@ -149,7 +126,8 @@ setTimeout(()=>terminal.classList.remove("glitch"),300);
 
 function startLevel(){
 clearInterval(interval);
-time=10;timerEl.textContent="⏱ "+time+"s";
+time=level===6?15:10;
+timerEl.textContent="⏱ "+time+"s";
 log(`<br>▶ LEVEL ${level}`);
 log(`Type command: <b>${levels[level-1]}</b>`);
 speak("Level "+level);
@@ -166,12 +144,12 @@ speak("Access denied");
 }
 
 function startGame(){
-document.getElementById("startScreen").style.display="none";
+startScreen.style.display="none";
 log("AZURA SYSTEM ONLINE");
 startLevel();
 }
 
-/* INPUT HANDLER */
+/* INPUT */
 input.addEventListener("keydown",e=>{
 document.getElementById("key").play();
 if(e.key==="Enter"){
@@ -179,24 +157,56 @@ const v=input.value.trim().toLowerCase();
 log("&gt; "+v);
 input.value="";
 
-/* 🔥 NEXT LEVEL COMMAND */
+/* JUMP LEVEL */
 if(v.startsWith("next level:")){
 const n=parseInt(v.split(":")[1]);
 if(n>=1 && n<=levels.length){
-level=n;
+level=n;glitch();speak("Jumping to level "+level);startLevel();
+}
+return;
+}
+
+/* LEVEL 5 */
+if(level===5 && v==="trace ip"){
 glitch();
-speak("Jumping to level "+level);
-startLevel();
+log("Tracing IP: 192.168."+Math.floor(Math.random()*255)+"."+Math.floor(Math.random()*255));
+setTimeout(()=>{
+log("IP TRACE COMPLETE","success");
+speak("IP traced");
+level++;startLevel();
+},1500);
+return;
+}
+
+/* LEVEL 6 */
+if(level===6){
+if(v==="crack password" && !cracking){
+cracking=true;
+secret=(Math.floor(1000+Math.random()*9000)).toString();
+log("Encrypted hash: ####");
+log("Enter 4-digit password");
+speak("Password cracking initiated");
+return;
+}
+if(cracking){
+if(v===secret){
+glitch();
+log("PASSWORD ACCEPTED","success");
+log("ACCESS GRANTED","success");
+speak("Password cracked");
+cracking=false;level++;
+}else{
+log("WRONG PASSWORD","fail");
+speak("Incorrect password");
+}
 return;
 }
 }
 
-/* NORMAL COMMAND */
+/* NORMAL */
 if(v===levels[level-1]){
 document.getElementById("ok").play();
-glitch();
-log("ACCESS GRANTED","success");
-speak("Access granted");
+glitch();log("ACCESS GRANTED","success");speak("Access granted");
 level++;
 if(level<=levels.length)setTimeout(startLevel,1000);
 else log("🏆 ALL LEVELS CLEARED");
