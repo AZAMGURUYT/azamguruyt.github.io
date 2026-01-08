@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>AZURA TERMINAL v3.0</title>
+<title>AZURA TERMINAL v3.1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -18,99 +18,58 @@ justify-content:center;
 overflow:hidden;
 }
 
-/* MATRIX CANVAS */
-#matrix{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-z-index:-1;
-}
+/* MATRIX */
+#matrix{position:fixed;inset:0;z-index:-1}
 
-/* START SCREEN */
+/* START */
 #startScreen{
-position:fixed;
-inset:0;
-background:#000;
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:9999;
+position:fixed;inset:0;
+display:flex;align-items:center;justify-content:center;
+background:#000;z-index:9999;
 }
 #startScreen button{
 padding:18px 32px;
 font-size:18px;
 background:#00ffcc;
-border:none;
-border-radius:40px;
-font-family:monospace;
+border:none;border-radius:40px;
 cursor:pointer;
 box-shadow:0 0 30px rgba(0,255,200,.9);
 }
 
 /* TERMINAL */
 .terminal{
-width:90%;
-max-width:900px;
-height:85vh;
-background:#020202;
-border-radius:14px;
+width:90%;max-width:900px;height:85vh;
+background:#020202;border-radius:14px;
 box-shadow:0 0 40px rgba(0,255,200,.6);
-display:flex;
-flex-direction:column;
-overflow:hidden;
-position:relative;
+display:flex;flex-direction:column;overflow:hidden;
 }
 
-.glitch{
-animation:glitch 0.25s linear 3;
-}
-
+.glitch{animation:glitch .25s linear 3}
 @keyframes glitch{
 0%{transform:translate(0)}
-20%{transform:translate(-2px,2px)}
-40%{transform:translate(2px,-2px)}
-60%{transform:translate(-2px,-2px)}
-80%{transform:translate(2px,2px)}
+25%{transform:translate(-2px,2px)}
+50%{transform:translate(2px,-2px)}
+75%{transform:translate(-2px,-2px)}
 100%{transform:translate(0)}
 }
 
 .header{
-padding:12px 16px;
-background:#001b18;
-display:flex;
-justify-content:space-between;
-align-items:center;
-font-weight:bold;
+padding:12px;background:#001b18;
+display:flex;justify-content:space-between;
 }
 
-.screen{
-flex:1;
-padding:16px;
-overflow-y:auto;
-font-size:14px;
-}
-
+.screen{flex:1;padding:16px;overflow-y:auto}
 .line{margin:6px 0}
-
-.input{
-display:flex;
-padding:12px;
-background:#001b18;
-}
-.prompt{margin-right:8px}
-input{
-flex:1;
-background:transparent;
-border:none;
-outline:none;
-color:#00ffcc;
-font-family:monospace;
-font-size:14px;
-}
-
 .success{color:#00ff88}
 .fail{color:#ff3366}
-.full{cursor:pointer}
+
+.input{display:flex;padding:12px;background:#001b18}
+.prompt{margin-right:8px}
+input{
+flex:1;background:transparent;border:none;
+color:#00ffcc;font-family:monospace;
+}
+
 </style>
 </head>
 
@@ -123,18 +82,15 @@ font-size:14px;
 </div>
 
 <div class="terminal" id="terminal">
-  <div class="header">
-    <span>AZURA TERMINAL v3.0</span>
-    <span id="timer">⏱ 10s</span>
-    <span class="full" onclick="toggleFull()">⛶</span>
-  </div>
-
-  <div class="screen" id="screen"></div>
-
-  <div class="input">
-    <span class="prompt">&gt;</span>
-    <input id="cmd" placeholder="type command here..." autofocus />
-  </div>
+<div class="header">
+<span>AZURA TERMINAL v3.1</span>
+<span id="timer">⏱ 10s</span>
+</div>
+<div class="screen" id="screen"></div>
+<div class="input">
+<span class="prompt">&gt;</span>
+<input id="cmd" placeholder="type command here..." />
+</div>
 </div>
 
 <audio id="key" src="https://assets.mixkit.co/sfx/preview/mixkit-keyboard-click-1124.mp3"></audio>
@@ -142,62 +98,41 @@ font-size:14px;
 <audio id="fail" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3"></audio>
 
 <script>
-/* MATRIX RAIN */
-const c=document.getElementById("matrix");
-const ctx=c.getContext("2d");
+/* MATRIX */
+const c=document.getElementById("matrix"),ctx=c.getContext("2d");
 function resize(){c.width=innerWidth;c.height=innerHeight}
 resize();addEventListener("resize",resize);
-
-const letters="01AZURA#$%";
+const chars="01AZURA";
 const cols=Math.floor(c.width/16);
 const drops=Array(cols).fill(1);
-
-function matrix(){
-ctx.fillStyle="rgba(0,0,0,0.05)";
+setInterval(()=>{
+ctx.fillStyle="rgba(0,0,0,.05)";
 ctx.fillRect(0,0,c.width,c.height);
-ctx.fillStyle="#00ff99";
-ctx.font="16px monospace";
-for(let i=0;i<drops.length;i++){
-const text=letters[Math.floor(Math.random()*letters.length)];
-ctx.fillText(text,i*16,drops[i]*16);
-if(drops[i]*16>c.height && Math.random()>0.975)drops[i]=0;
-drops[i]++;
-}
-}
-setInterval(matrix,50);
+ctx.fillStyle="#00ff99";ctx.font="16px monospace";
+drops.forEach((y,i)=>{
+ctx.fillText(chars[Math.random()*chars.length|0],i*16,y*16);
+drops[i]=y*16>c.height&&Math.random()>0.975?0:y+1;
+});
+},50);
 
-/* TERMINAL LOGIC */
+/* GAME */
 const screen=document.getElementById("screen");
 const input=document.getElementById("cmd");
 const timerEl=document.getElementById("timer");
 const terminal=document.getElementById("terminal");
 
-let level=1,score=0,time=10,currentCommand="",interval;
-
-function azuraSpeak(text){
-speechSynthesis.cancel();
-const u=new SpeechSynthesisUtterance(text);
-u.rate=0.95;u.pitch=0.75;u.volume=1;
-speechSynthesis.speak(u);
-}
-
-function glitch(){
-terminal.classList.add("glitch");
-setTimeout(()=>terminal.classList.remove("glitch"),300);
-}
-
-function startGame(){
-document.getElementById("startScreen").style.display="none";
-azuraSpeak("Azura terminal activated. Hacker mode enabled.");
-init();
-}
-
+let level=1,time=10,interval;
 const levels=[
-{cmd:"azura.unlock"},
-{cmd:"init access"},
-{cmd:"decrypt core"},
-{cmd:"grant admin"}
+"azura.unlock",
+"init access",
+"decrypt core",
+"grant admin"
 ];
+
+function speak(t){
+speechSynthesis.cancel();
+speechSynthesis.speak(new SpeechSynthesisUtterance(t));
+}
 
 function log(t,c=""){
 const d=document.createElement("div");
@@ -207,72 +142,70 @@ screen.appendChild(d);
 screen.scrollTop=screen.scrollHeight;
 }
 
+function glitch(){
+terminal.classList.add("glitch");
+setTimeout(()=>terminal.classList.remove("glitch"),300);
+}
+
 function startLevel(){
 clearInterval(interval);
-time=10;
-timerEl.innerText="⏱ "+time+"s";
-currentCommand=levels[level-1].cmd;
+time=10;timerEl.textContent="⏱ "+time+"s";
 log(`<br>▶ LEVEL ${level}`);
-log(`Type command: <b>${currentCommand}</b>`);
-azuraSpeak("Level "+level+". Type the command.");
-
+log(`Type command: <b>${levels[level-1]}</b>`);
+speak("Level "+level);
 interval=setInterval(()=>{
-time--;
-timerEl.innerText="⏱ "+time+"s";
-if(time<=0) end(false);
+time--;timerEl.textContent="⏱ "+time+"s";
+if(time<=0) gameOver();
 },1000);
 }
 
-function end(win){
+function gameOver(){
 clearInterval(interval);
-glitch();
-if(win){
-score+=100;
-document.getElementById("ok").play();
-log("ACCESS GRANTED ✔","success");
-azuraSpeak("Access granted.");
-level++;
-if(level<=levels.length)setTimeout(startLevel,1200);
-else{
-log(`<br>🏆 ALL LEVELS CLEARED`);
-log(`FINAL SCORE: <b>${score}</b>`);
-azuraSpeak("Mission complete. You are elite.");
-saveScore();
-}
-}else{
-document.getElementById("fail").play();
-log("ACCESS DENIED ✖","fail");
-azuraSpeak("Access denied. System locked.");
-saveScore();
-}
+log("ACCESS DENIED","fail");
+speak("Access denied");
 }
 
+function startGame(){
+document.getElementById("startScreen").style.display="none";
+log("AZURA SYSTEM ONLINE");
+startLevel();
+}
+
+/* INPUT HANDLER */
 input.addEventListener("keydown",e=>{
 document.getElementById("key").play();
 if(e.key==="Enter"){
 const v=input.value.trim().toLowerCase();
 log("&gt; "+v);
 input.value="";
-v===currentCommand?end(true):end(false);
+
+/* 🔥 NEXT LEVEL COMMAND */
+if(v.startsWith("next level:")){
+const n=parseInt(v.split(":")[1]);
+if(n>=1 && n<=levels.length){
+level=n;
+glitch();
+speak("Jumping to level "+level);
+startLevel();
+return;
+}
+}
+
+/* NORMAL COMMAND */
+if(v===levels[level-1]){
+document.getElementById("ok").play();
+glitch();
+log("ACCESS GRANTED","success");
+speak("Access granted");
+level++;
+if(level<=levels.length)setTimeout(startLevel,1000);
+else log("🏆 ALL LEVELS CLEARED");
+}else{
+document.getElementById("fail").play();
+gameOver();
+}
 }
 });
-
-function toggleFull(){
-!document.fullscreenElement?terminal.requestFullscreen():document.exitFullscreen();
-}
-
-function saveScore(){
-let d=JSON.parse(localStorage.getItem("azuraScores")||"[]");
-d.push({score,date:new Date().toLocaleString()});
-localStorage.setItem("azuraScores",JSON.stringify(d));
-log("<br>📊 Leaderboard:");
-d.slice(-5).reverse().forEach(s=>log(`• ${s.score} pts — ${s.date}`));
-}
-
-function init(){
-log("Reinitializing...");
-setTimeout(()=>{log("AZURA SECURITY SYSTEM ONLINE");startLevel();},1000);
-}
 </script>
 
 </body>
