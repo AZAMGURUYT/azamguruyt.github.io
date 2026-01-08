@@ -95,7 +95,8 @@ timerEl=document.getElementById("timer"),
 terminal=document.getElementById("terminal");
 
 let level=1,time=10,interval;
-let cracking=false,secret="";
+let cracking=false;
+let correctAnswer=null;
 
 const levels=[
 "azura.unlock",
@@ -157,7 +158,7 @@ const v=input.value.trim().toLowerCase();
 log("&gt; "+v);
 input.value="";
 
-/* JUMP LEVEL */
+/* LEVEL JUMP */
 if(v.startsWith("next level:")){
 const n=parseInt(v.split(":")[1]);
 if(n>=1 && n<=levels.length){
@@ -178,32 +179,39 @@ level++;startLevel();
 return;
 }
 
-/* LEVEL 6 */
+/* 🔐 LEVEL 6 — MATH PASSWORD */
 if(level===6){
 if(v==="crack password" && !cracking){
 cracking=true;
-secret=(Math.floor(1000+Math.random()*9000)).toString();
+const a=Math.floor(Math.random()*50)+10;
+const b=Math.floor(Math.random()*50)+10;
+correctAnswer=a+b;
 log("Encrypted hash: ####");
-log("Enter 4-digit password");
-speak("Password cracking initiated");
+log(`Solve: <b>${a} + ${b}</b>`);
+log("Enter answer");
+speak("Solve the math problem");
 return;
 }
 if(cracking){
-if(v===secret){
+if(parseInt(v)===correctAnswer){
 glitch();
-log("PASSWORD ACCEPTED","success");
+log("CORRECT ANSWER","success");
 log("ACCESS GRANTED","success");
+document.getElementById("ok").play();
 speak("Password cracked");
-cracking=false;level++;
+cracking=false;
+level++;
+log("🏆 ALL LEVELS CLEARED");
 }else{
-log("WRONG PASSWORD","fail");
-speak("Incorrect password");
+log("WRONG ANSWER","fail");
+document.getElementById("fail").play();
+speak("Wrong answer");
 }
 return;
 }
 }
 
-/* NORMAL */
+/* NORMAL LEVELS */
 if(v===levels[level-1]){
 document.getElementById("ok").play();
 glitch();log("ACCESS GRANTED","success");speak("Access granted");
