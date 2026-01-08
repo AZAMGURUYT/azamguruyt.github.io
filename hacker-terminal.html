@@ -15,8 +15,31 @@ height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
+overflow:hidden;
 }
 
+/* START SCREEN */
+#startScreen{
+position:fixed;
+inset:0;
+background:#000;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+#startScreen button{
+padding:18px 32px;
+font-size:18px;
+background:#00ffcc;
+border:none;
+border-radius:40px;
+font-family:monospace;
+cursor:pointer;
+box-shadow:0 0 30px rgba(0,255,200,.9);
+}
+
+/* TERMINAL */
 .terminal{
 width:90%;
 max-width:900px;
@@ -66,20 +89,22 @@ font-size:14px;
 .success{color:#00ff88}
 .fail{color:#ff3366}
 
-.voice{
-cursor:pointer;
-}
+.full{cursor:pointer}
 </style>
 </head>
 
 <body>
 
+<!-- 🔑 START REQUIRED FOR VOICE -->
+<div id="startScreen">
+<button onclick="startGame()">▶ START TERMINAL</button>
+</div>
+
 <div class="terminal" id="terminal">
   <div class="header">
-    <span>AZURA TERMINAL v2.0</span>
+    <span>AZURA TERMINAL v2.1</span>
     <span id="timer">⏱ 10s</span>
-    <span class="voice" onclick="toggleVoice()">🔊</span>
-    <span onclick="toggleFull()">⛶</span>
+    <span class="full" onclick="toggleFull()">⛶</span>
   </div>
 
   <div class="screen" id="screen"></div>
@@ -90,6 +115,7 @@ cursor:pointer;
   </div>
 </div>
 
+<!-- SOUNDS -->
 <audio id="key" src="https://assets.mixkit.co/sfx/preview/mixkit-keyboard-click-1124.mp3"></audio>
 <audio id="ok" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3"></audio>
 <audio id="fail" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3"></audio>
@@ -106,21 +132,23 @@ let currentCommand="";
 let interval;
 
 /* 🔊 AZURA VOICE */
-let voiceEnabled=true;
 function azuraSpeak(text){
-if(!voiceEnabled) return;
 speechSynthesis.cancel();
-const msg=new SpeechSynthesisUtterance(text);
-msg.rate=0.9;
-msg.pitch=0.6;
-msg.lang="en-US";
-speechSynthesis.speak(msg);
-}
-function toggleVoice(){
-voiceEnabled=!voiceEnabled;
+const u=new SpeechSynthesisUtterance(text);
+u.rate=0.95;
+u.pitch=0.8;
+u.volume=1;
+speechSynthesis.speak(u);
 }
 
-/* COMMAND SET */
+/* START GAME (USER ACTION) */
+function startGame(){
+document.getElementById("startScreen").style.display="none";
+azuraSpeak("Azura terminal activated. Welcome hacker.");
+init();
+}
+
+/* COMMAND LEVELS */
 const levels=[
 {cmd:"azura.unlock",msg:"AZURA AI CONNECTED"},
 {cmd:"init access",msg:"SYSTEM ACCESS INITIALIZED"},
@@ -142,16 +170,14 @@ time=10;
 timerEl.innerText="⏱ "+time+"s";
 currentCommand=levels[level-1].cmd;
 
-log(`<br>> LEVEL ${level}`);
+log(`<br>▶ LEVEL ${level}`);
 log(`Type command: <b>${currentCommand}</b>`);
 azuraSpeak("Level "+level+". Type the command.");
 
 interval=setInterval(()=>{
 time--;
 timerEl.innerText="⏱ "+time+"s";
-if(time<=0){
-end(false);
-}
+if(time<=0) end(false);
 },1000);
 }
 
@@ -161,21 +187,20 @@ if(win){
 score+=100;
 document.getElementById("ok").play();
 log("ACCESS GRANTED ✔","success");
-azuraSpeak("Access granted. Proceeding.");
+azuraSpeak("Access granted.");
 level++;
 if(level<=levels.length){
 setTimeout(startLevel,1200);
 }else{
 log(`<br>🏆 ALL LEVELS CLEARED`);
 log(`FINAL SCORE: <b>${score}</b>`);
-azuraSpeak("All systems unlocked. Mission complete.");
+azuraSpeak("All levels completed. You are elite.");
 saveScore();
 }
 }else{
 document.getElementById("fail").play();
 log("ACCESS DENIED ✖","fail");
-azuraSpeak("Access denied. Security breach detected.");
-log("GAME OVER");
+azuraSpeak("Access denied. System locked.");
 saveScore();
 }
 }
@@ -186,11 +211,8 @@ if(e.key==="Enter"){
 const val=input.value.trim().toLowerCase();
 log("&gt; "+val);
 input.value="";
-if(val===currentCommand){
-end(true);
-}else{
-end(false);
-}
+if(val===currentCommand) end(true);
+else end(false);
 }
 });
 
@@ -206,19 +228,19 @@ function saveScore(){
 let data=JSON.parse(localStorage.getItem("azuraScores")||"[]");
 data.push({score, date:new Date().toLocaleString()});
 localStorage.setItem("azuraScores",JSON.stringify(data));
-log("<br>📊 Leaderboard (local):");
+log("<br>📊 Leaderboard:");
 data.slice(-5).reverse().forEach(s=>{
 log(`• ${s.score} pts — ${s.date}`);
 });
 }
 
-/* INIT */
+function init(){
 log("Reinitializing...");
-azuraSpeak("Azura terminal online.");
 setTimeout(()=>{
 log("AZURA SECURITY SYSTEM ONLINE");
 startLevel();
 },1000);
+}
 </script>
 
 </body>
