@@ -2,57 +2,56 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>AZURA AI 🤖</title>
+<title>AzamGuruYT</title>
 
+<link rel="icon" href="FEVICON2.0.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="AZURA AI – Advanced Personal AI Assistant by AzamGuruYT">
-<meta name="author" content="AzamGuruYT">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box}
-
+/* ===== SAME ORIGINAL CSS (UNCHANGED) ===== */
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
+background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1b3c4a);
+background-size:400% 400%;
+animation:gradientBG 15s ease infinite;
 color:#fff;
-height:100vh;
-overflow:hidden;
-display:flex;
-flex-direction:column;
-background:#000;
+text-align:center;
+overflow-x:hidden;
 }
 
-/* ===== LIVE BACKGROUND ===== */
-.live-bg{
-position:fixed;
-inset:-20%;
-background:
-radial-gradient(circle at 20% 30%, rgba(0,242,255,.22), transparent 40%),
-radial-gradient(circle at 80% 70%, rgba(255,0,150,.22), transparent 45%),
-linear-gradient(120deg,#0f2027,#203a43,#2c5364);
-background-size:200% 200%;
-animation:bgMove 22s ease-in-out infinite;
-z-index:-4;
+@keyframes gradientBG<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AzamGuruYT</title>
+
+<link rel="icon" href="FEVICON2.0.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1b3c4a);
+background-size:400% 400%;
+animation:gradientBG 15s ease infinite;
+color:#fff;
+text-align:center;
+overflow-x:hidden;
 }
 
-@keyframes bgMove{
-0%{transform:translate(0,0) scale(1)}
-50%{transform:translate(-4%,-3%) scale(1.05)}
-100%{transform:translate(0,0) scale(1)}
+@keyframes gradientBG{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
 
-/* NOISE */
-.live-noise{
-position:fixed;
-inset:0;
-background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-pointer-events:none;
-z-index:-3;
-}
-
-/* ===== FLOATING PARTICLES ===== */
+/* PARTICLE CANVAS */
 #particles{
 position:fixed;
 top:0;
@@ -60,235 +59,447 @@ left:0;
 width:100%;
 height:100%;
 pointer-events:none;
-z-index:-2;
+z-index:-1;
 }
 
-/* ===== HEADER ===== */
-header{
-padding:14px;
-text-align:center;
-background:rgba(0,0,0,.65);
-backdrop-filter:blur(14px);
-border-bottom:1px solid rgba(0,242,255,.3);
-position:relative;
-}
-header h1{
-margin:0;
-color:#00f2ff;
-font-size:22px;
-}
-header span{
-font-size:12px;
-opacity:.7;
-}
-
-.clear{
-position:absolute;
-top:16px;
-right:16px;
-font-size:11px;
-color:#00f2ff;
-cursor:pointer;
-opacity:.8;
-}
-
-/* ===== CHAT ===== */
-.chat{
-flex:1;
-padding:20px;
-overflow-y:auto;
+/* NAVBAR */
+.navbar{
+position:sticky;
+top:0;
+z-index:999;
 display:flex;
-flex-direction:column;
-gap:14px;
-}
-
-.msg{
-max-width:75%;
-padding:14px 16px;
-border-radius:16px;
-font-size:14px;
-line-height:1.5;
-animation:fadeUp .3s ease;
-}
-
-.user{
-align-self:flex-end;
-background:linear-gradient(135deg,#00f2ff,#0077ff);
-color:#000;
-border-bottom-right-radius:4px;
-}
-
-.bot{
-align-self:flex-start;
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(10px);
-border:1px solid rgba(0,242,255,.25);
-border-bottom-left-radius:4px;
-}
-
-.time{
-font-size:10px;
-opacity:.6;
-margin-top:4px;
-}
-
-/* ===== INPUT ===== */
-.input{
-display:flex;
-gap:10px;
-padding:14px;
-background:rgba(0,0,0,.75);
+justify-content:space-between;
+align-items:center;
+padding:14px 30px;
+background:rgba(15,32,39,.75);
 backdrop-filter:blur(12px);
 }
-.input input{
-flex:1;
-padding:12px 16px;
-border-radius:25px;
-border:none;
-outline:none;
-font-size:14px;
-}
-.input button{
-padding:12px 20px;
-border-radius:25px;
-border:none;
-cursor:pointer;
+.nav-logo{color:#00f2ff;font-weight:700;font-size:20px}
+.nav-links{list-style:none;display:flex;gap:22px;margin:0;padding:0}
+.nav-links a{color:#fff;text-decoration:none;position:relative}
+.nav-links a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-6px;
+width:0%;
+height:2px;
 background:#00f2ff;
-color:#000;
-font-weight:600;
 transition:.3s;
 }
-.input button:hover{
-box-shadow:0 0 20px rgba(0,242,255,.8);
-transform:scale(1.05);
+.nav-links a:hover::after{width:100%}
+
+/* VERIFIED */
+.verified{display:inline-flex;gap:6px;color:#00f2ff;font-weight:600}
+.verified-badge{
+width:18px;height:18px;border-radius:50%;
+background:#00f2ff;color:#000;font-size:12px;
+display:flex;align-items:center;justify-content:center;
+box-shadow:0 0 14px rgba(0,242,255,.9);
+animation:pulse 2s infinite;
+}
+@keyframes pulse{
+0%{box-shadow:0 0 10px rgba(0,242,255,.6)}
+50%{box-shadow:0 0 18px rgba(0,242,255,1)}
+100%{box-shadow:0 0 10px rgba(0,242,255,.6)}
 }
 
-.typing{
-font-size:12px;
-opacity:.7;
-font-style:italic;
+/* GLOWS */
+.glow{
+position:fixed;width:300px;height:300px;
+filter:blur(120px);border-radius:50%;
+z-index:-2;animation:float 12s infinite alternate;
+}
+.glow.one{top:10%;left:10%;background:rgba(0,255,255,.25)}
+.glow.two{bottom:10%;right:10%;background:rgba(255,0,150,.25)}
+@keyframes float{from{transform:translateY(0)}to{transform:translateY(-80px)}}
+
+/* MOUSE GLOW */
+.mouse-glow{
+position:fixed;width:220px;height:220px;
+background:radial-gradient(circle,rgba(0,255,255,.45),transparent 70%);
+filter:blur(40px);pointer-events:none;
+transform:translate(-50%,-50%);
+z-index:-1;
 }
 
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(10px)}
-to{opacity:1;transform:translateY(0)}
+.card{
+background:rgba(255,255,255,.08);
+padding:35px;border-radius:18px;
+margin:40px auto;max-width:900px;
+transition:.4s;
+}
+.card:hover{transform:translateY(-8px)}
+
+.btn{
+display:inline-block;margin:10px;
+padding:14px 30px;border-radius:30px;
+font-weight:bold;color:white;text-decoration:none;
+transition:.3s;
+}
+.btn-youtube{background:#ff0000}
+.btn-instagram{background:#e1306c}
+.btn-azura{
+background:linear-gradient(135deg,#00f2ff,#00ffa6);
+color:#000;box-shadow:0 0 25px rgba(0,242,255,.6);
+}
+
+.stats{display:flex;justify-content:center;gap:30px;flex-wrap:wrap}
+.stat-box{background:rgba(255,255,255,.12);padding:30px;width:220px;border-radius:16px}
+.stat-box h3{color:#00f2ff;font-size:38px}
+
+iframe{
+width:100%;max-width:720px;height:405px;
+border-radius:14px;border:none;
+}
+
+.whatsapp{
+position:fixed;bottom:20px;right:20px;
+background:#25D366;padding:14px 22px;
+border-radius:50px;color:white;text-decoration:none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="live-bg"></div>
-<div class="live-noise"></div>
 <canvas id="particles"></canvas>
 
-<header>
-<h1>🤖 AZURA AI</h1>
-<span>Advanced AI Assistant • by AzamGuruYT</span>
-<div class="clear" onclick="clearChat()">Clear Chat</div>
+<nav class="navbar">
+<div class="nav-logo">AzamGuruYT</div>
+<ul class="nav-links">
+<li><a href="#home">Home</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#video">Video</a></li>
+</ul>
+</nav>
+
+<div class="glow one"></div>
+<div class="glow two"></div>
+<div class="mouse-glow" id="mouseGlow"></div>
+
+<header id="home" class="card">
+<h1>Welcome to AzamGuruYT 🚀</h1>
+<div class="verified">Verified Creator <span class="verified-badge">✔</span></div>
+<p>Content Creator • Learning • Tech • Growth</p>
+<a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT">▶ YouTube</a>
+<a class="btn btn-instagram" href="https://www.instagram.com/azamguruyt">📸 Instagram</a><br><br>
+<a class="btn btn-azura" href="azura.html">🤖 Talk to AZURA AI</a>
 </header>
 
-<div class="chat" id="chat"></div>
-
-<div class="input">
-<input id="input" placeholder="Ask GK, Maths or About Azam..." />
-<button onclick="send()">Send</button>
+<section id="about" class="card">
+<h2>About Me</h2>
+<p>Hi, I’m Azam 👋<br>I create content related to technology, learning & growth.</p>
+<div class="stats">
+<div class="stat-box"><h3>1017</h3><p>YouTube Subscribers</p></div>
+<div class="stat-box"><h3>19556</h3><p>Instagram Followers</p></div>
 </div>
+</section>
+
+<section id="video" class="card">
+<h2>Latest YouTube Video</h2>
+<iframe src="https://www.youtube.com/embed/se7baNEI55U" allowfullscreen></iframe>
+</section>
+
+<footer>© 2026 AzamGuruYT | Powered by AZURA</footer>
+<a class="whatsapp" href="https://wa.me/9560635855">💬 WhatsApp</a>
 
 <script>
-/* ===== PARTICLES ===== */
+/* MOUSE GLOW */
+const glow=document.getElementById("mouseGlow");
+document.addEventListener("mousemove",e=>{
+glow.style.left=e.clientX+"px";
+glow.style.top=e.clientY+"px";
+});
+
+/* PARTICLES */
 const canvas=document.getElementById("particles");
 const ctx=canvas.getContext("2d");
-let particles=[];
+let particles=[],mouse={x:null,y:null,radius:120};
 
 function resize(){
-canvas.width=innerWidth;
-canvas.height=innerHeight;
+canvas.width=innerWidth;canvas.height=innerHeight;
 }
-resize();
-addEventListener("resize",resize);
+resize();addEventListener("resize",resize);
+
+addEventListener("mousemove",e=>{
+mouse.x=e.clientX;mouse.y=e.clientY;
+});
+addEventListener("mouseleave",()=>mouse.x=null);
 
 class Particle{
 constructor(){
 this.x=Math.random()*canvas.width;
 this.y=Math.random()*canvas.height;
-this.r=Math.random()*2+0.5;
-this.vx=(Math.random()-.5)*0.3;
-this.vy=(Math.random()-.5)*0.3;
-this.a=Math.random()*0.5+0.2;
-this.c=Math.random()>.5?"0,242,255":"255,0,150";
+this.baseX=this.x;this.baseY=this.y;
+this.size=Math.random()*2+1;
+this.color=Math.random()>.5?"0,242,255":"255,0,150";
+this.density=Math.random()*30+10;
 }
 draw(){
-ctx.beginPath();
-ctx.fillStyle=`rgba(${this.c},${this.a})`;
-ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
-ctx.fill();
+ctx.fillStyle=`rgba(${this.color},0.8)`;
+ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();
 }
 update(){
-this.x+=this.vx;
-this.y+=this.vy;
-if(this.x<0||this.x>canvas.width) this.vx*=-1;
-if(this.y<0||this.y>canvas.height) this.vy*=-1;
+if(mouse.x){
+let dx=mouse.x-this.x,dy=mouse.y-this.y;
+let dist=Math.sqrt(dx*dx+dy*dy);
+if(dist<mouse.radius){
+this.x-=dx/this.density;
+this.y-=dy/this.density;
+}else{
+this.x+=(this.baseX-this.x)/20;
+this.y+=(this.baseY-this.y)/20;
+}
+}
 this.draw();
 }
 }
 
-for(let i=0;i<90;i++) particles.push(new Particle());
+for(let i=0;i<90;i++)particles.push(new Particle());
 
-(function animate(){
+function animate(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
 particles.forEach(p=>p.update());
 requestAnimationFrame(animate);
-})();
+}
+animate();
+</script>
 
-/* ===== CHAT LOGIC ===== */
-const chat=document.getElementById("chat");
-const input=document.getElementById("input");
+</body>
+</html>
 
-const knowledge=[
-{keys:["who made","creator"],ans:"Created by <b>Azam (AzamGuruYT)</b> 🚀"},
-{keys:["who are you"],ans:"I am <b>AZURA AI</b> 🤖"},
-{keys:["capital of india"],ans:"Capital of India is <b>New Delhi</b> 🇮🇳"}
-];
-
-function timeNow(){
-return new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
 
-function addMessage(t,type){
-const d=document.createElement("div");
-d.className="msg "+type;
-d.innerHTML=t+`<div class="time">${timeNow()}</div>`;
-chat.appendChild(d);
-chat.scrollTop=chat.scrollHeight;
+.navbar{
+position:sticky;
+top:0;
+z-index:999;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 30px;
+background:rgba(15,32,39,.75);
+backdrop-filter:blur(12px);
 }
 
-function send(){
-const t=input.value.trim();
-if(!t) return;
-addMessage(t,"user");
-input.value="";
-setTimeout(()=>addMessage(ai(t),"bot"),700);
+.nav-logo{color:#00f2ff;font-weight:700;font-size:20px}
+
+.nav-links{list-style:none;display:flex;gap:22px;margin:0;padding:0}
+.nav-links a{color:#fff;text-decoration:none;position:relative}
+.nav-links a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-6px;
+width:0%;
+height:2px;
+background:#00f2ff;
+transition:.3s;
+}
+.nav-links a:hover::after{width:100%}
+
+.verified{
+display:inline-flex;
+align-items:center;
+gap:6px;
+color:#00f2ff;
+font-weight:600;
 }
 
-function ai(t){
-t=t.toLowerCase();
-for(let k of knowledge)
-for(let w of k.keys)
-if(t.includes(w)) return k.ans;
-
-if(/^[0-9+\-*/(). ]+$/.test(t))
-return "🧮 Answer: <b>"+eval(t)+"</b>";
-
-return "🤔 Ask me GK, Maths or About Azam!";
+.verified-badge{
+width:18px;height:18px;
+border-radius:50%;
+background:#00f2ff;
+color:#000;
+font-size:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 0 14px rgba(0,242,255,.9);
+animation:pulse 2s infinite;
 }
 
-function clearChat(){
-chat.innerHTML="";
-addMessage("Chat cleared 🧹","bot");
+@keyframes pulse{
+0%{box-shadow:0 0 10px rgba(0,242,255,.6)}
+50%{box-shadow:0 0 18px rgba(0,242,255,1)}
+100%{box-shadow:0 0 10px rgba(0,242,255,.6)}
 }
 
-addMessage("Welcome 👋 I’m <b>AZURA AI</b> ✨","bot");
+.glow{
+position:fixed;
+width:300px;height:300px;
+filter:blur(120px);
+border-radius:50%;
+z-index:-1;
+animation:float 12s infinite alternate;
+}
+.glow.one{top:10%;left:10%;background:rgba(0,255,255,.25)}
+.glow.two{bottom:10%;right:10%;background:rgba(255,0,150,.25)}
+
+@keyframes float{
+from{transform:translateY(0)}
+to{transform:translateY(-80px)}
+}
+
+.mouse-glow{
+position:fixed;
+width:220px;height:220px;
+background:radial-gradient(circle,rgba(0,255,255,.45),transparent 70%);
+filter:blur(40px);
+pointer-events:none;
+transform:translate(-50%,-50%);
+}
+
+.card{
+background:rgba(255,255,255,.08);
+padding:35px;
+border-radius:18px;
+margin:40px auto;
+max-width:900px;
+transition:.4s;
+}
+.card:hover{transform:translateY(-8px)}
+
+.btn{
+display:inline-block;
+margin:10px;
+padding:14px 30px;
+border-radius:30px;
+font-weight:bold;
+color:white;
+text-decoration:none;
+transition:.3s;
+}
+
+.btn-youtube{background:#ff0000}
+.btn-instagram{background:#e1306c}
+
+/* 🔥 AZURA BUTTON */
+.btn-azura{
+background:linear-gradient(135deg,#00f2ff,#00ffa6);
+color:#000;
+box-shadow:0 0 25px rgba(0,242,255,.6);
+}
+.btn-azura:hover{transform:scale(1.08)}
+
+.stats{
+display:flex;
+justify-content:center;
+gap:30px;
+flex-wrap:wrap;
+}
+
+.stat-box{
+background:rgba(255,255,255,.12);
+padding:30px;
+width:220px;
+border-radius:16px;
+}
+
+.stat-box h3{color:#00f2ff;font-size:38px}
+
+iframe{
+width:100%;
+max-width:720px;
+height:405px;
+border-radius:14px;
+border:none;
+}
+
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+padding:14px 22px;
+border-radius:50px;
+color:white;
+text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+<div class="nav-logo">AzamGuruYT</div>
+<ul class="nav-links">
+<li><a href="#home">Home</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#video">Video</a></li>
+</ul>
+</nav>
+
+<div class="glow one"></div>
+<div class="glow two"></div>
+<div class="mouse-glow" id="mouseGlow"></div>
+
+<header id="home" class="card">
+<h1>Welcome to AzamGuruYT 🚀</h1>
+
+<div class="verified">
+Verified Creator <span class="verified-badge">✔</span>
+</div>
+
+<p>Content Creator • Learning • Tech • Growth</p>
+
+<a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT" target="_blank">▶ YouTube</a>
+<a class="btn btn-instagram" href="https://www.instagram.com/azamguruyt" target="_blank">📸 Instagram</a>
+
+<br><br>
+
+<!-- ✅ AZURA AI BUTTON -->
+<a class="btn btn-azura" href="azura.html">🤖 Talk to AZURA AI</a>
+</header>
+
+<section id="about" class="card">
+<h2>About Me</h2>
+<p>Hi, I’m Azam 👋<br>I create content related to technology, learning & growth.</p>
+
+<div class="stats">
+<div class="stat-box">
+<h3 class="counter" data-target="1017">0</h3>
+<p>YouTube Subscribers</p>
+</div>
+<div class="stat-box">
+<h3 class="counter" data-target="19556">0</h3>
+<p>Instagram Followers</p>
+</div>
+</div>
+</section>
+
+<section id="video" class="card">
+<h2>Latest YouTube Video</h2>
+<iframe src="https://www.youtube.com/embed/se7baNEI55U" allowfullscreen></iframe>
+</section>
+
+<footer>© 2026 AzamGuruYT | Powered by AZURA</footer>
+
+<a class="whatsapp" href="https://wa.me/9560635855">💬 WhatsApp</a>
+
+<script>
+const glow=document.getElementById("mouseGlow");
+document.addEventListener("mousemove",e=>{
+glow.style.left=e.clientX+"px";
+glow.style.top=e.clientY+"px";
+});
+
+document.querySelectorAll(".counter").forEach(counter=>{
+const target=+counter.dataset.target;
+let start=0;
+function update(){
+start+=Math.ceil(target/100);
+if(start<target){
+counter.innerText=start;
+requestAnimationFrame(update);
+}else counter.innerText=target;
+}
+update();
+});
 </script>
 
 </body>
