@@ -2,230 +2,178 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>AZURA TERMINAL v3.1</title>
+<title>AZURA TERMINAL v4.0 | STABLE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="Azura.png">
+<link rel="icon" href="Azura.png">
 
 <style>
-body{
-margin:0;background:#000;font-family:monospace;color:#00ffcc;
-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;
-}
-#matrix{position:fixed;inset:0;z-index:-1}
+    body {
+        margin: 0; background: #000; font-family: 'Courier New', monospace; color: #00ffcc;
+        height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    #matrix { position: fixed; inset: 0; z-index: -1; }
 
-/* START */
-#startScreen{
-position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-background:#000;z-index:9999;
-}
-#startScreen button{
-padding:18px 32px;font-size:18px;background:#00ffcc;
-border:none;border-radius:40px;cursor:pointer;
-box-shadow:0 0 30px rgba(0,255,200,.9);
-}
+    #startScreen {
+        position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+        background: #000; z-index: 9999;
+    }
+    #startScreen button {
+        padding: 18px 32px; font-size: 18px; background: #00ffcc;
+        border: none; border-radius: 40px; cursor: pointer;
+        box-shadow: 0 0 30px rgba(0,255,200,.9); font-weight: bold;
+    }
 
-/* TERMINAL */
-.terminal{
-width:90%;max-width:900px;height:85vh;background:#020202;
-border-radius:14px;box-shadow:0 0 40px rgba(0,255,200,.6);
-display:flex;flex-direction:column;overflow:hidden;
-}
-.glitch{animation:glitch .25s linear 3}
-@keyframes glitch{
-0%{transform:translate(0)}
-25%{transform:translate(-2px,2px)}
-50%{transform:translate(2px,-2px)}
-75%{transform:translate(-2px,-2px)}
-100%{transform:translate(0)}
-}
-.header{padding:12px;background:#001b18;display:flex;justify-content:space-between}
-.screen{flex:1;padding:16px;overflow-y:auto}
-.line{margin:6px 0}
-.success{color:#00ff88}
-.fail{color:#ff3366}
-.input{display:flex;padding:12px;background:#001b18}
-.prompt{margin-right:8px}
-input{flex:1;background:transparent;border:none;color:#00ffcc;font-family:monospace}
+    .terminal {
+        width: 90%; max-width: 900px; height: 85vh; background: rgba(2, 2, 2, 0.95);
+        border-radius: 14px; box-shadow: 0 0 40px rgba(0,255,200,0.4);
+        display: flex; flex-direction: column; overflow: hidden; border: 1px solid #004d40;
+    }
+
+    .header { padding: 15px; background: #001b18; display: flex; justify-content: space-between; border-bottom: 1px solid #004d40; }
+    
+    .progress-wrapper { width: 100%; height: 4px; background: #002b26; }
+    #progress-bar { width: 0%; height: 100%; background: #00ffcc; transition: 0.5s; box-shadow: 0 0 10px #00ffcc; }
+
+    .screen { flex: 1; padding: 20px; overflow-y: auto; font-size: 14px; line-height: 1.6; }
+    .line { margin: 8px 0; }
+    .success { color: #00ff88; text-shadow: 0 0 5px #00ff88; }
+    .fail { color: #ff3366; }
+    .secret-msg { color: #ffcc00; font-weight: bold; text-shadow: 0 0 10px #ffcc00; }
+
+    .input-area { display: flex; padding: 15px; background: #001b18; border-top: 1px solid #004d40; }
+    .prompt { margin-right: 10px; color: #00ffcc; font-weight: bold; }
+    input { flex: 1; background: transparent; border: none; color: #fff; outline: none; font-family: monospace; font-size: 16px; }
+
+    .glitch { animation: glitchAni 0.3s linear; }
+    @keyframes glitchAni {
+        0% { transform: translate(0); }
+        20% { transform: translate(-5px, 5px); }
+        40% { transform: translate(-5px, -5px); }
+        60% { transform: translate(5px, 5px); }
+        80% { transform: translate(5px, -5px); }
+        100% { transform: translate(0); }
+    }
 </style>
 </head>
-
 <body>
 
 <canvas id="matrix"></canvas>
-
-<div id="startScreen">
-<button onclick="startGame()">▶ START TERMINAL</button>
-</div>
-
-<div class="terminal" id="terminal">
-<div class="header">
-<span>AZURA TERMINAL v3.1</span>
-<span id="timer">⏱ 10s</span>
-</div>
-<div class="screen" id="screen"></div>
-<div class="input">
-<span class="prompt">&gt;</span>
-<input id="cmd" placeholder="type command here..." />
-</div>
-</div>
 
 <audio id="key" src="https://assets.mixkit.co/sfx/preview/mixkit-keyboard-click-1124.mp3"></audio>
 <audio id="ok" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3"></audio>
 <audio id="fail" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3"></audio>
 
+<div id="startScreen">
+    <button onclick="startGame()">▶ INITIALIZE BREACH</button>
+</div>
+
+<div class="terminal" id="terminal">
+    <div class="header">
+        <span>AZURA TERMINAL v4.0</span>
+        <span id="timer">⏱ 10s</span>
+    </div>
+    <div class="progress-wrapper"><div id="progress-bar"></div></div>
+    <div class="screen" id="screen"></div>
+    <div class="input-area">
+        <span class="prompt">guest@azura:~$</span>
+        <input id="cmd" placeholder="Enter override command..." autocomplete="off" />
+    </div>
+</div>
+
 <script>
-/* MATRIX */
-const c=matrix,ctx=c.getContext("2d");
-function resize(){c.width=innerWidth;c.height=innerHeight}
-resize();addEventListener("resize",resize);
-const chars="01AZURA",cols=Math.floor(c.width/16),drops=Array(cols).fill(1);
-setInterval(()=>{
-ctx.fillStyle="rgba(0,0,0,.05)";
-ctx.fillRect(0,0,c.width,c.height);
-ctx.fillStyle="#00ff99";ctx.font="16px monospace";
-drops.forEach((y,i)=>{
-ctx.fillText(chars[Math.random()*chars.length|0],i*16,y*16);
-drops[i]=y*16>c.height&&Math.random()>0.975?0:y+1;
-});
-},50);
+const c=document.getElementById("matrix"), ctx=c.getContext("2d");
+function resize(){c.width=window.innerWidth; c.height=window.innerHeight;}
+resize(); window.addEventListener("resize",resize);
+const chars="01AZURA", cols=Math.floor(c.width/16), drops=Array(cols).fill(1);
+function drawMatrix(){
+    ctx.fillStyle="rgba(0,0,0,.05)"; ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle="#00ff99"; ctx.font="16px monospace";
+    drops.forEach((y,i)=>{
+        ctx.fillText(chars[Math.random()*chars.length|0], i*16, y*16);
+        drops[i]=y*16>c.height&&Math.random()>0.975?0:y+1;
+    });
+}
+setInterval(drawMatrix, 50);
 
-/* GAME */
-const screen=document.getElementById("screen"),
-input=document.getElementById("cmd"),
-timerEl=document.getElementById("timer"),
-terminal=document.getElementById("terminal");
+const screen=document.getElementById("screen"), input=document.getElementById("cmd"),
+      timerEl=document.getElementById("timer"), bar=document.getElementById("progress-bar"),
+      term=document.getElementById("terminal");
 
-let level=1,time=10,interval;
-let cracking=false;
-let correctAnswer=null;
+let level=1, time=10, interval, cracking=false, correctAnswer=null;
+const levels=["azura.unlock", "init access", "decrypt core", "grant admin", "trace ip", "crack password"];
 
-const levels=[
-"azura.unlock",
-"init access",
-"decrypt core",
-"grant admin",
-"trace ip",
-"crack password"
-];
-
-function speak(t){
-speechSynthesis.cancel();
-speechSynthesis.speak(new SpeechSynthesisUtterance(t));
+function log(t,cl=""){
+    const d=document.createElement("div"); d.className="line "+cl;
+    d.innerHTML=t; screen.appendChild(d); screen.scrollTop=screen.scrollHeight;
 }
 
-function log(t,c=""){
-const d=document.createElement("div");
-d.className="line "+c;
-d.innerHTML=t;
-screen.appendChild(d);
-screen.scrollTop=screen.scrollHeight;
+function speak(t){
+    speechSynthesis.cancel();
+    speechSynthesis.speak(new SpeechSynthesisUtterance(t));
 }
 
 function glitch(){
-terminal.classList.add("glitch");
-setTimeout(()=>terminal.classList.remove("glitch"),300);
+    term.classList.add("glitch");
+    setTimeout(()=>term.classList.remove("glitch"), 300);
 }
+
+function updateProgress(){ bar.style.width = ((level-1)/6*100) + "%"; }
 
 function startLevel(){
-clearInterval(interval);
-time=level===6?15:10;
-timerEl.textContent="⏱ "+time+"s";
-log(`<br>▶ LEVEL ${level}`);
-log(`Type command: <b>${levels[level-1]}</b>`);
-speak("Level "+level);
-interval=setInterval(()=>{
-time--;timerEl.textContent="⏱ "+time+"s";
-if(time<=0) gameOver();
-},1000);
-}
-
-function gameOver(){
-clearInterval(interval);
-log("ACCESS DENIED","fail");
-speak("Access denied");
+    clearInterval(interval);
+    time = level === 6 ? 20 : 10;
+    timerEl.textContent = "⏱ "+time+"s";
+    log(`<br>▶ [LEVEL ${level}] STATUS: READY`);
+    log(`COMMAND REQUIRED: <b style="color:#fff">${levels[level-1]}</b>`);
+    speak("Level " + level);
+    interval = setInterval(()=>{
+        time--; timerEl.textContent = "⏱ "+time+"s";
+        if(time<=0) { 
+            clearInterval(interval);
+            log(">> CRITICAL ERROR: SESSION EXPIRED", "fail");
+            speak("Access denied");
+        }
+    },1000);
 }
 
 function startGame(){
-startScreen.style.display="none";
-log("AZURA SYSTEM ONLINE");
-startLevel();
+    document.getElementById("startScreen").style.display="none";
+    log("AZURA SYSTEM ONLINE... BYPASSING SECURITY...");
+    startLevel();
 }
 
-/* INPUT */
-input.addEventListener("keydown",e=>{
-document.getElementById("key").play();
-if(e.key==="Enter"){
-const v=input.value.trim().toLowerCase();
-log("&gt; "+v);
-input.value="";
+input.addEventListener("keydown", e => {
+    document.getElementById("key").play();
+    if(e.key === "Enter"){
+        const v = input.value.trim().toLowerCase();
+        log("guest@azura:~$ " + v);
+        input.value = "";
 
-/* LEVEL JUMP */
-if(v.startsWith("next level:")){
-const n=parseInt(v.split(":")[1]);
-if(n>=1 && n<=levels.length){
-level=n;glitch();speak("Jumping to level "+level);startLevel();
-}
-return;
-}
+        if(v === "azam") {
+            log("[AZAM DETECTED] - GOD MODE ENABLED", "secret-msg");
+            time += 60; timerEl.textContent = "⏱ "+time+"s";
+            speak("Welcome Master Azam");
+            return;
+        }
 
-/* LEVEL 5 */
-if(level===5 && v==="trace ip"){
-glitch();
-log("Tracing IP: 192.168."+Math.floor(Math.random()*255)+"."+Math.floor(Math.random()*255));
-setTimeout(()=>{
-log("IP TRACE COMPLETE","success");
-speak("IP traced");
-level++;startLevel();
-},1500);
-return;
-}
-
-/* 🔐 LEVEL 6 — MATH PASSWORD */
-if(level===6){
-if(v==="crack password" && !cracking){
-cracking=true;
-const a=Math.floor(Math.random()*50)+10;
-const b=Math.floor(Math.random()*50)+10;
-correctAnswer=a+b;
-log("Encrypted hash: ####");
-log(`Solve: <b>${a} + ${b}</b>`);
-log("Enter answer");
-speak("Solve the math problem");
-return;
-}
-if(cracking){
-if(parseInt(v)===correctAnswer){
-glitch();
-log("CORRECT ANSWER","success");
-log("ACCESS GRANTED","success");
-document.getElementById("ok").play();
-speak("Password cracked");
-cracking=false;
-level++;
-log("🏆 ALL LEVELS CLEARED");
-}else{
-log("WRONG ANSWER","fail");
-document.getElementById("fail").play();
-speak("Wrong answer");
-}
-return;
-}
-}
-
-/* NORMAL LEVELS */
-if(v===levels[level-1]){
-document.getElementById("ok").play();
-glitch();log("ACCESS GRANTED","success");speak("Access granted");
-level++;
-if(level<=levels.length)setTimeout(startLevel,1000);
-else log("🏆 ALL LEVELS CLEARED");
-}else{
-document.getElementById("fail").play();
-gameOver();
-}
-}
+        if(v === levels[level-1]){
+            document.getElementById("ok").play();
+            log(">> SUCCESS: LAYER BYPASSED", "success");
+            level++; updateProgress();
+            if(level <= levels.length) {
+                setTimeout(startLevel, 800);
+            } else {
+                log("<br>🏆 [SYSTEM BREACHED SUCCESSFUL]", "success");
+                log(">> ALL DATA ACCESSED. WELCOME ADMIN.", "success");
+                speak("Success. You are now the admin.");
+            }
+        } else {
+            document.getElementById("fail").play();
+            log(">> ERROR: ACCESS_DENIED_0x00" + level, "fail");
+            glitch();
+        }
+    }
 });
 </script>
-
 </body>
 </html>
