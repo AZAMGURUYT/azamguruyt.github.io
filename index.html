@@ -2,273 +2,148 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>AzamGuruYT</title>
-
+<title>AzamGuruYT | Official Portfolio</title>
 <link rel="icon" href="FEVICON2.0.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-
-
-<style>
-/* ===== SAME ORIGINAL CSS (UNCHANGED) ===== */
-body{
-margin:0;
-font-family:'Poppins',sans-serif;
-background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1b3c4a);
-background-size:400% 400%;
-animation:gradientBG 15s ease infinite;
-color:#fff;
-text-align:center;
-overflow-x:hidden;
-}
-
-@keyframes gradientBG<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>AzamGuruYT</title>
-
-<link rel="icon" href="FEVICON2.0.png">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
-body{
-margin:0;
-font-family:'Poppins',sans-serif;
-background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#1b3c4a);
-background-size:400% 400%;
-animation:gradientBG 15s ease infinite;
-color:#fff;
-text-align:center;
-overflow-x:hidden;
+:root {
+    --gold: #c5a059;
+    --cyan: #00f2ff;
+    --glass: rgba(255, 255, 255, 0.05);
 }
 
-@keyframes gradientBG{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
+body {
+    margin: 0; font-family: 'Poppins', sans-serif;
+    background: #050505; color: #fff; text-align: center; overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
-/* PARTICLE CANVAS */
-#particles{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-z-index:-1;
+/* SLEEK NAVBAR */
+.navbar {
+    position: sticky; top: 0; z-index: 999;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 8%; background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(15px); border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+}
+.nav-logo { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 24px; letter-spacing: 3px; }
+
+/* PREMIUM CARDS */
+.card {
+    background: var(--glass); padding: 40px; border-radius: 20px;
+    margin: 40px auto; max-width: 900px;
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px); transition: 0.5s;
+}
+.card:hover { border-color: var(--gold); transform: scale(1.02); }
+
+/* ANIMATED STATS */
+.stats { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
+.stat-box { 
+    background: rgba(197, 160, 89, 0.05); padding: 30px; width: 220px; 
+    border-radius: 16px; border: 1px solid rgba(197, 160, 89, 0.1); 
+}
+.stat-box h3 { color: var(--gold); font-size: 42px; margin: 0; font-family: 'Playfair Display', serif; }
+
+/* GLOWING BUTTONS */
+.btn-container { margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+.btn {
+    padding: 15px 35px; border-radius: 5px; font-weight: 600; text-decoration: none;
+    text-transform: uppercase; letter-spacing: 2px; font-size: 12px; transition: 0.4s;
+    border: 1px solid #fff; color: #fff;
+}
+.btn-gold { border-color: var(--gold); color: var(--gold); }
+.btn-gold:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px rgba(197,160,89,0.4); }
+
+/* TERMINAL CARD */
+.terminal-card {
+    background: linear-gradient(135deg, rgba(0,242,255,0.1), rgba(0,0,0,0.5));
+    border-color: var(--cyan);
 }
 
-/* NAVBAR */
-.navbar{
-position:sticky;
-top:0;
-z-index:999;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:14px 30px;
-background:rgba(15,32,39,.75);
-backdrop-filter:blur(12px);
-}
-.nav-logo{color:#00f2ff;font-weight:700;font-size:20px}
-.nav-links{list-style:none;display:flex;gap:22px;margin:0;padding:0}
-.nav-links a{color:#fff;text-decoration:none;position:relative}
-.nav-links a::after{
-content:"";
-position:absolute;
-left:0;
-bottom:-6px;
-width:0%;
-height:2px;
-background:#00f2ff;
-transition:.3s;
-}
-.nav-links a:hover::after{width:100%}
+iframe { width: 100%; max-width: 800px; height: 450px; border-radius: 15px; border: 1px solid var(--gold); }
 
-/* VERIFIED */
-.verified{display:inline-flex;gap:6px;color:#00f2ff;font-weight:600}
-.verified-badge{
-width:18px;height:18px;border-radius:50%;
-background:#00f2ff;color:#000;font-size:12px;
-display:flex;align-items:center;justify-content:center;
-box-shadow:0 0 14px rgba(0,242,255,.9);
-animation:pulse 2s infinite;
-}
-@keyframes pulse{
-0%{box-shadow:0 0 10px rgba(0,242,255,.6)}
-50%{box-shadow:0 0 18px rgba(0,242,255,1)}
-100%{box-shadow:0 0 10px rgba(0,242,255,.6)}
-}
-
-/* GLOWS */
-.glow{
-position:fixed;width:300px;height:300px;
-filter:blur(120px);border-radius:50%;
-z-index:-2;animation:float 12s infinite alternate;
-}
-.glow.one{top:10%;left:10%;background:rgba(0,255,255,.25)}
-.glow.two{bottom:10%;right:10%;background:rgba(255,0,150,.25)}
-@keyframes float{from{transform:translateY(0)}to{transform:translateY(-80px)}}
-
-/* MOUSE GLOW */
-.mouse-glow{
-position:fixed;width:220px;height:220px;
-background:radial-gradient(circle,rgba(0,255,255,.45),transparent 70%);
-filter:blur(40px);pointer-events:none;
-transform:translate(-50%,-50%);
-z-index:-1;
-}
-
-.card{
-background:rgba(255,255,255,.08);
-padding:35px;border-radius:18px;
-margin:40px auto;max-width:900px;
-transition:.4s;
-}
-.card:hover{transform:translateY(-8px)}
-
-.btn{
-display:inline-block;margin:10px;
-padding:14px 30px;border-radius:30px;
-font-weight:bold;color:white;text-decoration:none;
-transition:.3s;
-}
-.btn-youtube{background:#ff0000}
-.btn-instagram{background:#e1306c}
-.btn-azura{
-background:linear-gradient(135deg,#00f2ff,#00ffa6);
-color:#000;box-shadow:0 0 25px rgba(0,242,255,.6);
-}
-
-.stats{display:flex;justify-content:center;gap:30px;flex-wrap:wrap}
-.stat-box{background:rgba(255,255,255,.12);padding:30px;width:220px;border-radius:16px}
-.stat-box h3{color:#00f2ff;font-size:38px}
-
-iframe{
-width:100%;max-width:720px;height:405px;
-border-radius:14px;border:none;
-}
-
-.whatsapp{
-position:fixed;bottom:20px;right:20px;
-background:#25D366;padding:14px 22px;
-border-radius:50px;color:white;text-decoration:none;
-}
+footer { padding: 40px; opacity: 0.5; font-size: 12px; letter-spacing: 2px; }
 </style>
 </head>
-
 <body>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-  <a class="btn btn-azura" href="hacker-terminal.html">
-💻 Terminal Challenge
-</a>
-
-<canvas id="particles"></canvas>
 
 <nav class="navbar">
-<div class="nav-logo">AzamGuruYT</div>
-<ul class="nav-links">
-<li><a href="#home">Home</a></li>
-<li><a href="#about">About</a></li>
-<li><a href="#video">Video</a></li>
-</ul>
+    <div class="nav-logo">AZAM GURU</div>
 </nav>
 
-<div class="glow one"></div>
-<div class="glow two"></div>
-<div class="mouse-glow" id="mouseGlow"></div>
-
-<header id="home" class="card">
-<h1>Welcome to AzamGuruYT 🚀</h1>
-<div class="verified">Verified Creator <span class="verified-badge">✔</span></div>
-<p>Content Creator • Learning • Tech • Growth</p>
-<a class="btn btn-youtube" href="https://www.youtube.com/@AZAMGURUYT">▶ YouTube</a>
-<a class="btn btn-instagram" href="https://www.instagram.com/azamguruyt">📸 Instagram</a><br><br>
-<a class="btn btn-azura" href="azura.html">🤖 Talk to AZURA AI</a>
+<header class="card">
+    <p style="letter-spacing: 5px; color: var(--gold);">OFFICIAL PORTFOLIO</p>
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 3.5rem;">The Creator Era</h1>
+    <div class="btn-container">
+        <a class="btn" href="https://www.youtube.com/@AZAMGURUYT">YouTube</a>
+        <a class="btn" href="https://www.instagram.com/azamguruyt">Instagram</a>
+        <a class="btn btn-gold" href="azura.html">Azura AI</a>
+    </div>
 </header>
 
-<section id="about" class="card">
-<h2>About Me</h2>
-<p>Hi, I’m Azam 👋<br>I create content related to technology, learning & growth.</p>
-<div class="stats">
-<div class="stat-box"><h3>1017</h3><p>YouTube Subscribers</p></div>
-<div class="stat-box"><h3>19556</h3><p>Instagram Followers</p></div>
-</div>
+<section class="card">
+    <h2 style="font-family: 'Playfair Display', serif; color: var(--gold);">Global Impact</h2>
+    <div class="stats">
+        <div class="stat-box">
+            <h3 class="counter" data-target="1017">0</h3>
+            <p>YouTube Subscribers</p>
+        </div>
+        <div class="stat-box">
+            <h3 class="counter" data-target="19556">0</h3>
+            <p>Instagram Followers</p>
+        </div>
+    </div>
 </section>
 
-<section id="video" class="card">
-<h2>Latest YouTube Video</h2>
-<iframe src="https://www.youtube.com/embed/se7baNEI55U" allowfullscreen></iframe>
+<section class="card terminal-card">
+    <h3 style="color: var(--cyan);">System Terminal</h3>
+    <p>Think you can beat the challenge?</p>
+    <a class="btn" style="border-color: var(--cyan); color: var(--cyan);" href="hacker-terminal.html">Start Challenge</a>
 </section>
 
-<footer>© 2026 AzamGuruYT | Powered by AZURA</footer>
-<a class="whatsapp" href="https://wa.me/9560635855">💬 WhatsApp</a>
+<section class="card">
+    <h2 style="margin-bottom: 20px;">Featured Content</h2>
+    <iframe src="https://www.youtube.com/embed/se7baNEI55U" allowfullscreen></iframe>
+</section>
+
+<footer>
+    © 2026 AZAM GURU | POWERED BY AZURA
+</footer>
 
 <script>
-/* MOUSE GLOW */
-const glow=document.getElementById("mouseGlow");
-document.addEventListener("mousemove",e=>{
-glow.style.left=e.clientX+"px";
-glow.style.top=e.clientY+"px";
-});
+    const counters = document.querySelectorAll('.counter');
+    const speed = 100; // Animation speed
 
-/* PARTICLES */
-const canvas=document.getElementById("particles");
-const ctx=canvas.getContext("2d");
-let particles=[],mouse={x:null,y:null,radius:120};
+    const animateCounters = () => {
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / speed;
 
-function resize(){
-canvas.width=innerWidth;canvas.height=innerHeight;
-}
-resize();addEventListener("resize",resize);
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(updateCount, 20);
+                } else {
+                    counter.innerText = target + (target > 1000 ? "+" : "");
+                }
+            };
+            updateCount();
+        });
+    };
 
-addEventListener("mousemove",e=>{
-mouse.x=e.clientX;mouse.y=e.clientY;
-});
-addEventListener("mouseleave",()=>mouse.x=null);
+    // Sirf tab chalao jab stats section screen par aaye
+    const observer = new IntersectionObserver((entries) => {
+        if(entries[0].isIntersecting) {
+            animateCounters();
+            observer.disconnect();
+        }
+    }, { threshold: 0.5 });
 
-class Particle{
-constructor(){
-this.x=Math.random()*canvas.width;
-this.y=Math.random()*canvas.height;
-this.baseX=this.x;this.baseY=this.y;
-this.size=Math.random()*2+1;
-this.color=Math.random()>.5?"0,242,255":"255,0,150";
-this.density=Math.random()*30+10;
-}
-draw(){
-ctx.fillStyle=`rgba(${this.color},0.8)`;
-ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();
-}
-update(){
-if(mouse.x){
-let dx=mouse.x-this.x,dy=mouse.y-this.y;
-let dist=Math.sqrt(dx*dx+dy*dy);
-if(dist<mouse.radius){
-this.x-=dx/this.density;
-this.y-=dy/this.density;
-}else{
-this.x+=(this.baseX-this.x)/20;
-this.y+=(this.baseY-this.y)/20;
-}
-}
-this.draw();
-}
-}
-
-for(let i=0;i<90;i++)particles.push(new Particle());
-
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-particles.forEach(p=>p.update());
-requestAnimationFrame(animate);
-}
-animate();
+    observer.observe(document.querySelector('.stats'));
 </script>
 
 </body>
