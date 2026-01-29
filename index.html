@@ -21,6 +21,22 @@ body {
     scroll-behavior: smooth;
 }
 
+/* 1. SCROLL PROGRESS BAR */
+.progress-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 4px;
+    background: transparent; z-index: 1001;
+}
+#scroll-bar {
+    height: 4px; background: var(--gold); width: 0%;
+    box-shadow: 0 0 10px var(--gold);
+}
+
+/* BACKGROUND DUST */
+#dustCanvas {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; pointer-events: none;
+}
+
 /* SLEEK NAVBAR */
 .navbar {
     position: sticky; top: 0; z-index: 999;
@@ -37,9 +53,9 @@ body {
     border: 1px solid rgba(255,255,255,0.1);
     backdrop-filter: blur(10px); transition: 0.5s;
 }
-.card:hover { border-color: var(--gold); transform: scale(1.02); }
+.card:hover { border-color: var(--gold); transform: scale(1.01); }
 
-/* ANIMATED STATS */
+/* STATS */
 .stats { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
 .stat-box { 
     background: rgba(197, 160, 89, 0.05); padding: 30px; width: 220px; 
@@ -47,28 +63,43 @@ body {
 }
 .stat-box h3 { color: var(--gold); font-size: 42px; margin: 0; font-family: 'Playfair Display', serif; }
 
-/* GLOWING BUTTONS */
+/* 2. ENHANCED GLOWING BUTTONS */
 .btn-container { margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
 .btn {
     padding: 15px 35px; border-radius: 5px; font-weight: 600; text-decoration: none;
     text-transform: uppercase; letter-spacing: 2px; font-size: 12px; transition: 0.4s;
-    border: 1px solid #fff; color: #fff;
+    border: 1px solid #fff; color: #fff; position: relative;
 }
+
+.btn-yt:hover { background: #ff0000; border-color: #ff0000; box-shadow: 0 0 25px rgba(255, 0, 0, 0.5); transform: translateY(-3px); }
+.btn-ig:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); border-color: transparent; box-shadow: 0 0 25px rgba(220, 39, 67, 0.5); transform: translateY(-3px); }
 .btn-gold { border-color: var(--gold); color: var(--gold); }
-.btn-gold:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px rgba(197,160,89,0.4); }
+.btn-gold:hover { background: var(--gold); color: #000; box-shadow: 0 0 30px rgba(197, 160, 89, 0.7); transform: translateY(-3px); }
 
 /* TERMINAL CARD */
-.terminal-card {
-    background: linear-gradient(135deg, rgba(0,242,255,0.1), rgba(0,0,0,0.5));
-    border-color: var(--cyan);
+.terminal-card { background: linear-gradient(135deg, rgba(0,242,255,0.05), rgba(0,0,0,0.5)); border-color: var(--cyan); }
+.btn-cyan { border-color: var(--cyan); color: var(--cyan); }
+.btn-cyan:hover { background: var(--cyan); color: #000; box-shadow: 0 0 25px rgba(0, 242, 255, 0.5); }
+
+/* 3. MUSIC TOGGLE CSS */
+.music-toggle {
+    position: fixed; bottom: 30px; right: 30px; z-index: 1002;
+    background: rgba(197, 160, 89, 0.1); border: 1px solid var(--gold);
+    color: var(--gold); padding: 12px; border-radius: 50%;
+    cursor: pointer; backdrop-filter: blur(10px);
+    transition: 0.3s; width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
 }
+.music-toggle:hover { background: var(--gold); color: #000; transform: scale(1.1); }
 
 iframe { width: 100%; max-width: 800px; height: 450px; border-radius: 15px; border: 1px solid var(--gold); }
-
 footer { padding: 40px; opacity: 0.5; font-size: 12px; letter-spacing: 2px; }
 </style>
 </head>
 <body>
+
+<div class="progress-container"><div id="scroll-bar"></div></div>
+<canvas id="dustCanvas"></canvas>
 
 <nav class="navbar">
     <div class="nav-logo">AZAM GURU</div>
@@ -78,8 +109,8 @@ footer { padding: 40px; opacity: 0.5; font-size: 12px; letter-spacing: 2px; }
     <p style="letter-spacing: 5px; color: var(--gold);">OFFICIAL PORTFOLIO</p>
     <h1 style="font-family: 'Playfair Display', serif; font-size: 3.5rem;">The Creator Era</h1>
     <div class="btn-container">
-        <a class="btn" href="https://www.youtube.com/@AZAMGURUYT">YouTube</a>
-        <a class="btn" href="https://www.instagram.com/azamguruyt">Instagram</a>
+        <a class="btn btn-yt" href="https://www.youtube.com/@AZAMGURUYT">YouTube</a>
+        <a class="btn btn-ig" href="https://www.instagram.com/azamguruyt">Instagram</a>
         <a class="btn btn-gold" href="azura.html">Azura AI</a>
     </div>
 </header>
@@ -101,7 +132,7 @@ footer { padding: 40px; opacity: 0.5; font-size: 12px; letter-spacing: 2px; }
 <section class="card terminal-card">
     <h3 style="color: var(--cyan);">System Terminal</h3>
     <p>Think you can beat the challenge?</p>
-    <a class="btn" style="border-color: var(--cyan); color: var(--cyan);" href="hacker-terminal.html">Start Challenge</a>
+    <a class="btn btn-cyan" href="hacker-terminal.html">Start Challenge</a>
 </section>
 
 <section class="card">
@@ -109,40 +140,89 @@ footer { padding: 40px; opacity: 0.5; font-size: 12px; letter-spacing: 2px; }
     <iframe src="https://www.youtube.com/embed/se7baNEI55U" allowfullscreen></iframe>
 </section>
 
-<footer>
-    © 2026 AZAM GURU | POWERED BY AZURA
-</footer>
+<footer>© 2026 AZAM GURU | POWERED BY AZURA</footer>
+
+<audio id="bgMusic" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" type="audio/mpeg">
+</audio>
+<button class="music-toggle" onclick="toggleMusic()"><i class="fas fa-volume-mute" id="musicIcon"></i></button>
 
 <script>
-    const counters = document.querySelectorAll('.counter');
-    const speed = 100; // Animation speed
-
-    const animateCounters = () => {
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                const increment = target / speed;
-
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + increment);
-                    setTimeout(updateCount, 20);
-                } else {
-                    counter.innerText = target + (target > 1000 ? "+" : "");
-                }
-            };
-            updateCount();
-        });
+    /* SCROLL PROGRESS */
+    window.onscroll = function() {
+        let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        document.getElementById("scroll-bar").style.width = (winScroll / height) * 100 + "%";
     };
 
-    // Sirf tab chalao jab stats section screen par aaye
+    /* MUSIC LOGIC */
+    const bgMusic = document.getElementById("bgMusic");
+    const musicIcon = document.getElementById("musicIcon");
+    let isPlaying = false;
+    function toggleMusic() {
+        if (isPlaying) { bgMusic.pause(); musicIcon.classList.replace("fa-volume-up", "fa-volume-mute"); }
+        else { bgMusic.play(); musicIcon.classList.replace("fa-volume-mute", "fa-volume-up"); }
+        isPlaying = !isPlaying;
+    }
+    bgMusic.volume = 0.4;
+
+    /* DUST & MOUSE TRAIL */
+    const canvas = document.getElementById('dustCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    window.addEventListener('mousemove', (e) => {
+        for(let i=0; i<2; i++) particles.push(new Particle(e.x, e.y, true));
+    });
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+
+    class Particle {
+        constructor(x, y, isMouse) {
+            this.x = x || Math.random() * canvas.width;
+            this.y = y || Math.random() * canvas.height;
+            this.size = Math.random() * (isMouse ? 3 : 1.5);
+            this.speedX = Math.random() * 1 - 0.5;
+            this.speedY = Math.random() * 1 - 0.5;
+            this.opacity = isMouse ? 1 : Math.random();
+            this.isMouse = isMouse;
+        }
+        update() {
+            this.x += this.speedX; this.y += this.speedY;
+            if(this.isMouse) this.opacity -= 0.02;
+        }
+        draw() {
+            ctx.fillStyle = `rgba(197, 160, 89, ${this.opacity})`;
+            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+        }
+    }
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for(let i = 0; i < particles.length; i++) {
+            particles[i].update(); particles[i].draw();
+            if(particles[i].opacity <= 0) { particles.splice(i, 1); i--; }
+        }
+        if(particles.filter(p => !p.isMouse).length < 80) particles.push(new Particle());
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    /* COUNTERS */
+    const counters = document.querySelectorAll('.counter');
     const observer = new IntersectionObserver((entries) => {
         if(entries[0].isIntersecting) {
-            animateCounters();
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                let count = 0;
+                const update = () => {
+                    const inc = target / 100;
+                    if(count < target) { count += inc; counter.innerText = Math.ceil(count).toLocaleString(); setTimeout(update, 20); }
+                    else counter.innerText = target.toLocaleString() + "+";
+                };
+                update();
+            });
             observer.disconnect();
         }
     }, { threshold: 0.5 });
-
     observer.observe(document.querySelector('.stats'));
 </script>
 
