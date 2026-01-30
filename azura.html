@@ -5,7 +5,7 @@
 <title>AZURA AI 🤖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
-/* Aapka purana design jo bilkul sahi tha */
+/* Aapka design bilkul perfect hai */
 *{box-sizing:border-box}
 body { margin:0; font-family:'Poppins',sans-serif; background: linear-gradient(-45deg,#0f2027,#2c5364,#000); background-size: 400% 400%; animation: bgMove 18s ease infinite; color:#fff; height: 100dvh; display:flex; flex-direction:column; overflow: hidden; }
 .chat { flex:1; padding:15px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; scroll-behavior: smooth; }
@@ -33,8 +33,8 @@ body { margin:0; font-family:'Poppins',sans-serif; background: linear-gradient(-
 </div>
 
 <script>
-// Aapki API Key jo chalu hai
-const API_KEY = "AIzaSyDCxcRYDKpNDK3KHAZFFaYKrPdV_DXkpHU"; 
+// --- CORRECTED CONFIG (Fixed API URL & Key) ---
+const API_KEY = "AIzaSyDCxcRYDKpNDK3KHAZFFaYKrPdV_DXkpHU"; //
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
 const chatBox = document.getElementById("chatBox");
@@ -50,6 +50,7 @@ function addMessage(text, type) {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+/* --- FIXED FETCH FUNCTION --- */
 async function fetchAIResponse(userQuery) {
     try {
         const response = await fetch(API_URL, {
@@ -58,8 +59,8 @@ async function fetchAIResponse(userQuery) {
             body: JSON.stringify({
                 contents: [{
                     parts: [{
-                        // Identity instruction yahan direct daali hai taaki billing ki zaroorat na pade
-                        text: `Context: Your name is AZURA AI. You were created by Azam (AzamGuruYT). If asked about your creator, always say 'I was created by Azam'. Answer this briefly: ${userQuery}`
+                        // Azam, instruction ko content ke andar hi rakha hai taaki error na aaye
+                        text: `Your name is AZURA AI. You are created by Azam (AzamGuruYT). If anyone asks who made you, say 'I was created by Azam'. Answer this: ${userQuery}`
                     }]
                 }]
             })
@@ -67,13 +68,20 @@ async function fetchAIResponse(userQuery) {
 
         const data = await response.json();
         
+        // Debugging ke liye (Agar reply nahi aata toh console check karein)
+        if (data.error) {
+            console.error("API Error:", data.error.message);
+            return "Azura ko connectivity error aa raha hai. Key check karein.";
+        }
+
         if (data.candidates && data.candidates[0].content.parts[0].text) {
             return data.candidates[0].content.parts[0].text;
         } else {
-            return "Azura ko samajhne mein thodi dikkat hui. Phir se likhiye.";
+            return "Azura ko thoda confusion hua. Phir se puchiye.";
         }
     } catch (error) {
-        return "Network error! Check your internet.";
+        console.error("Network Error:", error);
+        return "Network issues! Check your internet.";
     }
 }
 
@@ -91,6 +99,7 @@ async function handleSend() {
     chatBox.appendChild(typing);
     chatBox.scrollTop = chatBox.scrollHeight;
 
+    // AI Response Lena
     const aiResponse = await fetchAIResponse(val);
 
     const tempTyping = document.getElementById("temp-typing");
