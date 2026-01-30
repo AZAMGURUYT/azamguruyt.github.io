@@ -5,7 +5,7 @@
 <title>AZURA AI 🤖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
-/* Aapka design perfect hai */
+/* Aapka classic design */
 *{box-sizing:border-box}
 body { margin:0; font-family:'Poppins',sans-serif; background: linear-gradient(-45deg,#0f2027,#2c5364,#000); background-size: 400% 400%; animation: bgMove 18s ease infinite; color:#fff; height: 100dvh; display:flex; flex-direction:column; overflow: hidden; }
 .chat { flex:1; padding:15px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; scroll-behavior: smooth; }
@@ -28,15 +28,15 @@ body { margin:0; font-family:'Poppins',sans-serif; background: linear-gradient(-
 <div class="chat" id="chatBox"></div>
 
 <div class="input-container">
-    <input id="userInput" type="text" placeholder="Azura se baate karein..." autocomplete="off" />
+    <input id="userInput" type="text" placeholder="Azura se puchiye..." autocomplete="off" />
     <button onclick="handleSend()">✈</button>
 </div>
 
 <script>
-// --- NAYI KEY UPDATED ---
+// Nayi API Key jo aapne di thi
 const API_KEY = "AIzaSyAyVguYs1DHcfWB430lCb5PEV5hg8f4yTI"; 
-// Stable V1 URL use kar rahe hain 404 error se bachne ke liye
-const URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+// Sahi URL format (v1beta + gemini-1.5-flash)
+const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
 const chatBox = document.getElementById("chatBox");
 const inputField = document.getElementById("userInput");
@@ -59,7 +59,8 @@ async function fetchAIResponse(userQuery) {
             body: JSON.stringify({
                 contents: [{
                     parts: [{
-                        text: `System Instruction: Your name is AZURA AI. You were created by Azam (AzamGuruYT). Keep answers short. User says: ${userQuery}`
+                        // Prompt ke andar hi identity fix kar di
+                        text: "Your name is AZURA AI, created by Azam (AzamGuruYT). Answer this: " + userQuery
                     }]
                 }]
             })
@@ -67,18 +68,19 @@ async function fetchAIResponse(userQuery) {
 
         const data = await response.json();
 
+        // Agar key ya model mein koi error hai
         if (data.error) {
-            console.error("API Error:", data.error);
+            console.error("Error Detail:", data.error.message);
             return "Azura Error: " + data.error.message;
         }
 
         if (data.candidates && data.candidates[0].content.parts[0].text) {
             return data.candidates[0].content.parts[0].text;
         } else {
-            return "Azura ko samajhne mein dikkat hui. Phir se puchiye!";
+            return "Azura ko thoda confusion hua. Phir se likhein.";
         }
     } catch (error) {
-        return "Network issues! Check your internet.";
+        return "Network issues! Check internet.";
     }
 }
 
@@ -102,7 +104,7 @@ async function handleSend() {
     addMessage(aiResponse, "bot");
 }
 
-addMessage("Welcome! I am <b>AZURA AI</b>, created by Azam. How can I help you?", "bot");
+addMessage("Welcome! I am <b>AZURA AI</b>, created by Azam. Ask me anything!", "bot");
 </script>
 </body>
 </html>
