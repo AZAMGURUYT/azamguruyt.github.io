@@ -1,109 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>AZURA AI 🤖</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<style>
-/* Aapka Classic Design */
-*{box-sizing:border-box}
-body { margin:0; font-family:'Poppins',sans-serif; background: linear-gradient(-45deg,#0f2027,#2c5364,#000); background-size: 400% 400%; animation: bgMove 18s ease infinite; color:#fff; height: 100dvh; display:flex; flex-direction:column; overflow: hidden; }
-.chat { flex:1; padding:15px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; scroll-behavior: smooth; }
-.msg { max-width: 85%; padding: 12px 15px; border-radius: 18px; font-size: 14px; word-wrap: break-word; position: relative; }
-.user { align-self: flex-end; background: linear-gradient(135deg,#00f2ff,#0077ff); color: #000; border-bottom-right-radius: 2px; }
-.bot { align-self: flex-start; background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); border: 1px solid rgba(0,242,255,0.2); border-bottom-left-radius: 2px; }
-.input-container { padding: 15px; background: rgba(0,0,0,0.8); display: flex; gap: 8px; border-top: 1px solid rgba(0,242,255,0.2); }
-.input-container input { flex: 1; padding: 12px 18px; border-radius: 30px; border: 1px solid rgba(0,242,255,0.3); background: rgba(255,255,255,0.05); color: #fff; outline: none; }
-.input-container button { background: #00f2ff; border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-@keyframes bgMove{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZURA AI | Maintenance Mode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020205;
+            --neon: #00f2ff;
+            --purple: #bc13fe;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            margin: 0; background: var(--bg); color: white;
+            height: 100vh; display: flex; overflow: hidden;
+            background: radial-gradient(circle at bottom right, #1a1a2e, #020205);
+        }
+
+        /* --- Background Animation --- */
+        body::before {
+            content: ""; position: absolute; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.3; animation: spaceMove 100s linear infinite; pointer-events: none;
+        }
+
+        @keyframes spaceMove { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 300px; background: rgba(0,0,0,0.6);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            display: flex; flex-direction: column; padding: 25px;
+            backdrop-filter: blur(25px); z-index: 10;
+        }
+
+        .new-chat {
+            background: transparent; border: 2px solid var(--neon);
+            padding: 12px; border-radius: 50px; text-align: center;
+            color: var(--neon); font-weight: 600; cursor: pointer;
+            transition: 0.4s; box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
+        .new-chat:hover { background: var(--neon); color: black; box-shadow: 0 0 30px var(--neon); }
+
+        #historyList { margin-top: 20px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .history-item { padding: 12px; background: var(--glass); border-radius: 10px; font-size: 13px; color: #aaa; border: 1px solid transparent; transition: 0.3s; }
+        .history-item:hover { border-color: var(--purple); color: white; }
+
+        /* --- Main Content --- */
+        .chat-area { flex: 1; display: flex; flex-direction: column; position: relative; z-index: 5; }
+
+        header { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        .logo-text { font-size: 1.8rem; font-weight: 800; background: linear-gradient(90deg, var(--neon), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: glowText 3s infinite alternate; }
+
+        @keyframes glowText { from { filter: drop-shadow(0 0 2px var(--neon)); } to { filter: drop-shadow(0 0 10px var(--purple)); } }
+
+        #chatBox { flex: 1; overflow-y: auto; padding: 30px 10%; display: flex; flex-direction: column; gap: 20px; }
+
+        /* --- Bubbles --- */
+        .msg { display: flex; gap: 15px; opacity: 0; transform: translateY(20px); animation: appear 0.5s forwards; }
+        @keyframes appear { to { opacity: 1; transform: translateY(0); } }
+
+        .bot { align-self: flex-start; }
+        .user { align-self: flex-end; flex-direction: row-reverse; }
+
+        .bubble { padding: 16px 22px; border-radius: 24px; font-size: 15px; line-height: 1.6; backdrop-filter: blur(10px); max-width: 80%; }
+
+        .bot .bubble { background: var(--glass); border: 1px solid var(--neon); box-shadow: 0 0 15px rgba(0, 242, 255, 0.05); }
+        .user .bubble { background: linear-gradient(135deg, var(--purple), #6a11cb); color: white; border-bottom-right-radius: 4px; box-shadow: 0 5px 15px rgba(188, 19, 254, 0.2); }
+
+        /* --- Input --- */
+        .input-container { padding: 40px 10%; }
+        .input-bar { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 10px 20px; display: flex; align-items: center; gap: 15px; transition: 0.4s; }
+        .input-bar:focus-within { border-color: var(--neon); box-shadow: 0 0 30px rgba(0, 242, 255, 0.15); transform: translateY(-2px); }
+        
+        input { flex: 1; background: none; border: none; color: white; padding: 10px; outline: none; font-size: 16px; }
+
+        .icon-btn { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--neon); transition: 0.3s; }
+        .icon-btn:hover { transform: scale(1.2); filter: drop-shadow(0 0 5px var(--neon)); }
+        
+        .mic-active { color: #ff4b2b; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        .send-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--neon); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .send-btn:hover { transform: rotate(-15deg); box-shadow: 0 0 20px var(--neon); }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; }
+    </style>
 </head>
 <body>
 
-<header style="padding:15px; text-align:center; background:rgba(0,0,0,0.5); border-bottom:1px solid rgba(0,242,255,0.3);">
-    <h1 style="margin:0; font-size:1.2rem; color:#00f2ff;">🤖 AZURA AI</h1>
-    <span style="font-size:10px; opacity:0.6;">by AzamGuruYT</span>
-</header>
+    <div class="sidebar">
+        <button class="new-chat" onclick="location.reload()">+ New Session</button>
+        <div style="margin-top: 30px; opacity: 0.4; font-size: 11px; letter-spacing: 2px; font-weight: 600;">LOGS</div>
+        <div id="historyList"></div>
+        <div style="margin-top: auto; padding: 15px; background: var(--glass); border-radius: 15px; font-size: 11px; border: 1px solid rgba(255,255,255,0.05);">
+            <p style="color:var(--neon); margin:0; font-weight: 600;">AZAM GURU YT Edition</p>
+            <p style="margin:5px 0 0 0; opacity: 0.7;">System: <span style="color: #ffcc00;">Maintenance</span></p>
+        </div>
+    </div>
 
-<div class="chat" id="chatBox"></div>
+    <div class="chat-area">
+        <header>
+            <div class="logo-text">AZURA AI</div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="width: 8px; height: 8px; background: #ffcc00; border-radius: 50%;"></span>
+                <span style="font-size: 12px; opacity: 0.6;">Maintenance Mode</span>
+            </div>
+        </header>
 
-<div class="input-container">
-    <input id="userInput" type="text" placeholder="Azura se puchiye..." autocomplete="off" />
-    <button onclick="handleSend()">✈</button>
-</div>
+        <div id="chatBox">
+            <div class="msg bot">
+                <div class="bubble">Assalamu Alaikum Azam! I am <b>AZURA AI</b>. Currently, my core systems are being upgraded for better performance. How can I assist you during this transition?</div>
+            </div>
+        </div>
 
-<script>
-// --- Aapki API Key jo working hai ---
-const API_KEY = "AIzaSyD_NfwdhE_awUuTKPVVsinw65kJa4PBRxU"; 
+        <div class="input-container">
+            <div class="input-bar">
+                <button class="icon-btn" id="micBtn" onclick="startVoice()">🎙️</button>
+                <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off">
+                <button class="send-btn" onclick="handleSend()">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="black"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </div>
 
-// FIX: Hum 'gemini-pro' use kar rahe hain jo sabse stable hai
-const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+    <script>
+        const chatBox = document.getElementById("chatBox");
+        const inputField = document.getElementById("userInput");
+        const historyList = document.getElementById("historyList");
 
-const chatBox = document.getElementById("chatBox");
-const inputField = document.getElementById("userInput");
+        inputField.addEventListener("keypress", (e) => { if (e.key === "Enter") handleSend(); });
 
-inputField.addEventListener("keypress", (e) => { if (e.key === "Enter") handleSend(); });
-
-function addMessage(text, type) {
-    const div = document.createElement("div");
-    div.className = "msg " + type;
-    const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    div.innerHTML = text + `<div style="font-size:9px; opacity:0.5; margin-top:5px;">${time}</div>`;
-    chatBox.appendChild(div);
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-async function fetchAIResponse(userQuery) {
-    try {
-        const response = await fetch(URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ 
-                    parts: [{ text: "Identity: You are AZURA AI, created by Azam. Answer shortly: " + userQuery }] 
-                }]
-            })
-        });
-
-        const data = await response.json();
-
-        // Agar koi error aata hai toh console mein dikhega
-        if (data.error) {
-            console.error("API Error Detail:", data.error.message);
-            return "Azura Error: " + data.error.message;
+        // --- Typing Animation ---
+        function typeText(element, text) {
+            let i = 0;
+            element.innerHTML = "";
+            let interval = setInterval(() => {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 20);
         }
 
-        if (data.candidates && data.candidates[0].content.parts[0].text) {
-            return data.candidates[0].content.parts[0].text;
-        } else {
-            return "Azura thoda confuse hai, phir se puchiye.";
+        function addMessage(text, type, animate = false) {
+            const div = document.createElement("div");
+            div.className = `msg ${type}`;
+            const bubble = document.createElement("div");
+            bubble.className = "bubble";
+            div.appendChild(bubble);
+            chatBox.appendChild(div);
+            
+            if(animate) {
+                typeText(bubble, text);
+            } else {
+                bubble.innerHTML = text;
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
-    } catch (error) {
-        return "Network issues! Check your internet.";
-    }
-}
 
-async function handleSend() {
-    const val = inputField.value.trim();
-    if (!val) return;
-    
-    addMessage(val, "user");
-    inputField.value = "";
+        function addToHistory(text) {
+            const item = document.createElement("div");
+            item.className = "history-item";
+            item.innerText = text;
+            historyList.prepend(item);
+        }
 
-    const typing = document.createElement("div");
-    typing.className = "msg bot";
-    typing.id = "temp-typing";
-    typing.innerText = "Thinking...";
-    chatBox.appendChild(typing);
-    chatBox.scrollTop = chatBox.scrollHeight;
+        // --- Voice Support ---
+        function startVoice() {
+            const SpeechSDK = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if(!SpeechSDK) return alert("Speech not supported");
+            
+            const recognition = new SpeechSDK();
+            recognition.lang = 'en-US';
+            const micBtn = document.getElementById("micBtn");
+            
+            recognition.onstart = () => micBtn.classList.add("mic-active");
+            recognition.onend = () => micBtn.classList.remove("mic-active");
+            recognition.onresult = (event) => {
+                inputField.value = event.results[0][0].transcript;
+                handleSend();
+            };
+            recognition.start();
+        }
 
-    const aiResponse = await fetchAIResponse(val);
-    if(document.getElementById("temp-typing")) document.getElementById("temp-typing").remove();
-    
-    addMessage(aiResponse, "bot");
-}
+        // --- Maintenance Logic ---
+        async function handleSend() {
+            const val = inputField.value.trim();
+            if (!val) return;
+            
+            addMessage(val, "user");
+            addToHistory(val);
+            inputField.value = "";
 
-addMessage("Welcome! I am <b>AZURA AI</b>. Ab meri settings bilkul stable hain. Puchiye!", "bot");
-</script>
+            const typing = document.createElement("div");
+            typing.className = "msg bot";
+            typing.innerHTML = `<div class="bubble" style="color: var(--neon); font-style: italic;">Accessing Secure Servers...</div>`;
+            chatBox.appendChild(typing);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Simulated Maintenance Response
+            setTimeout(() => {
+                typing.remove();
+                const maintenanceMsg = "System Update: Azura AI is currently under maintenance (v3.2 Upgrade). API connections are temporarily paused for Azam's security. Please check back after the server migration is complete.";
+                addMessage(maintenanceMsg, "bot", true);
+            }, 1200);
+        }
+    </script>
 </body>
 </html>
