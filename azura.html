@@ -5,7 +5,7 @@
 <title>AZURA AI 🤖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
-/* Aapka design wahi rakha hai */
+/* Aapka design perfect hai */
 *{box-sizing:border-box}
 body { margin:0; font-family:'Poppins',sans-serif; background: linear-gradient(-45deg,#0f2027,#2c5364,#000); background-size: 400% 400%; animation: bgMove 18s ease infinite; color:#fff; height: 100dvh; display:flex; flex-direction:column; overflow: hidden; }
 .chat { flex:1; padding:15px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; scroll-behavior: smooth; }
@@ -33,9 +33,10 @@ body { margin:0; font-family:'Poppins',sans-serif; background: linear-gradient(-
 </div>
 
 <script>
-// YAHAN APNI NAYI API KEY DAALEIN
+// --- NAYI KEY UPDATED ---
 const API_KEY = "AIzaSyAyVguYs1DHcfWB430lCb5PEV5hg8f4yTI"; 
-const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+// Stable V1 URL use kar rahe hain 404 error se bachne ke liye
+const URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
 const chatBox = document.getElementById("chatBox");
 const inputField = document.getElementById("userInput");
@@ -56,30 +57,28 @@ async function fetchAIResponse(userQuery) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                contents: [{ parts: [{ text: userQuery }] }]
+                contents: [{
+                    parts: [{
+                        text: `System Instruction: Your name is AZURA AI. You were created by Azam (AzamGuruYT). Keep answers short. User says: ${userQuery}`
+                    }]
+                }]
             })
         });
 
         const data = await response.json();
 
-        // Agar key block hogi toh yahan error message dikhayega
         if (data.error) {
-            console.error("API Error Details:", data.error);
-            return "API Error: " + data.error.message;
+            console.error("API Error:", data.error);
+            return "Azura Error: " + data.error.message;
         }
 
         if (data.candidates && data.candidates[0].content.parts[0].text) {
-            let reply = data.candidates[0].content.parts[0].text;
-            // Aapka naam bulwane ke liye manually check
-            if(userQuery.toLowerCase().includes("who made you") || userQuery.toLowerCase().includes("kisne banaya")) {
-                return "Mujhe Azam (AzamGuruYT) ne banaya hai!";
-            }
-            return reply;
+            return data.candidates[0].content.parts[0].text;
         } else {
-            return "Server response empty. Key reset karein.";
+            return "Azura ko samajhne mein dikkat hui. Phir se puchiye!";
         }
     } catch (error) {
-        return "Network error! Internet check karein.";
+        return "Network issues! Check your internet.";
     }
 }
 
@@ -98,11 +97,12 @@ async function handleSend() {
     chatBox.scrollTop = chatBox.scrollHeight;
 
     const aiResponse = await fetchAIResponse(val);
-    document.getElementById("temp-typing").remove();
+    if(document.getElementById("temp-typing")) document.getElementById("temp-typing").remove();
+    
     addMessage(aiResponse, "bot");
 }
 
-addMessage("Welcome! I am <b>AZURA AI</b>. I am back online!", "bot");
+addMessage("Welcome! I am <b>AZURA AI</b>, created by Azam. How can I help you?", "bot");
 </script>
 </body>
 </html>
