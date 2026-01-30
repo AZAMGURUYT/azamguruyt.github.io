@@ -33,11 +33,11 @@ body { margin:0; font-family:'Poppins',sans-serif; background: linear-gradient(-
 </div>
 
 <script>
-// --- PASTE YOUR NEW KEY BELOW ---
+// --- Aapki API Key jo working hai ---
 const API_KEY = "AIzaSyD_NfwdhE_awUuTKPVVsinw65kJa4PBRxU"; 
 
-// Hum gemini-1.5-flash-latest use karenge, ye sabse stable hai
-const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
+// FIX: Hum 'gemini-pro' use kar rahe hain jo sabse stable hai
+const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
 
 const chatBox = document.getElementById("chatBox");
 const inputField = document.getElementById("userInput");
@@ -59,15 +59,17 @@ async function fetchAIResponse(userQuery) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                contents: [{ parts: [{ text: "Identity: You are AZURA AI, created by Azam. Question: " + userQuery }] }]
+                contents: [{ 
+                    parts: [{ text: "Identity: You are AZURA AI, created by Azam. Answer shortly: " + userQuery }] 
+                }]
             })
         });
 
         const data = await response.json();
 
+        // Agar koi error aata hai toh console mein dikhega
         if (data.error) {
-            console.error("API Error:", data.error.message);
-            // Agar key expired bole toh check karein ki naye waali hi hai na
+            console.error("API Error Detail:", data.error.message);
             return "Azura Error: " + data.error.message;
         }
 
@@ -101,7 +103,7 @@ async function handleSend() {
     addMessage(aiResponse, "bot");
 }
 
-addMessage("Welcome! I am <b>AZURA AI</b>. Ab meri key bilkul nayi hai. Puchiye!", "bot");
+addMessage("Welcome! I am <b>AZURA AI</b>. Ab meri settings bilkul stable hain. Puchiye!", "bot");
 </script>
 </body>
 </html>
