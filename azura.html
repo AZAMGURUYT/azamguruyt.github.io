@@ -3,250 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <title>AZURA AI 🤖</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="AZURA AI – Smart Assistant by AzamGuruYT">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
+/* Design settings wahi hain jo aapne pasand kiye the */
 *{box-sizing:border-box}
-body{
-margin:0;
-font-family:'Poppins',sans-serif;
-background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#000);
-background-size:400% 400%;
-animation:bgMove 18s ease infinite;
-color:#fff;
-height:100vh;
-overflow:hidden;
-display:flex;
-flex-direction:column;
+body {
+    margin:0; font-family:'Poppins',sans-serif;
+    background: linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#000);
+    background-size: 400% 400%;
+    animation: bgMove 18s ease infinite;
+    color:#fff; height: 100dvh;
+    display:flex; flex-direction:column; overflow: hidden;
 }
-@keyframes bgMove{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
-}
-
-/* GLOW */
-.glow{
-position:fixed;
-width:320px;
-height:320px;
-border-radius:50%;
-filter:blur(120px);
-z-index:-1;
-animation:float 10s infinite alternate;
-}
-.glow.one{top:10%;left:10%;background:rgba(0,255,255,.25)}
-.glow.two{bottom:10%;right:10%;background:rgba(255,0,150,.25)}
-@keyframes float{
-from{transform:translateY(0)}
-to{transform:translateY(-80px)}
-}
-
-.mouse-glow{
-position:fixed;
-width:220px;
-height:220px;
-background:radial-gradient(circle,rgba(0,255,255,.5),transparent 70%);
-filter:blur(40px);
-pointer-events:none;
-transform:translate(-50%,-50%);
-}
-
-/* HEADER */
-header{
-padding:14px;
-text-align:center;
-background:rgba(0,0,0,.6);
-backdrop-filter:blur(12px);
-border-bottom:1px solid rgba(0,242,255,.3);
-}
-header h1{margin:0;color:#00f2ff;font-size:22px}
-header span{font-size:12px;opacity:.7}
-
-/* CHAT */
-.chat{
-flex:1;
-padding:20px;
-overflow-y:auto;
-display:flex;
-flex-direction:column;
-gap:14px;
-}
-.msg{
-max-width:75%;
-padding:14px 16px;
-border-radius:16px;
-font-size:14px;
-line-height:1.5;
-animation:fadeUp .3s ease;
-}
-.user{
-align-self:flex-end;
-background:linear-gradient(135deg,#00f2ff,#0077ff);
-color:#000;
-border-bottom-right-radius:4px;
-}
-.bot{
-align-self:flex-start;
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(10px);
-border:1px solid rgba(0,242,255,.25);
-border-bottom-left-radius:4px;
-}
-.time{font-size:10px;opacity:.6;margin-top:4px}
-
-/* INPUT */
-.input{
-display:flex;
-gap:10px;
-padding:14px;
-background:rgba(0,0,0,.7);
-}
-.input input{
-flex:1;
-padding:12px 16px;
-border-radius:25px;
-border:none;
-outline:none;
-}
-.input button{
-padding:12px 20px;
-border-radius:25px;
-border:none;
-cursor:pointer;
-background:#00f2ff;
-font-weight:600;
-}
-
-.clear{
-position:absolute;
-top:16px;
-right:16px;
-font-size:11px;
-color:#00f2ff;
-cursor:pointer;
-}
-
-.typing{font-size:12px;opacity:.7;font-style:italic}
-
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(10px)}
-to{opacity:1;transform:translateY(0)}
-}
+.chat { flex:1; padding:15px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; scroll-behavior: smooth; }
+.msg { max-width: 85%; padding: 12px 15px; border-radius: 18px; font-size: 14px; position: relative; word-wrap: break-word; }
+.user { align-self: flex-end; background: linear-gradient(135deg,#00f2ff,#0077ff); color: #000; border-bottom-right-radius: 2px; }
+.bot { align-self: flex-start; background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); border: 1px solid rgba(0,242,255,0.2); border-bottom-left-radius: 2px; }
+.input-container { padding: 15px; background: rgba(0,0,0,0.8); display: flex; gap: 8px; border-top: 1px solid rgba(0,242,255,0.2); }
+.input-container input { flex: 1; padding: 12px 18px; border-radius: 30px; border: 1px solid rgba(0,242,255,0.3); background: rgba(255,255,255,0.05); color: #fff; outline: none; }
+.input-container button { background: #00f2ff; border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+@keyframes bgMove{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 </style>
 </head>
-
 <body>
 
-<!-- GLOW -->
-<div class="glow one"></div>
-<div class="glow two"></div>
-<div class="mouse-glow" id="mouseGlow"></div>
-
-<header>
-<h1>🤖 AZURA AI</h1>
-<span>Advanced AI Assistant • by AzamGuruYT</span>
-<div class="clear" onclick="clearChat()">Clear Chat</div>
+<header style="padding:15px; text-align:center; background:rgba(0,0,0,0.5); backdrop-filter:blur(10px); border-bottom:1px solid rgba(0,242,255,0.3);">
+    <h1 style="margin:0; font-size:1.2rem; color:#00f2ff;">🤖 AZURA AI</h1>
+    <span style="font-size:10px; opacity:0.6;">by AzamGuruYT</span>
 </header>
 
-<div class="chat" id="chat"></div>
+<div class="chat" id="chatBox"></div>
 
-<div class="input">
-<input id="input" placeholder="Ask GK, Maths or About Azam..." />
-<button onclick="send()">Send</button>
+<div class="input-container">
+    <input id="userInput" type="text" placeholder="Azam se bani AZURA se puchiye..." autocomplete="off" />
+    <button onclick="handleSend()">✈</button>
 </div>
 
-<!-- 🔗 STEP-2: LINK KNOWLEDGE FILE -->
-<script src="azura-data.js"></script>
-
 <script>
-const chat=document.getElementById("chat");
-const input=document.getElementById("input");
-const glow=document.getElementById("mouseGlow");
+// --- CONFIG ---
+const API_KEY = "AIzaSyBTu11-mS1lsslr4Cg42JakeBNy47Nto4I"; 
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-document.addEventListener("mousemove",e=>{
-glow.style.left=e.clientX+"px";
-glow.style.top=e.clientY+"px";
-});
+const chatBox = document.getElementById("chatBox");
+const inputField = document.getElementById("userInput");
 
-function timeNow(){
-return new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+inputField.addEventListener("keypress", (e) => { if (e.key === "Enter") handleSend(); });
+
+function addMessage(text, type) {
+    const div = document.createElement("div");
+    div.className = "msg " + type;
+    div.innerHTML = text + `<div style="font-size:9px; opacity:0.5; margin-top:5px;">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>`;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-function addMessage(text,type){
-const div=document.createElement("div");
-div.className="msg "+type;
-div.innerHTML=text+`<div class="time">${timeNow()}</div>`;
-chat.appendChild(div);
-chat.scrollTop=chat.scrollHeight;
+/* --- SMART API CALL WITH IDENTITY --- */
+async function fetchAIResponse(userQuery) {
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                // Isse AI ko pata chalta hai ki wo kaun hai
+                system_instruction: {
+                    parts: [{ text: "Your name is AZURA AI. You are a smart assistant created by Azam (also known as AzamGuruYT). If anyone asks about your creator or who made you, always answer 'I was created by Azam'. Keep your tone helpful and friendly." }]
+                },
+                contents: [{ parts: [{ text: userQuery }] }]
+            })
+        });
+
+        const data = await response.json();
+        
+        // Response check
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+            return data.candidates[0].content.parts[0].text;
+        } else {
+            return "Azura ko samajhne mein thodi dikkat hui. Phir se likhiye.";
+        }
+    } catch (error) {
+        return "Connection error! API key check karein.";
+    }
 }
 
-function send(){
-const text=input.value.trim();
-if(!text)return;
-addMessage(text,"user");
-input.value="";
+async function handleSend() {
+    const val = inputField.value.trim();
+    if (!val) return;
+    
+    addMessage(val, "user");
+    inputField.value = "";
 
-const typing=document.createElement("div");
-typing.className="msg bot typing";
-typing.innerText="AZURA is thinking...";
-chat.appendChild(typing);
+    const typing = document.createElement("div");
+    typing.className = "msg bot";
+    typing.id = "temp-typing";
+    typing.innerText = "AZURA is thinking...";
+    chatBox.appendChild(typing);
+    chatBox.scrollTop = chatBox.scrollHeight;
 
-setTimeout(()=>{
-typing.remove();
-addMessage(aiResponse(text),"bot");
-},900);
+    const aiResponse = await fetchAIResponse(val);
+
+    const tempTyping = document.getElementById("temp-typing");
+    if(tempTyping) tempTyping.remove();
+    
+    addMessage(aiResponse, "bot");
 }
 
-/* 🧠 STEP-3: USE azura-data.js */
-function aiResponse(t){
-t=t.toLowerCase();
-
-/* ABOUT AZAM */
-if(t.includes("about azam") || t.includes("who is azam")){
-return `
-<b>Name:</b> ${AZURA_KNOWLEDGE.aboutAzam.name}<br>
-<b>Role:</b> ${AZURA_KNOWLEDGE.aboutAzam.role}<br>
-<b>Skills:</b> ${AZURA_KNOWLEDGE.aboutAzam.skills.join(", ")}<br>
-<b>Vision:</b> ${AZURA_KNOWLEDGE.aboutAzam.vision}
-`;
-}
-
-if(t.includes("who created") || t.includes("who made you")){
-return AZURA_KNOWLEDGE.aboutAzam.createdAzura;
-}
-
-if(t.includes("privacy")){
-return AZURA_KNOWLEDGE.rules.privacy;
-}
-
-/* GK */
-if(t.includes("capital of india"))
-return "The capital of India is <b>New Delhi</b> 🇮🇳";
-
-/* MATH */
-if(/^[0-9+\-*/(). ]+$/.test(t)){
-try{return "Answer: <b>"+eval(t)+"</b>";}
-catch{return "Invalid math expression ❌";}
-}
-
-return "🤖 I’m learning… Try asking about Azam, GK or Maths!";
-}
-
-function clearChat(){
-chat.innerHTML="";
-addMessage("Chat cleared 🧹 I’m ready again!", "bot");
-}
-
-/* INTRO */
-addMessage(
-"Welcome 👋<br>I’m <b>AZURA AI</b><br>Ask me about <b>Azam</b>, GK or Maths 🚀",
-"bot"
-);
+addMessage("Welcome! I am <b>AZURA AI</b>, created by Azam. How can I help you today?", "bot");
 </script>
 
 </body>
