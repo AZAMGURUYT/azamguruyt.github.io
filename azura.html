@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
-/* Design settings wahi hain jo aapne pasand kiye the */
 *{box-sizing:border-box}
 body {
     margin:0; font-family:'Poppins',sans-serif;
@@ -41,7 +40,7 @@ body {
 </div>
 
 <script>
-// --- CONFIG ---
+// --- CONFIG (Fixed with your key) ---
 const API_KEY = "AIzaSyBTu11-mS1lsslr4Cg42JakeBNy47Nto4I"; 
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
@@ -58,31 +57,32 @@ function addMessage(text, type) {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-/* --- SMART API CALL WITH IDENTITY --- */
+/* --- FIXED API CALL --- */
 async function fetchAIResponse(userQuery) {
     try {
         const response = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                // Isse AI ko pata chalta hai ki wo kaun hai
-                system_instruction: {
-                    parts: [{ text: "Your name is AZURA AI. You are a smart assistant created by Azam (also known as AzamGuruYT). If anyone asks about your creator or who made you, always answer 'I was created by Azam'. Keep your tone helpful and friendly." }]
-                },
-                contents: [{ parts: [{ text: userQuery }] }]
+                contents: [{
+                    parts: [{
+                        // Identity instruction yahan add ki hai taaki error na aaye
+                        text: `You are AZURA AI, a smart assistant created by Azam (AzamGuruYT). If asked about your creator, say 'I was created by Azam'. Answer this: ${userQuery}`
+                    }]
+                }]
             })
         });
 
         const data = await response.json();
         
-        // Response check
         if (data.candidates && data.candidates[0].content.parts[0].text) {
             return data.candidates[0].content.parts[0].text;
         } else {
-            return "Azura ko samajhne mein thodi dikkat hui. Phir se likhiye.";
+            return "Azura ko thoda confusion hua. Phir se likhein.";
         }
     } catch (error) {
-        return "Connection error! API key check karein.";
+        console.error(error);
+        return "Connection fail! Check your internet.";
     }
 }
 
@@ -108,7 +108,7 @@ async function handleSend() {
     addMessage(aiResponse, "bot");
 }
 
-addMessage("Welcome! I am <b>AZURA AI</b>, created by Azam. How can I help you today?", "bot");
+addMessage("Welcome! I am <b>AZURA AI</b>, created by Azam. Ask me anything!", "bot");
 </script>
 
 </body>
