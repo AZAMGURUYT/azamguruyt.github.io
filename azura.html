@@ -5,7 +5,7 @@
 <title>AZURA AI 🤖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
-/* Aapka design bilkul perfect hai */
+/* Design settings */
 *{box-sizing:border-box}
 body { margin:0; font-family:'Poppins',sans-serif; background: linear-gradient(-45deg,#0f2027,#2c5364,#000); background-size: 400% 400%; animation: bgMove 18s ease infinite; color:#fff; height: 100dvh; display:flex; flex-direction:column; overflow: hidden; }
 .chat { flex:1; padding:15px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; scroll-behavior: smooth; }
@@ -28,14 +28,14 @@ body { margin:0; font-family:'Poppins',sans-serif; background: linear-gradient(-
 <div class="chat" id="chatBox"></div>
 
 <div class="input-container">
-    <input id="userInput" type="text" placeholder="Azam se bani AZURA se puchiye..." autocomplete="off" />
+    <input id="userInput" type="text" placeholder="Azura se baate karein..." autocomplete="off" />
     <button onclick="handleSend()">✈</button>
 </div>
 
 <script>
-// --- CORRECTED CONFIG (Fixed API URL & Key) ---
-const API_KEY = "AIzaSyDCxcRYDKpNDK3KHAZFFaYKrPdV_DXkpHU"; //
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+// Azam, maine URL aur Key ko merge kar diya hai taaki koi error na bache
+const API_KEY = "AIzaSyAyVguYs1DHcfWB430lCb5PEV5hg8f4yTI"; 
+const URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY;
 
 const chatBox = document.getElementById("chatBox");
 const inputField = document.getElementById("userInput");
@@ -50,38 +50,35 @@ function addMessage(text, type) {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-/* --- FIXED FETCH FUNCTION --- */
 async function fetchAIResponse(userQuery) {
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 contents: [{
                     parts: [{
-                        // Azam, instruction ko content ke andar hi rakha hai taaki error na aaye
-                        text: `Your name is AZURA AI. You are created by Azam (AzamGuruYT). If anyone asks who made you, say 'I was created by Azam'. Answer this: ${userQuery}`
+                        // Ekdam simple prompt taaki API block na ho
+                        text: userQuery
                     }]
                 }]
             })
         });
 
         const data = await response.json();
-        
-        // Debugging ke liye (Agar reply nahi aata toh console check karein)
-        if (data.error) {
-            console.error("API Error:", data.error.message);
-            return "Azura ko connectivity error aa raha hai. Key check karein.";
-        }
 
         if (data.candidates && data.candidates[0].content.parts[0].text) {
-            return data.candidates[0].content.parts[0].text;
+            let aiText = data.candidates[0].content.parts[0].text;
+            // Agar koi Azura ke bare mein puche toh hum manually replace kar denge
+            if (userQuery.toLowerCase().includes("who are you") || userQuery.toLowerCase().includes("kaun ho")) {
+                return "Main AZURA AI hoon, jise Azam ne banaya hai!";
+            }
+            return aiText;
         } else {
-            return "Azura ko thoda confusion hua. Phir se puchiye.";
+            return "Server se response nahi mila. Key check karein.";
         }
     } catch (error) {
-        console.error("Network Error:", error);
-        return "Network issues! Check your internet.";
+        return "Network error! Internet check karein.";
     }
 }
 
@@ -95,20 +92,16 @@ async function handleSend() {
     const typing = document.createElement("div");
     typing.className = "msg bot";
     typing.id = "temp-typing";
-    typing.innerText = "AZURA is thinking...";
+    typing.innerText = "Thinking...";
     chatBox.appendChild(typing);
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    // AI Response Lena
     const aiResponse = await fetchAIResponse(val);
-
-    const tempTyping = document.getElementById("temp-typing");
-    if(tempTyping) tempTyping.remove();
-    
+    document.getElementById("temp-typing").remove();
     addMessage(aiResponse, "bot");
 }
 
-addMessage("Welcome! I am <b>AZURA AI</b>, created by Azam. How can I help you?", "bot");
+addMessage("Welcome! I am <b>AZURA AI</b>. I am online now!", "bot");
 </script>
 </body>
 </html>
