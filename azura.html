@@ -3,219 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AZURA AI | Maintenance Mode</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>AZURA | 4K Immersive AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #020205;
             --neon: #00f2ff;
-            --purple: #bc13fe;
-            --glass: rgba(255, 255, 255, 0.05);
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
-        * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; cursor: none; }
 
-        body {
-            margin: 0; background: var(--bg); color: white;
-            height: 100vh; display: flex; overflow: hidden;
-            background: radial-gradient(circle at bottom right, #1a1a2e, #020205);
+        body { background: #000; color: white; overflow: hidden; height: 100vh; }
+
+        /* --- 4K Custom Cursor --- */
+        #cursor {
+            width: 20px; height: 20px; border: 1px solid white;
+            border-radius: 50%; position: fixed; pointer-events: none;
+            transition: transform 0.1s ease; z-index: 10000; mix-blend-mode: difference;
         }
 
-        /* --- Background Animation --- */
-        body::before {
-            content: ""; position: absolute; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.3; animation: spaceMove 100s linear infinite; pointer-events: none;
+        /* --- Universal 4K Video Background --- */
+        #bg-video {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: -2; filter: brightness(0.5) contrast(1.2);
         }
 
-        @keyframes spaceMove { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
+        .video-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.4) 100%);
+            z-index: -1;
+        }
 
-        /* --- Sidebar --- */
+        /* --- Landing Page --- */
+        #landing-page {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; z-index: 1000; transition: 1.5s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 12vw, 9rem); font-weight: 800; letter-spacing: 30px;
+            color: white; text-transform: uppercase; margin-bottom: 10px;
+            animation: cinematicFade 2.5s ease;
+        }
+
+        .enter-btn {
+            margin-top: 30px; padding: 20px 60px; background: transparent; 
+            border: 1px solid rgba(255,255,255,0.5); color: white; 
+            font-size: 11px; letter-spacing: 8px; cursor: pointer;
+            transition: 0.5s; text-transform: uppercase; backdrop-filter: blur(10px);
+        }
+        .enter-btn:hover { background: white; color: black; box-shadow: 0 0 50px rgba(255,255,255,0.3); }
+
+        /* --- 4K App Interface --- */
+        #app-interface {
+            display: flex; height: 100vh; opacity: 0; visibility: hidden;
+            transition: 2s ease; transform: scale(1.05);
+        }
+
         .sidebar {
-            width: 300px; background: rgba(0,0,0,0.6);
-            border-right: 1px solid rgba(255,255,255,0.1);
-            display: flex; flex-direction: column; padding: 25px;
-            backdrop-filter: blur(25px); z-index: 10;
+            width: 320px; background: rgba(0,0,0,0.3); backdrop-filter: blur(40px);
+            border-right: 1px solid var(--border); padding: 50px 30px;
+            display: flex; flex-direction: column;
         }
 
-        .new-chat {
-            background: transparent; border: 2px solid var(--neon);
-            padding: 12px; border-radius: 50px; text-align: center;
-            color: var(--neon); font-weight: 600; cursor: pointer;
-            transition: 0.4s; box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        .chat-area { flex: 1; display: flex; flex-direction: column; position: relative; }
+
+        header { 
+            padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; 
+            border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.2); backdrop-filter: blur(20px);
         }
 
-        .new-chat:hover { background: var(--neon); color: black; box-shadow: 0 0 30px var(--neon); }
+        #chatBox { 
+            flex: 1; overflow-y: auto; padding: 50px 18%; 
+            display: flex; flex-direction: column; gap: 35px;
+            scrollbar-width: none;
+        }
 
-        #historyList { margin-top: 20px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .history-item { padding: 12px; background: var(--glass); border-radius: 10px; font-size: 13px; color: #aaa; border: 1px solid transparent; transition: 0.3s; }
-        .history-item:hover { border-color: var(--purple); color: white; }
+        /* --- Immersive Glass Bubbles --- */
+        .msg { display: flex; gap: 20px; animation: slideIn 0.8s ease forwards; }
+        .bubble { 
+            padding: 25px 35px; border-radius: 25px; font-size: 15px; line-height: 1.8; 
+            max-width: 80%; background: var(--glass); border: 1px solid var(--border);
+            backdrop-filter: blur(20px); box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            font-weight: 200; letter-spacing: 0.5px;
+        }
+        .user .bubble { background: rgba(255,255,255,0.9); color: black; font-weight: 500; border: none; }
+        .user { flex-direction: row-reverse; align-self: flex-end; }
 
-        /* --- Main Content --- */
-        .chat-area { flex: 1; display: flex; flex-direction: column; position: relative; z-index: 5; }
-
-        header { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
-
-        .logo-text { font-size: 1.8rem; font-weight: 800; background: linear-gradient(90deg, var(--neon), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: glowText 3s infinite alternate; }
-
-        @keyframes glowText { from { filter: drop-shadow(0 0 2px var(--neon)); } to { filter: drop-shadow(0 0 10px var(--purple)); } }
-
-        #chatBox { flex: 1; overflow-y: auto; padding: 30px 10%; display: flex; flex-direction: column; gap: 20px; }
-
-        /* --- Bubbles --- */
-        .msg { display: flex; gap: 15px; opacity: 0; transform: translateY(20px); animation: appear 0.5s forwards; }
-        @keyframes appear { to { opacity: 1; transform: translateY(0); } }
-
-        .bot { align-self: flex-start; }
-        .user { align-self: flex-end; flex-direction: row-reverse; }
-
-        .bubble { padding: 16px 22px; border-radius: 24px; font-size: 15px; line-height: 1.6; backdrop-filter: blur(10px); max-width: 80%; }
-
-        .bot .bubble { background: var(--glass); border: 1px solid var(--neon); box-shadow: 0 0 15px rgba(0, 242, 255, 0.05); }
-        .user .bubble { background: linear-gradient(135deg, var(--purple), #6a11cb); color: white; border-bottom-right-radius: 4px; box-shadow: 0 5px 15px rgba(188, 19, 254, 0.2); }
-
-        /* --- Input --- */
-        .input-container { padding: 40px 10%; }
-        .input-bar { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 10px 20px; display: flex; align-items: center; gap: 15px; transition: 0.4s; }
-        .input-bar:focus-within { border-color: var(--neon); box-shadow: 0 0 30px rgba(0, 242, 255, 0.15); transform: translateY(-2px); }
+        /* --- Floating Input Bar --- */
+        .input-container { padding: 50px 18%; }
+        .input-bar { 
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            border-radius: 50px; padding: 12px 35px; display: flex; align-items: center;
+            backdrop-filter: blur(30px); transition: 0.5s;
+        }
+        .input-bar:focus-within { border-color: white; transform: translateY(-5px); box-shadow: 0 15px 50px rgba(0,0,0,0.5); }
         
-        input { flex: 1; background: none; border: none; color: white; padding: 10px; outline: none; font-size: 16px; }
+        input { flex: 1; background: none; border: none; color: white; padding: 15px; outline: none; font-size: 16px; font-weight: 200; }
 
-        .icon-btn { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--neon); transition: 0.3s; }
-        .icon-btn:hover { transform: scale(1.2); filter: drop-shadow(0 0 5px var(--neon)); }
-        
-        .mic-active { color: #ff4b2b; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .send-btn { background: white; width: 50px; height: 50px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .send-btn:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px white); }
 
-        .send-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--neon); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .send-btn:hover { transform: rotate(-15deg); box-shadow: 0 0 20px var(--neon); }
+        @keyframes cinematicFade { from { opacity: 0; letter-spacing: 60px; filter: blur(10px); } to { opacity: 1; letter-spacing: 30px; filter: blur(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; }
+        ::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <button class="new-chat" onclick="location.reload()">+ New Session</button>
-        <div style="margin-top: 30px; opacity: 0.4; font-size: 11px; letter-spacing: 2px; font-weight: 600;">LOGS</div>
-        <div id="historyList"></div>
-        <div style="margin-top: auto; padding: 15px; background: var(--glass); border-radius: 15px; font-size: 11px; border: 1px solid rgba(255,255,255,0.05);">
-            <p style="color:var(--neon); margin:0; font-weight: 600;">AZAM GURU YT Edition</p>
-            <p style="margin:5px 0 0 0; opacity: 0.7;">System: <span style="color: #ffcc00;">Maintenance</span></p>
-        </div>
-    </div>
+    <div id="cursor"></div>
 
-    <div class="chat-area">
-        <header>
-            <div class="logo-text">AZURA AI</div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="width: 8px; height: 8px; background: #ffcc00; border-radius: 50%;"></span>
-                <span style="font-size: 12px; opacity: 0.6;">Maintenance Mode</span>
-            </div>
-        </header>
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-particle-motion-in-blue-and-purple-40156-large.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
 
-        <div id="chatBox">
-            <div class="msg bot">
-                <div class="bubble">Assalamu Alaikum Azam! I am <b>AZURA AI</b>. Currently, my core systems are being upgraded for better performance. How can I assist you during this transition?</div>
-            </div>
+    <section id="landing-page">
+        <div style="text-align: center;">
+            <h1 class="hero-title">AZURA</h1>
+            <p style="letter-spacing: 18px; font-size: 11px; opacity: 0.5; font-weight: 200;">4K NEURAL INTERFACE</p>
+            <button class="enter-btn" onclick="enterApp()">Initialize</button>
         </div>
+    </section>
 
-        <div class="input-container">
-            <div class="input-bar">
-                <button class="icon-btn" id="micBtn" onclick="startVoice()">🎙️</button>
-                <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off">
-                <button class="send-btn" onclick="handleSend()">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="black"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
-                </button>
+    <main id="app-interface">
+        <aside class="sidebar">
+            <div style="font-size: 24px; font-weight: 800; letter-spacing: 10px; margin-bottom: 60px;">AZURA</div>
+            <div style="font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 3px; font-weight: 600;">ENCRYPTED LOGS</div>
+            <div id="history" style="margin-top: 20px; flex: 1; overflow-y: auto;"></div>
+            <div style="margin-top: auto; font-size: 10px; opacity: 0.3; line-height: 2;">
+                AZAM GURU YT | V4.3<br>ULTRA-RESOLUTION MODE
             </div>
-        </div>
-    </div>
+        </aside>
+
+        <section class="chat-area">
+            <header>
+                <div style="color: #ffcc00; font-size: 10px; letter-spacing: 5px; font-weight: 800;">MAINTENANCE ACTIVE</div>
+                <div style="opacity: 0.4; font-size: 10px; letter-spacing: 2px;">SESSION: 4K_CINEMATIC</div>
+            </header>
+
+            <div id="chatBox">
+                <div class="msg bot">
+                    <div class="bubble">System fully synchronized, Azam. Visual immersion set to 4K Ultra. Maintenance mode is active.</div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <div class="input-bar">
+                    <input type="text" id="userInput" placeholder="COMMAND THE AI..." autocomplete="off">
+                    <button class="send-btn" onclick="handleSend()">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="black"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <script>
+        // Smooth Cursor
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // 4K Entrance Transition
+        function enterApp() {
+            const landing = document.getElementById('landing-page');
+            const app = document.getElementById('app-interface');
+            
+            landing.style.opacity = '0';
+            landing.style.transform = 'scale(1.2) translateY(-20px)';
+            
+            setTimeout(() => {
+                landing.style.display = 'none';
+                app.style.visibility = 'visible';
+                app.style.opacity = '1';
+                app.style.transform = 'scale(1)';
+            }, 1000);
+        }
+
         const chatBox = document.getElementById("chatBox");
         const inputField = document.getElementById("userInput");
-        const historyList = document.getElementById("historyList");
 
         inputField.addEventListener("keypress", (e) => { if (e.key === "Enter") handleSend(); });
 
-        // --- Typing Animation ---
-        function typeText(element, text) {
-            let i = 0;
-            element.innerHTML = "";
-            let interval = setInterval(() => {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                } else {
-                    clearInterval(interval);
-                }
-            }, 20);
-        }
-
-        function addMessage(text, type, animate = false) {
+        function addMessage(text, type) {
             const div = document.createElement("div");
             div.className = `msg ${type}`;
-            const bubble = document.createElement("div");
-            bubble.className = "bubble";
-            div.appendChild(bubble);
+            div.innerHTML = `<div class="bubble">${text}</div>`;
             chatBox.appendChild(div);
-            
-            if(animate) {
-                typeText(bubble, text);
-            } else {
-                bubble.innerHTML = text;
-            }
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        function addToHistory(text) {
-            const item = document.createElement("div");
-            item.className = "history-item";
-            item.innerText = text;
-            historyList.prepend(item);
-        }
-
-        // --- Voice Support ---
-        function startVoice() {
-            const SpeechSDK = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if(!SpeechSDK) return alert("Speech not supported");
-            
-            const recognition = new SpeechSDK();
-            recognition.lang = 'en-US';
-            const micBtn = document.getElementById("micBtn");
-            
-            recognition.onstart = () => micBtn.classList.add("mic-active");
-            recognition.onend = () => micBtn.classList.remove("mic-active");
-            recognition.onresult = (event) => {
-                inputField.value = event.results[0][0].transcript;
-                handleSend();
-            };
-            recognition.start();
-        }
-
-        // --- Maintenance Logic ---
-        async function handleSend() {
+        function handleSend() {
             const val = inputField.value.trim();
             if (!val) return;
-            
             addMessage(val, "user");
-            addToHistory(val);
             inputField.value = "";
-
-            const typing = document.createElement("div");
-            typing.className = "msg bot";
-            typing.innerHTML = `<div class="bubble" style="color: var(--neon); font-style: italic;">Accessing Secure Servers...</div>`;
-            chatBox.appendChild(typing);
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            // Simulated Maintenance Response
             setTimeout(() => {
-                typing.remove();
-                const maintenanceMsg = "System Update: Azura AI is currently under maintenance (v3.2 Upgrade). API connections are temporarily paused for Azam's security. Please check back after the server migration is complete.";
-                addMessage(maintenanceMsg, "bot", true);
-            }, 1200);
+                addMessage("Azura Security: Core processing is paused during server migration. Visual engine at peak performance.", "bot");
+            }, 1000);
         }
     </script>
 </body>
