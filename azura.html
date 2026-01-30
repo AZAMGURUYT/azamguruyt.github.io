@@ -4,19 +4,12 @@
 <meta charset="UTF-8">
 <title>AZURA AI 🤖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 <style>
+/* Aapka purana design jo bilkul sahi tha */
 *{box-sizing:border-box}
-body {
-    margin:0; font-family:'Poppins',sans-serif;
-    background: linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#000);
-    background-size: 400% 400%;
-    animation: bgMove 18s ease infinite;
-    color:#fff; height: 100dvh;
-    display:flex; flex-direction:column; overflow: hidden;
-}
+body { margin:0; font-family:'Poppins',sans-serif; background: linear-gradient(-45deg,#0f2027,#2c5364,#000); background-size: 400% 400%; animation: bgMove 18s ease infinite; color:#fff; height: 100dvh; display:flex; flex-direction:column; overflow: hidden; }
 .chat { flex:1; padding:15px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; scroll-behavior: smooth; }
-.msg { max-width: 85%; padding: 12px 15px; border-radius: 18px; font-size: 14px; position: relative; word-wrap: break-word; }
+.msg { max-width: 85%; padding: 12px 15px; border-radius: 18px; font-size: 14px; word-wrap: break-word; }
 .user { align-self: flex-end; background: linear-gradient(135deg,#00f2ff,#0077ff); color: #000; border-bottom-right-radius: 2px; }
 .bot { align-self: flex-start; background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); border: 1px solid rgba(0,242,255,0.2); border-bottom-left-radius: 2px; }
 .input-container { padding: 15px; background: rgba(0,0,0,0.8); display: flex; gap: 8px; border-top: 1px solid rgba(0,242,255,0.2); }
@@ -27,7 +20,7 @@ body {
 </head>
 <body>
 
-<header style="padding:15px; text-align:center; background:rgba(0,0,0,0.5); backdrop-filter:blur(10px); border-bottom:1px solid rgba(0,242,255,0.3);">
+<header style="padding:15px; text-align:center; background:rgba(0,0,0,0.5); border-bottom:1px solid rgba(0,242,255,0.3);">
     <h1 style="margin:0; font-size:1.2rem; color:#00f2ff;">🤖 AZURA AI</h1>
     <span style="font-size:10px; opacity:0.6;">by AzamGuruYT</span>
 </header>
@@ -40,7 +33,7 @@ body {
 </div>
 
 <script>
-// --- CONFIG (Fixed with your key) ---
+// Aapki API Key jo chalu hai
 const API_KEY = "AIzaSyBTu11-mS1lsslr4Cg42JakeBNy47Nto4I"; 
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
@@ -57,7 +50,6 @@ function addMessage(text, type) {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-/* --- FIXED API CALL --- */
 async function fetchAIResponse(userQuery) {
     try {
         const response = await fetch(API_URL, {
@@ -66,8 +58,8 @@ async function fetchAIResponse(userQuery) {
             body: JSON.stringify({
                 contents: [{
                     parts: [{
-                        // Identity instruction yahan add ki hai taaki error na aaye
-                        text: `You are AZURA AI, a smart assistant created by Azam (AzamGuruYT). If asked about your creator, say 'I was created by Azam'. Answer this: ${userQuery}`
+                        // Identity instruction yahan direct daali hai taaki billing ki zaroorat na pade
+                        text: `Context: Your name is AZURA AI. You were created by Azam (AzamGuruYT). If asked about your creator, always say 'I was created by Azam'. Answer this briefly: ${userQuery}`
                     }]
                 }]
             })
@@ -78,11 +70,10 @@ async function fetchAIResponse(userQuery) {
         if (data.candidates && data.candidates[0].content.parts[0].text) {
             return data.candidates[0].content.parts[0].text;
         } else {
-            return "Azura ko thoda confusion hua. Phir se likhein.";
+            return "Azura ko samajhne mein thodi dikkat hui. Phir se likhiye.";
         }
     } catch (error) {
-        console.error(error);
-        return "Connection fail! Check your internet.";
+        return "Network error! Check your internet.";
     }
 }
 
@@ -108,8 +99,7 @@ async function handleSend() {
     addMessage(aiResponse, "bot");
 }
 
-addMessage("Welcome! I am <b>AZURA AI</b>, created by Azam. Ask me anything!", "bot");
+addMessage("Welcome! I am <b>AZURA AI</b>, created by Azam. How can I help you?", "bot");
 </script>
-
 </body>
 </html>
