@@ -287,8 +287,7 @@ input{
 
 <script>
 /* --- CONFIGURATION --- */
-// PASTE YOUR API KEY HERE
-const API_KEY = "AIzaSyAFYLonU4wxLh6AXXJMggvDSNnOcD8KCtU"; 
+const API_KEY = "AIzaSyAFYLOnU4wxLh6AXXJMggvDSNnOcD8KCtU";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
 /* Cursor */
@@ -335,11 +334,9 @@ async function handleSend() {
     const val = input.value.trim();
     if (!val) return;
 
-    // 1. User Message dikhayen
     addMessage(val, 'user');
     input.value = '';
 
-    // 2. Loading state (Azura is thinking)
     const loadingDiv = document.createElement('div');
     loadingDiv.className = 'msg bot';
     loadingDiv.innerHTML = `<div class="bubble" id="loading-text">Synchronizing with Neural Core...</div>`;
@@ -347,7 +344,6 @@ async function handleSend() {
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
-        // 3. API Call karein
         const response = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -357,21 +353,20 @@ async function handleSend() {
         });
 
         const data = await response.json();
-        
-        // Loading hatayein
         chatBox.removeChild(loadingDiv);
 
         if (data.candidates && data.candidates[0].content.parts[0].text) {
             const aiText = data.candidates[0].content.parts[0].text;
             addMessage(aiText, 'bot');
         } else {
-            addMessage("Azura Error: Data stream interrupted. Check API Key.", "bot");
+            console.error("API Response Error:", data);
+            addMessage("Azura Error: Data stream interrupted. Please check your API key settings in Google AI Studio.", "bot");
         }
 
     } catch (error) {
-        chatBox.removeChild(loadingDiv);
+        if(chatBox.contains(loadingDiv)) chatBox.removeChild(loadingDiv);
         addMessage("Azura Offline: Failed to connect to the neural network.", "bot");
-        console.error("Error:", error);
+        console.error("Network Error:", error);
     }
 }
 </script>
