@@ -353,7 +353,8 @@ async function handleSend() {
         });
 
         const data = await response.json();
-        chatBox.removeChild(loadingDiv);
+        
+        if(chatBox.contains(loadingDiv)) chatBox.removeChild(loadingDiv);
 
         if (data.candidates && data.candidates[0].content.parts[0].text) {
             const aiText = data.candidates[0].content.parts[0].text;
