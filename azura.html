@@ -3,294 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AZURA | 4K Immersive AI</title>
+<title>AZURA | NEURAL INTERFACE</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;500;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-:root{
-    --neon:#00f2ff;
-    --glass:rgba(255,255,255,.03);
-    --border:rgba(255,255,255,.1);
-}
+:root { --bg-white: #ffffff; --sidebar-bg: #fdfdfd; --border-color: #efefef; }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Plus Jakarta Sans',sans-serif;
-    cursor:none;
-}
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+body { background:#000; overflow:hidden; transition: 0.8s; height: 100vh; width: 100vw; }
 
-body{
-    background:#000;
-    color:#fff;
-    height:100vh;
-    overflow:hidden;
-}
+/* --- CINEMATIC LANDING (OUTSIDE) --- */
+#cursor { width:20px; height:20px; border:1px solid #fff; border-radius:50%; position:fixed; pointer-events:none; z-index:10000; mix-blend-mode:difference; }
 
-/* Cursor */
-#cursor{
-    width:20px;
-    height:20px;
-    border:1px solid #fff;
-    border-radius:50%;
-    position:fixed;
-    pointer-events:none;
-    z-index:10000;
-    mix-blend-mode:difference;
-}
+#bg-video { position:fixed; inset:0; width:100%; height:100%; object-fit:cover; z-index:-2; filter:brightness(.5) contrast(1.2); transition: 1s; }
+.video-overlay { position:fixed; inset:0; background:radial-gradient(circle,transparent 20%,rgba(0,0,0,.4) 100%); z-index:-1; }
 
-/* Video BG */
-#bg-video{
-    position:fixed;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    z-index:-2;
-    filter:brightness(.5) contrast(1.2);
-}
+#landing-page { position:fixed; inset:0; display:flex; justify-content:center; align-items:center; z-index:1000; transition:1.5s cubic-bezier(.85,0,.15,1); }
+.hero-title { font-size:clamp(3rem, 12vw, 9rem); font-weight:800; letter-spacing:30px; color:#fff; animation: cinematicFade 2.5s ease; text-align: center; }
+.enter-btn { margin-top:30px; padding:18px 50px; background:transparent; border:1px solid rgba(255,255,255,.5); color:#fff; font-size:11px; letter-spacing:8px; text-transform:uppercase; backdrop-filter:blur(10px); transition:.5s; cursor: pointer; }
+.enter-btn:hover { background:#fff; color:#000; box-shadow:0 0 50px rgba(255,255,255,.3); }
 
-.video-overlay{
-    position:fixed;
-    inset:0;
-    background:radial-gradient(circle,transparent 20%,rgba(0,0,0,.4) 100%);
-    z-index:-1;
-}
+/* --- GROK INTERFACE (INSIDE) --- */
+#app-interface { display: none; height: 100vh; width: 100vw; background: #fff; opacity: 0; transition: 0.5s; transform: scale(1.05); overflow: hidden; }
 
-/* Landing */
-#landing-page{
-    position:fixed;
-    inset:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:1000;
-    transition:1.5s cubic-bezier(.85,0,.15,1);
-}
+/* Sidebar Logic for Mobile */
+.sidebar { width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; transition: 0.3s; z-index: 50; }
+.sidebar-logo { font-size: 1.6rem; font-weight: 800; margin-bottom: 30px; color: #000; display: flex; align-items: center; gap: 10px; }
 
-.hero-title{
-    font-size:clamp(3rem,12vw,9rem);
-    font-weight:800;
-    letter-spacing:30px;
-    animation:cinematicFade 2.5s ease;
-}
+.history-label { margin: 20px 0 10px 10px; font-size: 11px; color: #aaa; font-weight: 700; letter-spacing: 1px; }
+.history-item { font-size: 13px; color: #555; padding: 12px; border-radius: 8px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.history-item:hover { background: #f5f5f5; }
 
-.enter-btn{
-    margin-top:30px;
-    padding:20px 60px;
-    background:transparent;
-    border:1px solid rgba(255,255,255,.5);
-    color:#fff;
-    font-size:11px;
-    letter-spacing:8px;
-    text-transform:uppercase;
-    backdrop-filter:blur(10px);
-    transition:.5s;
-}
+.main-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding: 0 20px; height: 100%; transition: all 0.5s ease; }
 
-.enter-btn:hover{
-    background:#fff;
-    color:#000;
-    box-shadow:0 0 50px rgba(255,255,255,.3);
-}
+/* Welcome Screen */
+.center-ui { text-align: center; margin-bottom: 40px; transition: 0.5s ease; }
+.center-ui h2 { font-size: clamp(2.5rem, 8vw, 3.5rem); font-weight: 800; letter-spacing: -2px; color: #000; }
 
-/* App */
-#app-interface{
-    display:flex;
-    height:100vh;
-    opacity:0;
-    visibility:hidden;
-    transform:scale(1.05);
-    transition:2s ease;
-}
+#chat-display { width: 100%; max-width: 800px; display: none; flex-direction: column; gap: 20px; overflow-y: auto; padding: 20px 0; height: 70vh; scroll-behavior: smooth; }
 
-.sidebar{
-    width:320px;
-    padding:50px 30px;
-    background:rgba(0,0,0,.3);
-    backdrop-filter:blur(40px);
-    border-right:1px solid var(--border);
-    display:flex;
-    flex-direction:column;
-}
+/* Messages */
+.msg { max-width: 85%; line-height: 1.6; font-size: 1.05rem; color: #000; animation: slideIn 0.4s ease; padding: 10px; }
+.user-msg { align-self: flex-end; font-weight: 600; text-align: right; background: #f8f8f8; border-radius: 15px 15px 0 15px; }
+.bot-msg { align-self: flex-start; font-weight: 400; color: #333; background: #fff; border-radius: 15px 15px 15px 0; border: 1px solid #eee; }
 
-.chat-area{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-}
+/* Input Bar */
+.search-wrapper { width: 100%; max-width: 800px; position: relative; margin-top: 20px; margin-bottom: 20px; z-index: 100; }
+.search-bar { width: 100%; background: #fff; border: 1.5px solid var(--border-color); border-radius: 35px; padding: 18px 25px; padding-right: 60px; font-size: 1.1rem; outline: none; color: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.send-btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 45px; height: 45px; background: #000; color: #fff; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-header{
-    padding:30px 60px;
-    display:flex;
-    justify-content:space-between;
-    border-bottom:1px solid var(--border);
-    backdrop-filter:blur(20px);
-}
-
-#chatBox{
-    flex:1;
-    overflow-y:auto;
-    padding:50px 18%;
-    display:flex;
-    flex-direction:column;
-    gap:35px;
-    scroll-behavior: smooth;
-}
-
-.msg{
-    display:flex;
-    gap:20px;
-    animation:slideIn .8s ease forwards;
-}
-
-.bubble{
-    padding:25px 35px;
-    border-radius:25px;
-    max-width:80%;
-    background:var(--glass);
-    border:1px solid var(--border);
-    backdrop-filter:blur(20px);
-    font-size:15px;
-    line-height:1.8;
-    word-wrap: break-word;
-}
-
-.user{
-    flex-direction:row-reverse;
-    align-self:flex-end;
-}
-
-.user .bubble{
-    background:rgba(255,255,255,.9);
-    color:#000;
-    border:none;
-}
-
-.input-container{padding:50px 18%;}
-
-.input-bar{
-    background:rgba(255,255,255,.05);
-    border:1px solid var(--border);
-    border-radius:50px;
-    padding:12px 35px;
-    display:flex;
-    align-items:center;
-    backdrop-filter:blur(30px);
-}
-
-input{
-    flex:1;
-    background:none;
-    border:none;
-    color:#fff;
-    padding:15px;
-    font-size:16px;
-    outline:none;
-}
-
-.send-btn{
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    border:none;
-    background:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor: pointer;
-}
+/* State Changes */
+.chat-mode .main-content { justify-content: flex-end; }
+.chat-mode #welcome-ui { display: none; }
+.chat-mode #chat-display { display: flex; }
 
 /* Animations */
-@keyframes cinematicFade{
-    from{opacity:0;letter-spacing:60px;filter:blur(10px)}
-    to{opacity:1;letter-spacing:30px;filter:blur(0)}
+@keyframes cinematicFade{ from{opacity:0;letter-spacing:60px;filter:blur(10px)} to{opacity:1;letter-spacing:30px;filter:blur(0)} }
+@keyframes slideIn{ from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 768px) {
+    #cursor { display: none; }
+    .sidebar { position: fixed; left: -260px; height: 100%; }
+    .hero-title { letter-spacing: 12px; }
+    .main-content { padding: 0 15px; }
+    .search-bar { padding: 15px 20px; font-size: 1rem; }
+    #chat-display { height: 60vh; width: 100%; }
+    .history-item { font-size: 14px; }
 }
-@keyframes slideIn{
-    from{opacity:0;transform:translateY(40px)}
-    to{opacity:1;transform:translateY(0)}
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:768px){
-    *{cursor:auto}
-    #cursor{display:none}
-
-    #app-interface{flex-direction:column}
-
-    .sidebar{
-        width:100%;
-        flex-direction:row;
-        padding:20px;
-        border-right:none;
-        border-bottom:1px solid var(--border);
-    }
-
-    #chatBox{padding:30px 16px}
-    .bubble{max-width:90%;font-size:14px}
-
-    .input-container{padding:16px}
-    .hero-title{letter-spacing:14px}
-}
-
-::-webkit-scrollbar{display:none}
 </style>
 </head>
-
 <body>
 
 <div id="cursor"></div>
 
 <video autoplay muted loop playsinline id="bg-video">
-<source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-particle-motion-in-blue-and-purple-40156-large.mp4">
+    <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-particle-motion-in-blue-and-purple-40156-large.mp4">
 </video>
 <div class="video-overlay"></div>
 
 <section id="landing-page">
     <div style="text-align:center">
         <h1 class="hero-title">AZURA</h1>
-        <p style="letter-spacing:18px;font-size:11px;opacity:.5">4K NEURAL INTERFACE</p>
-        <button class="enter-btn" onclick="enterApp()">Initialize</button>
+        <p style="letter-spacing:18px;font-size:11px;opacity:.5;color:#fff;margin-bottom:20px;">4K NEURAL INTERFACE</p>
+        <button class="enter-btn" onclick="initApp()">Initialize</button>
     </div>
 </section>
 
 <main id="app-interface">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><i class="fa-solid fa-circle-notch"></i> AZURA</div>
+        <div class="history-label">HISTORY</div>
+        <div class="history-item">XCLENT Bags Project</div>
+        <div class="history-item">Neural Logic Debug</div>
+        <div style="margin-top:auto; display:flex; align-items:center; gap:10px; padding:10px; border-top:1px solid #eee">
+            <div style="width:30px; height:30px; background:#000; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:10px;">AG</div>
+            <span style="font-size:13px; font-weight:600; color:#000;">Azam Guru</span>
+        </div>
+    </aside>
 
-<aside class="sidebar">
-    <div style="font-size:24px;font-weight:800;letter-spacing:10px">AZURA</div>
-</aside>
+    <section class="main-content" id="main-area">
+        <div id="welcome-ui" class="center-ui">
+            <h2><i class="fa-solid fa-circle-notch"></i> Azura</h2>
+        </div>
 
-<section class="chat-area">
+        <div id="chat-display"></div>
 
-<header>
-    <div style="color:#ffcc00;font-size:10px;letter-spacing:5px;font-weight:800">SYSTEM ONLINE</div>
-    <div style="opacity:.4;font-size:10px">SESSION: ACTIVE</div>
-</header>
-
-<div id="chatBox">
-    <div class="msg bot">
-        <div class="bubble">System fully synchronized. How can I assist you today?</div>
-    </div>
-</div>
-
-<div class="input-container">
-    <div class="input-bar">
-        <input id="userInput" placeholder="COMMAND THE AI..." onkeypress="handleKey(event)">
-        <button class="send-btn" onclick="handleSend()">➤</button>
-    </div>
-</div>
-
-</section>
+        <div class="search-wrapper">
+            <input type="text" id="userInput" class="search-bar" placeholder="How can I help you today?" onkeypress="if(event.key==='Enter') handleAsk()">
+            <button class="send-btn" onclick="handleAsk()"><i class="fa-solid fa-arrow-up"></i></button>
+        </div>
+        <p id="footer-text" style="margin-top:10px; font-size:10px; color:#aaa;">AZAM GURU YT // 2026</p>
+    </section>
 </main>
 
 <script>
-/* --- CONFIGURATION --- */
-const API_KEY = "AIzaSyCu0Q1Wn_inmtO8Q0_G--TVwbD9VL7BLW4";
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-
-/* Cursor */
+// Cursor Logic
 const cursor=document.getElementById('cursor');
 document.addEventListener('mousemove',e=>{
     if(!cursor) return;
@@ -298,79 +128,60 @@ document.addEventListener('mousemove',e=>{
     cursor.style.top=e.clientY+'px';
 });
 
-/* Landing → App */
-const landing=document.getElementById('landing-page');
-const app=document.getElementById('app-interface');
-
-function enterApp(){
-    landing.style.opacity='0';
-    landing.style.transform='scale(1.2) translateY(-20px)';
-
-    setTimeout(()=>{
-        landing.style.display='none';
-        app.style.visibility='visible';
-        app.style.opacity='1';
-        app.style.transform='scale(1)';
-    },1000);
+// App Initiation
+function initApp() {
+    document.getElementById('landing-page').style.opacity = '0';
+    document.getElementById('bg-video').style.opacity = '0';
+    setTimeout(() => {
+        document.getElementById('landing-page').style.display = 'none';
+        document.body.style.background = "#fff";
+        const app = document.getElementById('app-interface');
+        app.style.display = 'flex';
+        setTimeout(() => { app.style.opacity = '1'; app.style.transform = 'scale(1)'; }, 50);
+    }, 1000);
 }
 
-/* Chat Logic */
-const chatBox=document.getElementById('chatBox');
-const input=document.getElementById('userInput');
-
-function addMessage(text, type) {
-    const div = document.createElement('div');
-    div.className = 'msg ' + type;
-    div.innerHTML = `<div class="bubble">${text}</div>`;
-    chatBox.appendChild(div);
-    chatBox.scrollTop = chatBox.scrollHeight;
+// BRAIN: Offline logic
+function getLocalResponse(input) {
+    let text = input.toLowerCase().trim();
+    if (/^[0-9+\-*/().\s]+$/.test(text)) {
+        try { return "Calculation Result: " + eval(text); } catch(e) { return "Math error."; }
+    }
+    if (text.includes("hello") || text.includes("hi")) return "Hello! I am Azura, developed by Azam Guru. How can I help today?";
+    if (text.includes("who are you")) return "I am Azura, your 4K neural AI interface.";
+    if (text.includes("azam guru")) return "Azam Guru is my creator and the visionary behind the XCLENT brand.";
+    return "I am currently in Offline Mode. I can solve math or talk about Azam Guru's projects!";
 }
 
-function handleKey(e) {
-    if (e.key === 'Enter') handleSend();
-}
-
-async function handleSend() {
+// Chat Function
+function handleAsk() {
+    const input = document.getElementById('userInput');
+    const display = document.getElementById('chat-display');
+    const mainArea = document.getElementById('main-area');
     const val = input.value.trim();
     if (!val) return;
 
-    addMessage(val, 'user');
+    mainArea.classList.add('chat-mode');
+    document.getElementById('footer-text').style.display = 'none';
+    
+    // User Msg
+    const userDiv = document.createElement('div');
+    userDiv.className = 'msg user-msg';
+    userDiv.innerText = val;
+    display.appendChild(userDiv);
+    
     input.value = '';
+    display.scrollTop = display.scrollHeight;
 
-    const loadingDiv = document.createElement('div');
-    loadingDiv.className = 'msg bot';
-    loadingDiv.innerHTML = `<div class="bubble" id="loading-text">Synchronizing with Neural Core...</div>`;
-    chatBox.appendChild(loadingDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    try {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: val }] }]
-            })
-        });
-
-        const data = await response.json();
-        
-        if(chatBox.contains(loadingDiv)) chatBox.removeChild(loadingDiv);
-
-        if (data.candidates && data.candidates[0].content.parts[0].text) {
-            const aiText = data.candidates[0].content.parts[0].text;
-            addMessage(aiText, 'bot');
-        } else {
-            console.error("API Response Error:", data);
-            addMessage("Azura Error: Data stream interrupted. Please check your API key settings in Google AI Studio.", "bot");
-        }
-
-    } catch (error) {
-        if(chatBox.contains(loadingDiv)) chatBox.removeChild(loadingDiv);
-        addMessage("Azura Offline: Failed to connect to the neural network.", "bot");
-        console.error("Network Error:", error);
-    }
+    // Bot Msg
+    setTimeout(() => {
+        const botDiv = document.createElement('div');
+        botDiv.className = 'msg bot-msg';
+        botDiv.innerText = getLocalResponse(val);
+        display.appendChild(botDiv);
+        display.scrollTop = display.scrollHeight;
+    }, 600);
 }
 </script>
-
 </body>
 </html>
