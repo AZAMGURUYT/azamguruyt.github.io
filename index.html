@@ -174,6 +174,55 @@ body{
 
 
 /* =========================================================
+   MOBILE NAVIGATION
+========================================================= */
+
+const menuToggle = document.getElementById("menuToggle");
+const nav = document.querySelector("header nav");
+
+if(menuToggle && nav){
+    menuToggle.addEventListener("click",()=>{
+        const open = nav.classList.toggle("open");
+        menuToggle.setAttribute("aria-expanded", String(open));
+        menuToggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+        menuToggle.innerHTML = `<i class="fas fa-${open ? "xmark" : "bars"}"></i>`;
+    });
+
+    nav.querySelectorAll("a").forEach(link=>{
+        link.addEventListener("click",()=>{
+            nav.classList.remove("open");
+            menuToggle.setAttribute("aria-expanded","false");
+            menuToggle.setAttribute("aria-label","Open navigation");
+            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+    });
+}
+
+/* =========================================================
+   CONTACT FORM
+========================================================= */
+
+const contactForm = document.getElementById("contactForm");
+
+if(contactForm){
+    contactForm.addEventListener("submit", e=>{
+        e.preventDefault();
+
+        const name = document.getElementById("contactName").value.trim();
+        const email = document.getElementById("contactEmail").value.trim();
+        const project = document.getElementById("contactProject").value;
+        const message = document.getElementById("contactMessage").value.trim();
+
+        const subject = encodeURIComponent(`New ${project} enquiry from ${name}`);
+        const body = encodeURIComponent(
+            `Name: ${name}\nEmail: ${email}\nProject: ${project}\n\nMessage:\n${message}`
+        );
+
+        window.location.href = `mailto:contact@azamguru.xyz?subject=${subject}&body=${body}`;
+    });
+}
+
+/* =========================================================
    CURSOR
 ========================================================= */
 
@@ -321,6 +370,10 @@ header{
 
     color:var(--gold);
 
+}
+
+.menu-toggle{
+    display:none;
 }
 
 nav{
@@ -2220,6 +2273,19 @@ footer span{
 
 @media(max-width:700px){
 
+    .menu-toggle{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        width:42px;
+        height:42px;
+        border:1px solid var(--border);
+        border-radius:10px;
+        background:rgba(255,255,255,.025);
+        color:white;
+        cursor:pointer;
+    }
+
     header{
 
         top:10px;
@@ -2229,9 +2295,32 @@ footer span{
     }
 
     nav{
-
+        position:absolute;
+        top:76px;
+        left:0;
+        right:0;
         display:none;
+        flex-direction:column;
+        gap:0;
+        padding:10px;
+        background:rgba(3,5,5,.96);
+        backdrop-filter:blur(22px);
+        border:1px solid var(--border);
+        border-radius:16px;
+    }
 
+    nav.open{
+        display:flex;
+    }
+
+    nav a{
+        width:100%;
+        padding:13px 14px;
+        border-radius:10px;
+    }
+
+    nav a:hover{
+        background:rgba(212,175,55,.07);
     }
 
     .hero{
@@ -2364,6 +2453,14 @@ footer span{
 
 }
 
+@media(pointer:coarse){
+    .cursor,
+    .cursor-ring,
+    .ambient{
+        display:none;
+    }
+}
+
 @media(max-width:450px){
 
     .hero-title{
@@ -2405,12 +2502,250 @@ footer span{
 
 }
 
+
+/* =========================================================
+   AZAM LIVE OS — FUTURE INTERFACE LAYER
+========================================================= */
+:root{
+    --live-glow:rgba(88,230,255,.22);
+    --live-green:#63ff96;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:9990;
+    opacity:.035;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent 3px,
+            rgba(255,255,255,.5) 4px
+        );
+    mix-blend-mode:screen;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:9989;
+    background:radial-gradient(
+        circle at var(--mx,50%) var(--my,50%),
+        rgba(212,175,55,.055),
+        transparent 28%
+    );
+}
+
+.live-hud{
+    position:fixed;
+    left:22px;
+    bottom:22px;
+    z-index:6000;
+    width:235px;
+    padding:14px 16px;
+    border:1px solid rgba(88,230,255,.16);
+    border-radius:14px;
+    background:rgba(3,6,7,.62);
+    backdrop-filter:blur(18px);
+    box-shadow:0 15px 60px rgba(0,0,0,.35);
+    font-family:'Space Grotesk',sans-serif;
+    pointer-events:none;
+}
+
+.live-hud .live-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:rgba(255,255,255,.45);
+    font-size:.56rem;
+    letter-spacing:1.8px;
+    text-transform:uppercase;
+    margin-bottom:10px;
+}
+
+.live-hud .live-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--live-green);
+    box-shadow:0 0 12px var(--live-green);
+    animation:livePulse 1.5s infinite;
+}
+
+.live-row{
+    display:flex;
+    justify-content:space-between;
+    padding:3px 0;
+    color:rgba(255,255,255,.42);
+    font-size:.58rem;
+}
+
+.live-row strong{
+    color:var(--gold2);
+    font-weight:500;
+}
+
+@keyframes livePulse{
+    50%{opacity:.35;transform:scale(.65)}
+}
+
+.live-clock{
+    color:white!important;
+    letter-spacing:1px;
+}
+
+.scroll-progress{
+    position:fixed;
+    top:0;
+    left:0;
+    width:0%;
+    height:2px;
+    background:linear-gradient(90deg,var(--gold),var(--cyan));
+    box-shadow:0 0 14px var(--gold);
+    z-index:10001;
+}
+
+.command-hint{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    z-index:6000;
+    padding:9px 12px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:rgba(3,5,5,.55);
+    backdrop-filter:blur(14px);
+    color:rgba(255,255,255,.38);
+    font-size:.58rem;
+    letter-spacing:.8px;
+    pointer-events:none;
+}
+
+.command-palette{
+    position:fixed;
+    inset:0;
+    z-index:20000;
+    display:none;
+    align-items:flex-start;
+    justify-content:center;
+    padding-top:14vh;
+    background:rgba(0,0,0,.48);
+    backdrop-filter:blur(16px);
+}
+
+.command-palette.open{display:flex}
+
+.command-box{
+    width:min(620px,90%);
+    border:1px solid rgba(212,175,55,.28);
+    border-radius:18px;
+    overflow:hidden;
+    background:rgba(5,7,7,.92);
+    box-shadow:0 40px 120px rgba(0,0,0,.7);
+}
+
+.command-input{
+    width:100%;
+    padding:19px 20px;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:white;
+    font:500 .9rem 'Space Grotesk',sans-serif;
+    border-bottom:1px solid var(--border);
+}
+
+.command-list button{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:rgba(255,255,255,.7);
+    text-align:left;
+    padding:15px 20px;
+    cursor:pointer;
+    font:500 .7rem 'Space Grotesk',sans-serif;
+    transition:.2s;
+}
+
+.command-list button:hover{
+    background:rgba(212,175,55,.08);
+    color:var(--gold2);
+}
+
+.scanline{
+    position:fixed;
+    left:0;
+    right:0;
+    top:-10%;
+    height:120px;
+    pointer-events:none;
+    z-index:9988;
+    opacity:.16;
+    background:linear-gradient(
+        to bottom,
+        transparent,
+        rgba(88,230,255,.06),
+        transparent
+    );
+    animation:scan 8s linear infinite;
+}
+
+@keyframes scan{
+    to{transform:translateY(120vh)}
+}
+
+@media(max-width:700px){
+    .live-hud,
+    .command-hint{display:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+    .scanline,
+    .live-dot{animation:none}
+}
+
 </style>
 
+<noscript><style>#loader{display:none!important}</style></noscript>
 </head>
 
 
 <body>
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="scanline"></div>
+
+<div class="live-hud" aria-hidden="true">
+    <div class="live-title">
+        <span>AZAM LIVE OS</span>
+        <span class="live-dot"></span>
+    </div>
+    <div class="live-row"><span>LOCAL TIME</span><strong class="live-clock" id="liveClock">--:--:--</strong></div>
+    <div class="live-row"><span>VISIT SIGNAL</span><strong id="visitSignal">SCANNING</strong></div>
+    <div class="live-row"><span>SCROLL DEPTH</span><strong id="scrollDepth">0%</strong></div>
+    <div class="live-row"><span>CORE LOAD</span><strong id="coreLoad">42%</strong></div>
+</div>
+
+<div class="command-hint">PRESS / FOR COMMANDS</div>
+
+<div class="command-palette" id="commandPalette">
+    <div class="command-box">
+        <input class="command-input" id="commandInput" autocomplete="off"
+               placeholder="Type a command… e.g. projects, about, contact">
+        <div class="command-list">
+            <button data-target="#home">⌁ HOME — return to command center</button>
+            <button data-target="#about">◈ ABOUT — inspect the builder</button>
+            <button data-target="#work">◇ WORK — open project systems</button>
+            <button data-target="#stack">▣ STACK — inspect technology layer</button>
+            <button data-target="#contact">✦ CONTACT — start a transmission</button>
+        </div>
+    </div>
+</div>
+
 
 
 <!-- =======================================================
@@ -2466,6 +2801,10 @@ footer span{
         <a href="#contact">CONTACT</a>
 
     </nav>
+
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false">
+        <i class="fas fa-bars"></i>
+    </button>
 
     <div class="nav-status">
 
@@ -3455,18 +3794,17 @@ footer span{
 
         <form
             class="contact-form reveal"
-            action="mailto:contact@azamguru.xyz"
-            method="post"
-            enctype="text/plain">
+            id="contactForm">
 
 
             <div class="form-group">
 
-                <label>
+                <label for="contactName">
                     Your Name
                 </label>
 
                 <input
+                    id="contactName"
                     type="text"
                     name="Name"
                     placeholder="Enter your name"
@@ -3477,11 +3815,12 @@ footer span{
 
             <div class="form-group">
 
-                <label>
+                <label for="contactEmail">
                     Email
                 </label>
 
                 <input
+                    id="contactEmail"
                     type="email"
                     name="Email"
                     placeholder="your@email.com"
@@ -3492,11 +3831,12 @@ footer span{
 
             <div class="form-group">
 
-                <label>
+                <label for="contactProject">
                     Project
                 </label>
 
                 <select
+                    id="contactProject"
                     name="Project"
                     required>
 
@@ -3535,11 +3875,12 @@ footer span{
 
             <div class="form-group">
 
-                <label>
+                <label for="contactMessage">
                     Message
                 </label>
 
                 <textarea
+                    id="contactMessage"
                     name="Message"
                     placeholder="Tell me about your idea..."
                     required></textarea>
@@ -3819,6 +4160,9 @@ if(counters.length){
 const cursor=
     document.querySelector(".cursor");
 
+const finePointer = window.matchMedia("(pointer:fine)").matches;
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 const ring=
     document.querySelector(".cursor-ring");
 
@@ -3834,9 +4178,10 @@ let ringX=0;
 let ringY=0;
 
 
-document.addEventListener(
-    "mousemove",
-    e=>{
+if(finePointer && !reduceMotion){
+    document.addEventListener(
+        "mousemove",
+        e=>{
 
         mouseX=e.clientX;
 
@@ -3854,8 +4199,9 @@ document.addEventListener(
         ambient.style.top=
             mouseY+"px";
 
-    }
-);
+        }
+    );
+}
 
 
 function cursorAnimation(){
@@ -3878,7 +4224,9 @@ function cursorAnimation(){
 
 }
 
-cursorAnimation();
+if(finePointer && !reduceMotion){
+    cursorAnimation();
+}
 
 
 /* =========================================================
@@ -4239,6 +4587,161 @@ document.addEventListener(
 
     }
 );
+
+
+/* =========================================================
+   AZAM LIVE OS
+========================================================= */
+const liveClock = document.getElementById("liveClock");
+const scrollDepth = document.getElementById("scrollDepth");
+const visitSignal = document.getElementById("visitSignal");
+const coreLoad = document.getElementById("coreLoad");
+const scrollProgress = document.getElementById("scrollProgress");
+const palette = document.getElementById("commandPalette");
+const commandInput = document.getElementById("commandInput");
+
+function updateLiveOS(){
+    const now = new Date();
+    liveClock.textContent = now.toLocaleTimeString([], {
+        hour12:false
+    });
+
+    const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+    const percent = maxScroll > 0
+        ? Math.round((window.scrollY/maxScroll)*100)
+        : 0;
+
+    scrollDepth.textContent = percent + "%";
+    scrollProgress.style.width = percent + "%";
+
+    const load =
+        35 +
+        Math.round(Math.sin(Date.now()/900)*12) +
+        Math.round(percent/10);
+
+    coreLoad.textContent = Math.max(18, Math.min(94, load)) + "%";
+}
+
+setInterval(updateLiveOS,1000);
+updateLiveOS();
+
+window.addEventListener("scroll", updateLiveOS, {passive:true});
+
+/* Live visitor signal — deliberately simulated UI telemetry,
+   no private visitor data is collected. */
+const signals = ["SCANNING","SYNCED","STABLE","CONNECTED","READY"];
+let signalIndex = 0;
+
+setInterval(()=>{
+    signalIndex = (signalIndex + 1) % signals.length;
+    if(visitSignal) visitSignal.textContent = signals[signalIndex];
+},2200);
+
+/* Global pointer field */
+if(finePointer && !reduceMotion){
+    window.addEventListener("mousemove", e=>{
+        document.documentElement.style.setProperty("--mx", e.clientX+"px");
+        document.documentElement.style.setProperty("--my", e.clientY+"px");
+    }, {passive:true});
+}
+
+/* Command palette */
+function openPalette(){
+    palette.classList.add("open");
+    commandInput.value="";
+    setTimeout(()=>commandInput.focus(),30);
+}
+
+function closePalette(){
+    palette.classList.remove("open");
+}
+
+document.addEventListener("keydown", e=>{
+    if(e.key === "/" && !["INPUT","TEXTAREA"].includes(document.activeElement.tagName)){
+        e.preventDefault();
+        openPalette();
+    }
+
+    if(e.key === "Escape"){
+        closePalette();
+    }
+});
+
+palette.addEventListener("click", e=>{
+    if(e.target === palette) closePalette();
+});
+
+document.querySelectorAll(".command-list button").forEach(button=>{
+    button.addEventListener("click", ()=>{
+        const target = document.querySelector(button.dataset.target);
+        closePalette();
+        if(target) target.scrollIntoView({behavior:"smooth"});
+    });
+});
+
+/* Command filtering */
+commandInput.addEventListener("input", ()=>{
+    const query = commandInput.value.toLowerCase().trim();
+    document.querySelectorAll(".command-list button").forEach(btn=>{
+        btn.style.display =
+            btn.textContent.toLowerCase().includes(query)
+            ? "block"
+            : "none";
+    });
+});
+
+/* Section-aware browser title */
+const sectionNames = [
+    ["home","AZAM GURU — Command Center"],
+    ["about","AZAM GURU — Identity Layer"],
+    ["work","AZAM GURU — Projects"],
+    ["stack","AZAM GURU — Technology Stack"],
+    ["contact","AZAM GURU — Transmission"]
+];
+
+const titleObserver = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+        if(entry.isIntersecting){
+            const item = sectionNames.find(x=>x[0]===entry.target.id);
+            if(item) document.title = item[1];
+        }
+    });
+},{threshold:.35});
+
+sectionNames.forEach(([id])=>{
+    const el = document.getElementById(id);
+    if(el) titleObserver.observe(el);
+});
+
+/* Holographic tilt for major panels */
+if(finePointer && !reduceMotion){
+    document.querySelectorAll(".ai-panel,.terminal,.about-visual").forEach(panel=>{
+        panel.addEventListener("mousemove", e=>{
+            const r = panel.getBoundingClientRect();
+            const x = (e.clientX-r.left)/r.width-.5;
+            const y = (e.clientY-r.top)/r.height-.5;
+            panel.style.transform =
+                `perspective(1100px) rotateX(${y*-1.5}deg) rotateY(${x*1.5}deg) translateZ(4px)`;
+        });
+
+        panel.addEventListener("mouseleave", ()=>{
+            panel.style.transform="";
+        });
+    });
+}
+
+/* Dynamic core energy reacts to scrolling */
+window.addEventListener("scroll", ()=>{
+    const core = document.querySelector(".core");
+    if(core && !reduceMotion){
+        const energy = 0.35 + Math.min(window.scrollY/3000,.35);
+        core.style.boxShadow =
+            `0 0 ${35+energy*30}px rgba(212,175,55,.55),
+             0 0 ${100+energy*80}px rgba(212,175,55,.22),
+             0 0 ${180+energy*100}px rgba(88,230,255,.08)`;
+    }
+},{passive:true});
 
 </script>
 
